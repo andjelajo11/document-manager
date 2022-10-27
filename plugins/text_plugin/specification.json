@@ -1,0 +1,16 @@
+{
+    "id": 212321123,
+    "name": "Text view and edit",
+    "authors": [{
+        "first_name": "Bogdan",
+        "last_name": "Suboticki",
+        "email": "bogdan.suboticki.19@singimail.rs",
+        "web_page": "https://gitlab.com/bogdansuboticki"
+    }],
+    "version": "1.0.0",
+    "core_version": "1.0.0",
+    "category": "editor",
+    "licence": "MIT",
+    "description": "This component enables viewing and editing text files.",
+    "web_page": "https://gitlab.com/andjelajovanovic/rukovalac-multimedijalnim-dokumentima"
+}
