@@ -1,0 +1,16 @@
+{
+    "id": 123456789,
+    "name": "Test",
+    "authors": [{
+        "first_name": "Marko",
+        "last_name": "Markovic",
+        "email": "marko@mail.com",
+        "web_page": "INVALID URL"
+    }],
+    "version": "1.0.0",
+    "core_version": "1.0.0",
+    "category": "editor",
+    "licence": "MIT",
+    "description": "Test plugin",
+    "web_page": "INVALID URL"
+}
