@@ -6,7 +6,7 @@ from .plugin_manager import PluginManager
 
 
 class MainWindow(QtWidgets.QMainWindow):
-    def __init__(self, config, parent=None):
+    def __init__(self, config, parent=None, user=None):
         super().__init__(parent)
         self.config = config
 
@@ -58,6 +58,10 @@ class MainWindow(QtWidgets.QMainWindow):
         self.central_widget.setTabsClosable(True)
         self.central_widget.tabCloseRequested.connect(self.delete_tab)
         
+        # sacuvavanje prijavljenog korisnika iz dijaloga
+        self.user = user
+        self.status_bar.addWidget(QLabel("Ulogovani korisnik: " + self.user.user_id.upper()))
+
 
         
     def _populate_menu_bar(self):
