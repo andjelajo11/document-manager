@@ -13,6 +13,7 @@ class PluginManager(QtWidgets.QDialog):
         self.install_button = QtWidgets.QPushButton("Install", self)
         self.uninstall_button = QtWidgets.QPushButton("Uninstall", self)
         self.button_box = QtWidgets.QDialogButtonBox(QtWidgets.QDialogButtonBox.Close, self)
+        self.button_box.clicked.connect(lambda:self.close())
         self.table_view = QtWidgets.QTableView(self)
         self.widget_layout = QtWidgets.QGridLayout(self)
         self.plugin_model = None # model koji se ucitava za plugin-ve koji su importovani

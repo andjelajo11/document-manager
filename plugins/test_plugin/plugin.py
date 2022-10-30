@@ -30,6 +30,9 @@ class Plugin(Extension):
 
     def deactivate(self):
         print("Deactivated")
+        self.iface.remove_tabovi(1)
+        self.activated = False
+
 
     def open_dialog(self):
         self.widget.show()
