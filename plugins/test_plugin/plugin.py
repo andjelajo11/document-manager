@@ -23,7 +23,8 @@ class Plugin(Extension):
     # FIXME: implementacija apstraktnih metoda
     def activate(self):
         print("Activated")
-        self.iface.add_widget()
+        #self.iface.add_widget()
+        self.iface.tabovi()
         self.activated = True
         
 

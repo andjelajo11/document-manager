@@ -1,5 +1,5 @@
 from PySide2 import QtWidgets, QtGui
-
+from PySide2.QtWidgets import  QLabel
 from integrativna_komponenta.ui.centar_widget import CentralWidget
 from integrativna_komponenta.ui.menu_bar import MenuBar
 from plugin_framework.ui.plugin_manager import PluginManager
@@ -8,13 +8,13 @@ from integrativna_komponenta.ui.tool_bar import ToolBar
 
 
 class MainWindow(QtWidgets.QMainWindow):
-    def __init__(self, config, parent=None):
+    def __init__(self, config, parent=None, user=None):
         super().__init__(parent)
         self.config = config
 
         self.actions_dict = {
-            "quit": QtWidgets.QAction(QtGui.QIcon("resources/icons/document.png"), "&Quit", self),
-            "plugin_manager": QtWidgets.QAction(QtGui.QIcon("resources/icons/puzzle.png"), "&Plugin Manager", self)
+            "quit": QtWidgets.QAction(QtGui.QIcon("resources/icons/prohibition-button.png"), "&Quit", self),
+            "plugin_manager": QtWidgets.QAction(QtGui.QIcon("resources/icons/puzzleplus.png"), "&Plugin Manager", self)
         }
 
         self.setWindowTitle(self.config["title"])
@@ -40,6 +40,11 @@ class MainWindow(QtWidgets.QMainWindow):
         self.addToolBar(self.tool_bar)
         self.setStatusBar(self.status_bar)
         self.setCentralWidget(self.central_widget)
+
+                # sacuvavanje prijavljenog korisnika iz dijaloga
+        self.user = user
+        self.status_bar.addWidget(QLabel("Ulogovani korisnik: " + self.user.user_id.upper()))
+
 
     # *************************************** #
     # Metode koje ce koristiti drugi widget-i #
@@ -71,3 +76,9 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def remove_menu_action(self, menu_name, action):
         self.menu_bar.remove_menu_action(menu_name, action)
+
+    def tabovi(self):
+        self.central_widget.add_widget()
+        
+    def remove_tabovi(self,index):
+        self.central_widget.delete_tab(index)

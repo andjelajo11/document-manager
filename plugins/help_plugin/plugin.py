@@ -1,4 +1,5 @@
 from PySide2 import QtWidgets
+from PySide2 import QtGui
 from plugin_framework.extension import Extension
 from .widgets.info_widget import InfoWidget
 from .widgets.online_help_widget import OnlineHelpWidget
@@ -16,18 +17,18 @@ class Plugin(Extension):
         # TODO: ukoliko u nekom plugin-u treba sacuvati referencu na iface, napraviti atribut
         #About
         self.widget = InfoWidget(iface)
-        self.open_action_1 = QtWidgets.QAction("&About") #ikonica!
+        self.open_action_1 = QtWidgets.QAction(QtGui.QIcon("resources/icons/info.png"),"&About") #ikonica!
         self.open_action_1.triggered.connect(self.open_about)
         print("Help plugin initialized!")
 
         #Online uputstvo
         self.online_widget = OnlineHelpWidget(iface)
-        self.open_action_2 = QtWidgets.QAction("&Online uputstvo") #ikonica!
+        self.open_action_2 = QtWidgets.QAction(QtGui.QIcon("resources/icons/book--plus.png"),"&Online uputstvo") #ikonica!
         self.open_action_2.triggered.connect(self.open_help_online)
 
         #Dokumentovano uputstvo
         self.ofline_widget = OflineHelpWidget(iface)
-        self.open_action_3 = QtWidgets.QAction("&Dokumentovano uputstvo") #ikonica!
+        self.open_action_3 = QtWidgets.QAction(QtGui.QIcon("resources/icons/book-question.png"),"&Dokumentovano uputstvo") #ikonica!
         self.open_action_3.triggered.connect(self.open_help_ofline)
 
 

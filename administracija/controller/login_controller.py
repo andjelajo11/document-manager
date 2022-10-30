@@ -1,7 +1,7 @@
 from csv import DictReader
 
 from pip import main
-from ui.main_window import MainWindow
+from integrativna_komponenta.main_window import MainWindow
 
 
 class LoginController:
