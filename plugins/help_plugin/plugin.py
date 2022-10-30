@@ -1,6 +1,11 @@
-from PySide2 import QtWidgets,QtGui
+from PySide2 import QtWidgets
+from PySide2 import QtGui
 from plugin_framework.extension import Extension
 from .widgets.info_widget import InfoWidget
+from .widgets.online_help_widget import OnlineHelpWidget
+from .widgets.ofline_help_widget import OflineHelpWidget
+
+
 
 
 class Plugin(Extension):
@@ -9,22 +14,46 @@ class Plugin(Extension):
         :param iface: main_window aplikacije
         """
         super().__init__(specification, iface)
+        # TODO: ukoliko u nekom plugin-u treba sacuvati referencu na iface, napraviti atribut
+        #About
         self.widget = InfoWidget(iface)
-        self.open_action = QtWidgets.QAction("&About")
-        self.open_action.triggered.connect(self.open_help)
-        self.open_action.setIcon(QtGui.QIcon("resources/icons/about.png"))
+        self.open_action_1 = QtWidgets.QAction(QtGui.QIcon("resources/icons/info.png"),"&About") #ikonica!
+        self.open_action_1.triggered.connect(self.open_about)
         print("Help plugin initialized!")
+
+        #Online uputstvo
+        self.online_widget = OnlineHelpWidget(iface)
+        self.open_action_2 = QtWidgets.QAction(QtGui.QIcon("resources/icons/book--plus.png"),"&Online uputstvo") #ikonica!
+        self.open_action_2.triggered.connect(self.open_help_online)
+
+        #Dokumentovano uputstvo
+        self.ofline_widget = OflineHelpWidget(iface)
+        self.open_action_3 = QtWidgets.QAction(QtGui.QIcon("resources/icons/book-question.png"),"&Dokumentovano uputstvo") #ikonica!
+        self.open_action_3.triggered.connect(self.open_help_ofline)
+
+
 
     # FIXME: implementacija apstraktnih metoda
     def activate(self):
-        self.iface.add_menu_action("&Help", self.open_action)
+        self.iface.add_menu_action("&Help", self.open_action_3)
+        self.iface.add_menu_action("&Help", self.open_action_2)
+        self.iface.add_menu_action("&Help", self.open_action_1)
+        
         self.activated = True
         print("Activated")
 
     def deactivate(self):
-        self.iface.remove_menu_action("&Help", self.open_action)
+        self.iface.remove_menu_action("&Help", self.open_action_1)
+        self.iface.remove_menu_action("&Help", self.open_action_2)
+        self.iface.remove_menu_action("&Help", self.open_action_3)
         self.activated = False
         print("Deactivated")
 
-    def open_help(self):
+    def open_about(self):
         self.widget.show()
+
+    def open_help_online(self):
+        self.online_widget.show()
+
+    def open_help_ofline(self):
+        self.ofline_widget.show()

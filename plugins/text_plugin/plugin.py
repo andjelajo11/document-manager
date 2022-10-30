@@ -1,26 +1,36 @@
-from PySide2.QtWidgets import QLabel
+from PySide2 import QtWidgets
+from integrativna_komponenta.main_window import MainWindow
 from plugin_framework.extension import Extension
-from ui.model.CentralWidget import CentralWidget
+
+
 
 class Plugin(Extension):
 
     def __init__(self, specification, iface):
         """
         :param iface: main_window aplikacije
+        
         """ 
         super().__init__(specification, iface)
-        self.widget = QLabel()
-        self.widget.setFixedWidth(500)
+        self.layout = MainWindow.layout
+        self.tabWidget = QtWidgets.QTabWidget()
+        self.tabWidget.setTabsClosable(True)
+        self.tabWidget.tabCloseRequested.connect(self.delete_tab)
+        self.tabWidget.setFixedWidth(500)
+
+
 
     # FIXME: implementacija apstraktnih metoda
     def activate(self):
-        CentralWidget.layout.addWidget(self.widget)   
+        self.layout.addWidget(self.tabWidget) 
         self.activated = True
         print("Activated")
 
     def deactivate(self):
-        CentralWidget.layout.itemAt(1).widget().setParent(None)
+        self.layout.itemAt(1).widget().setParent(None)
         self.activated = False
 
         print("Deactivated")
 
+    def delete_tab(self,index):
+        self.tabWidget.removeTab(index)
