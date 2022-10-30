@@ -27,7 +27,7 @@ class Plugin(Extension):
         print("Activated")
 
     def deactivate(self):
-        self.layout.itemAt(1).widget().setParent(None)
+        self.layout.itemAt(0).widget().setParent(None)
         self.activated = False
 
         print("Deactivated")
