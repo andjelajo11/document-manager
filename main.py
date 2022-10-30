@@ -1,5 +1,5 @@
 import sys, json
-from PySide2 import QtWidgets
+from PySide2 import QtWidgets, QtGui
 from plugin_framework.plugin_registry import PluginRegistry
 #from ui.main_window import MainWindow
 from integrativna_komponenta.main_window import MainWindow
