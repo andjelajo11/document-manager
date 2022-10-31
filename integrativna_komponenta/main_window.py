@@ -1,10 +1,11 @@
 from PySide2 import QtWidgets, QtGui
 from PySide2.QtWidgets import  QLabel, QTextEdit
 from integrativna_komponenta.ui.centar_widget import CentralWidget
-from integrativna_komponenta.ui.dock_widget import DockWidget
+from integrativna_komponenta.ui.label import Label
+from radni_prostor.dock_widget import DockWidget
 from integrativna_komponenta.ui.layout import Layout
 from integrativna_komponenta.ui.menu_bar import MenuBar
-from integrativna_komponenta.ui.treeView import TreeView
+from radni_prostor.treeView import TreeView
 from plugin_framework.ui.plugin_manager import PluginManager
 from integrativna_komponenta.ui.status_bar import StatusBar
 from integrativna_komponenta.ui.tool_bar import ToolBar
@@ -110,8 +111,8 @@ class MainWindow(QtWidgets.QMainWindow):
                 text = open(path).read()
                 if self.layout.itemAt(0) is not None:
                         self._submit_counter += 1
-                        tab_widget = self.layout.itemAt(0).widget()                        
-                        label = QLabel()
+                        tab_widget = Label.layout.itemAt(0).widget()                        
+                        label = Label()
                         label.setText(text)
                         tab_widget.addTab(label, "Dokument" + str(self._submit_counter))
                         
