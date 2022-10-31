@@ -1,9 +1,9 @@
 {
-    "id": 123456789,
-    "name": "Tekst editor",
+    "id": 112233653,
+    "name": "Text editor",
     "authors": [{
-        "first_name": "Marko",
-        "last_name": "Markovic",
+        "first_name": "Bogdan",
+        "last_name": "Suboticki",
         "email": "marko@mail.com",
         "web_page": "INVALID URL"
     }],
