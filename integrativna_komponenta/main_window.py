@@ -1,10 +1,10 @@
 from PySide2 import QtWidgets, QtGui
 from PySide2.QtWidgets import  QLabel, QTextEdit
 from integrativna_komponenta.ui.centar_widget import CentralWidget
-from integrativna_komponenta.ui.dock_widget import DockWidget
+from integrativna_komponenta.ui.label import Label
+from radni_prostor.dock_widget import DockWidget
 from integrativna_komponenta.ui.layout import Layout
 from integrativna_komponenta.ui.menu_bar import MenuBar
-from integrativna_komponenta.ui.treeView import TreeView
 from plugin_framework.ui.plugin_manager import PluginManager
 from integrativna_komponenta.ui.status_bar import StatusBar
 from integrativna_komponenta.ui.tool_bar import ToolBar
@@ -38,14 +38,12 @@ class MainWindow(QtWidgets.QMainWindow):
         #centralwidget
         self.central_widget = CentralWidget()
 
-        self.treeView = TreeView()
 
 
-        self.dock_widget = DockWidget("Multimedijalni dokumenti", self)
-        # dock_widget.clicked.connect(self.centralWidget().add_tab)
-        self.addDockWidget(QtCore.Qt.LeftDockWidgetArea, self.dock_widget)
-        self.dock_widget.setLayout(self.layout)
-        self.dock_widget.setWidget(self.treeView)
+
+        # self.dock_widget = DockWidget("Multimedijalni dokumenti", self)
+        # self.addDockWidget(QtCore.Qt.LeftDockWidgetArea, self.dock_widget)
+        # self.dock_widget.setLayout(self.layout)
 
         self._bind_actions()
 
@@ -56,9 +54,9 @@ class MainWindow(QtWidgets.QMainWindow):
         self.setStatusBar(self.status_bar)
         self.setCentralWidget(self.central_widget)
         self.central_widget.setLayout(self.layout)
-        # self.layout.addWidget(self.treeView) 
-        self.treeView.clicked.connect(self.onClicked)
-        self._submit_counter = 0  
+
+        
+ 
 
                 # sacuvavanje prijavljenog korisnika iz dijaloga
         self.user = user
@@ -103,15 +101,4 @@ class MainWindow(QtWidgets.QMainWindow):
         self.central_widget.delete_tab(index)
 
 
-    def onClicked(self, index):
-        
-        path = self.sender().model.filePath(index)
-        if ".txt" in path:
-                text = open(path).read()
-                if self.layout.itemAt(0) is not None:
-                        self._submit_counter += 1
-                        tab_widget = self.layout.itemAt(0).widget()                        
-                        label = QLabel()
-                        label.setText(text)
-                        tab_widget.addTab(label, "Dokument" + str(self._submit_counter))
-                        
+    
