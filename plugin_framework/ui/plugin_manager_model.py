@@ -36,9 +36,9 @@ class PluginManagerModel(QtCore.QAbstractTableModel):
         elif index.column() == 4 and role == Qt.DecorationRole:
             # TODO: prikazati odgovarajucu ikonicu za stanje plugin-a
             if element.activated:
-                return QtGui.QIcon("resources/icons/android.png")
+                return QtGui.QIcon("resources/icons/tick-octagon.png")
             else:
-                return QtGui.QIcon("resources/icons/acorn.png")
+                return QtGui.QIcon("resources/icons/cross-script.png")
 
     def parent(self, child_index):
         return QtCore.QModelIndex() # nevalidan indeks

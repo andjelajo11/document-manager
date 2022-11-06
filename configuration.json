@@ -1,6 +1,6 @@
 {
-    "title": "Rukovalac Dokumentima",
-    "icon": "resources/icons/document.png",
+    "title": "Rukovalac Multimedijalnim Dokumentima",
+    "icon": "resources/icons/multimedia.png",
     "window_size": {
         "width": 800,
         "height": 600
