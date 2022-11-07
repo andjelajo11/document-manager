@@ -1,5 +1,5 @@
 from PySide2.QtGui import QIcon
-from PySide2.QtWidgets import QDialog, QDialogButtonBox, QFormLayout, QLabel, QLineEdit
+from PySide2.QtWidgets import QDialog, QDialogButtonBox, QFormLayout, QLabel, QLineEdit, QMessageBox
 from administracija.model.login_model import LoginModel
 
 
@@ -58,6 +58,7 @@ class LoginDialog(QDialog):
             return super().accept()
         # (u slučaju neuspeha, obrisati password polje)
         else:
+            QMessageBox.about(self, "Greska!", "Korisnik nije registrovan!")
             print("Prijava neuspesna")
             self.password_input.clear()
         
