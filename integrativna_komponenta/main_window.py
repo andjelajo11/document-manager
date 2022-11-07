@@ -48,6 +48,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.setStatusBar(self.status_bar)
         self.setCentralWidget(self.central_widget)
         self.central_widget.setLayout(self.layout)
+        
 
         
  

@@ -12,13 +12,14 @@ class Plugin(Extension):
         # 
         super().__init__(specification, iface)
         
-        self.treeView = TreeView()
+        
 
         
 
 
     # FIXME: implementacija apstraktnih metoda
     def activate(self):
+        self.treeView = TreeView()
         self.dock_widget = DockWidget("Workspace", self.iface)
         self.iface.addDockWidget(QtCore.Qt.LeftDockWidgetArea, self.dock_widget)
         self.dock_widget.setLayout(self.iface.layout)
@@ -28,8 +29,9 @@ class Plugin(Extension):
         
 
     def deactivate(self):
-        self.dock_widget.setParent(None)
-        self.dock_widget.setWidget(None)
-        self.activated = False
+        self.iface.removeDockWidget(self.dock_widget)
+        # self.dock_widget.setParent(None)
+        # self.dock_widget.setWidget(None)
+        # self.activated = False
         print("Deactivated")
         
