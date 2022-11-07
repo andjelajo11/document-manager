@@ -39,12 +39,6 @@ class MainWindow(QtWidgets.QMainWindow):
         self.central_widget = CentralWidget()
 
 
-
-
-        # self.dock_widget = DockWidget("Multimedijalni dokumenti", self)
-        # self.addDockWidget(QtCore.Qt.LeftDockWidgetArea, self.dock_widget)
-        # self.dock_widget.setLayout(self.layout)
-
         self._bind_actions()
 
         self.menu_bar._populate_menu_bar(self.actions_dict)
@@ -59,8 +53,13 @@ class MainWindow(QtWidgets.QMainWindow):
  
 
                 # sacuvavanje prijavljenog korisnika iz dijaloga
-        self.user = user
-        self.status_bar.addWidget(QLabel("Ulogovani korisnik: " + self.user.user_id.upper()))
+        
+        
+        if user is not None:
+            self.user = user
+            self.status_bar.addWidget(QLabel("Ulogovani korisnik: " + self.user.user_id.upper()))
+        else:
+            self.status_bar.addWidget(QLabel("Ulogovani korisnik: KORISNIK NIJE ULOGOVAN"))
 
 
     # *************************************** #

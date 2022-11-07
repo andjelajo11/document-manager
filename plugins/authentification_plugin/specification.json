@@ -1,0 +1,16 @@
+{
+    "id": 123456789,
+    "name": "Authentification plugin",
+    "authors": [{
+        "first_name": "Marko",
+        "last_name": "Markovic",
+        "email": "marko@mail.com",
+        "web_page": "INVALID URL"
+    }],
+    "version": "1.0.0",
+    "core_version": "1.0.0",
+    "category": "editor",
+    "licence": "MIT",
+    "description": "Plugin za rad sa korisnicima",
+    "web_page": "INVALID URL"
+}
