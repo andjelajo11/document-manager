@@ -13,7 +13,6 @@ from PySide2 import QtWidgets, QtCore
 
 
 class MainWindow(QtWidgets.QMainWindow):
-    aktiviran = False
     layout = Layout()
     def __init__(self, config, parent=None, user=None):
         super().__init__(parent)
