@@ -1,7 +1,6 @@
 import sys, json
 from PySide2 import QtWidgets, QtGui
 from plugin_framework.plugin_registry import PluginRegistry
-#from ui.main_window import MainWindow
 from integrativna_komponenta.main_window import MainWindow
 from administracija.ui.login_dialog import LoginDialog
 from administracija.controller.login_controller import LoginController
@@ -18,8 +17,6 @@ if __name__ == "__main__":
 
     
     application = QtWidgets.QApplication(sys.argv)
-
-    #sys.exit(application.exec_())
 
     autentifikacija = open("./plugins/authentification_plugin/activation.txt", "r")
 
