@@ -1,0 +1,13 @@
+{
+    "workspace" :{
+            "kolekcija1" : 
+                ["dokument1", "dokument2"],
+            "kolekcija2" : 
+                ["dokument3", "dokument4"],
+            "kolekcija3" : 
+                ["dokument5", "dokument6"],
+            "kolekcija4" : 
+                ["dokument7", "dokument8"]         
+    }
+}
+
