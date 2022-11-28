@@ -1,0 +1,14 @@
+{
+    "title": "Rukovalac Multimedijalnim Dokumentima",
+    "icon": "resources/icons/multimedia.png",
+    "window_size": {
+        "width": 800,
+        "height": 600
+    },
+    "core_version": "1.0.0",
+    "authorization": true,
+    "activated_plugins": [
+        123456789,
+        987654321
+    ]
+}
