@@ -9,6 +9,7 @@ from plugin_framework.ui.plugin_manager import PluginManager
 from integrativna_komponenta.ui.status_bar import StatusBar
 from integrativna_komponenta.ui.tool_bar import ToolBar
 from PySide2 import QtWidgets, QtCore
+from rad_sa_celim_dokumentom.ui.tool_bar import ToolBar
 
 
 
@@ -31,8 +32,6 @@ class MainWindow(QtWidgets.QMainWindow):
         self.plugin_registry = None
         #meni
         self.menu_bar = MenuBar()
-        #toolbar
-        self.tool_bar = ToolBar("Toolbar")
         #statusbar
         self.status_bar = StatusBar()
         #centralwidget
@@ -44,7 +43,6 @@ class MainWindow(QtWidgets.QMainWindow):
         self.menu_bar._populate_menu_bar(self.actions_dict)
 
         self.setMenuBar(self.menu_bar)
-        self.addToolBar(self.tool_bar)
         self.setStatusBar(self.status_bar)
         self.setCentralWidget(self.central_widget)
         self.central_widget.setLayout(self.layout)
@@ -99,6 +97,10 @@ class MainWindow(QtWidgets.QMainWindow):
         
     def remove_tabovi(self,index):
         self.central_widget.delete_tab(index)
+        
+    # def remowe_ToolBar(self):
+        
+        
 
 
     
