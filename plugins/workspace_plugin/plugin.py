@@ -2,6 +2,8 @@ from plugin_framework.extension import Extension
 from radni_prostor.dock_widget import DockWidget
 from radni_prostor.treeView import TreeView
 from PySide2 import QtCore
+from PySide2 import QtWidgets, QtCore
+
 
 class Plugin(Extension):
     def __init__(self, specification, iface):
@@ -11,7 +13,13 @@ class Plugin(Extension):
         """
         # 
         super().__init__(specification, iface)
-        
+       
+        self.button_update = QtWidgets.QPushButton("Refresh workspace")
+        self.layout_button = QtWidgets.QGridLayout()
+        self.kontejner = QtWidgets.QWidget()
+        # self._layout = QtWidgets.QHBoxLayout(self.kontejner)
+        self._layout = QtWidgets.QVBoxLayout()
+
         
 
         
@@ -22,8 +30,14 @@ class Plugin(Extension):
         self.treeView = TreeView()
         self.dock_widget = DockWidget("Workspace", self.iface)
         self.iface.addDockWidget(QtCore.Qt.LeftDockWidgetArea, self.dock_widget)
-        self.dock_widget.setLayout(self.iface.layout)
-        self.dock_widget.setWidget(self.treeView)
+        # self.dock_widget.setLayout(self.iface.layout)
+        self.dock_widget.setWidget(self.kontejner)
+        self.kontejner.setLayout(self._layout)
+        self._layout.addWidget(self.button_update)
+        self._layout.addWidget(self.treeView)
+        
+        self.button_update.clicked.connect(self.treeView.kliknuto_update)
+
         self.activated = True
         print("Activated")
         
@@ -34,4 +48,6 @@ class Plugin(Extension):
         # self.dock_widget.setWidget(None)
         # self.activated = False
         print("Deactivated")
-        
+    
+    def update_radni_prostor(self):
+        self.dock_widget
