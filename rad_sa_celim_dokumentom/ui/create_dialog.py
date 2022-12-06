@@ -73,14 +73,19 @@ class CreateDialog(QtWidgets.QDialog):
                                     with open('radni_prostor/workspace.json', 'w' ) as data_ffile: 
                                         data_json = json.dumps(data, sort_keys=True, indent=4)
                                         data_ffile.write(str(data_json))
+                                    #dodavanje u json sa listom dokumenata, stranica i slotova
+                                    with open('rad_sa_celim_dokumentom/spec_ceoDokument.json') as doc_file:
+                                        document = json.load(doc_file)
+                                        document[self.dokument_uneto]={}
+                                    with open('rad_sa_celim_dokumentom/spec_ceoDokument.json', 'w') as doc_ffile:
+                                        doc_json = json.dumps(document, sort_keys=True, indent=4)
+                                        doc_ffile.write(str(doc_json))
+                                    
                                     return data
                                         
                             else : print("Naziv dokumenta nije validan")
                 break                   
         print(data)                            
-        
-        #self.iworkspace.update_workspace()                                                
-
         
 
 

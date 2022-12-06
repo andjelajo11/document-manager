@@ -7,7 +7,8 @@ from radni_prostor.treeView import TreeView
 from PySide2 import QtCore
 from rad_sa_celim_dokumentom.ui.tool_bar import ToolBar
 from rad_sa_celim_dokumentom.ui.create_dialog import CreateDialog
-
+import json
+from plugins.workspace_plugin.plugin import Plugin
 
 class Plugin(Extension):
     def __init__(self, specification, iface):
@@ -15,15 +16,21 @@ class Plugin(Extension):
         :param iface: main_window aplikacije
 
         """
+
         # 
         super().__init__(specification, iface)
         self.layout = iface.layout
         self.tabWidget = QtWidgets.QTabWidget()
         self.tabWidget.setTabsClosable(True)
-        #self.tabWidget.tabCloseRequested.connect(self.delete_tab)
-        # self.tabWidget.setFixedWidth(500)
-        # self.kontejner_toolbar = QtWidgets.QWidget()
-        # self._layout_toolbar = QtWidgets.QVBoxLayout()
+        # self.dock = self.iface.findChildren(QtWidgets.QDockWidget)
+        # self.dockWidget = self.dock[1].widget()
+        # for d in self.dock:
+        #      self.dock = d #vraca kontejner QDockWidget
+        #      self.dockWidget = self.dock.widget()
+        #      return self.dockWidget
+        # self.dockWidget = self.dock.widget()
+        # self.layout = self.dockWidget.findChildren(QtWidgets.QVBoxLayout) # vraca QVBoxLayout
+        # self.treeView = self.layout.findChildren(QtWidgets.QTreeView)# vraca QTreeView
 
         
 
@@ -33,21 +40,55 @@ class Plugin(Extension):
         self.iface.addToolBar(self.toolbar)
         self.toolbar.add_crud()
         self.toolbar.create_action.triggered.connect(self.show_create_dialog)
-        
+        self.toolbar.delete_action.triggered.connect(self.remove_document)
         self.layout.addWidget(self.tabWidget) 
+        
+        for dock in self.iface.findChildren(QtWidgets.QDockWidget):
+            self.dockWidget = dock
+        self.kontejner = self.dockWidget.widget()
+        
+        for dock1 in self.kontejner.findChildren(QtWidgets.QVBoxLayout):
+            self.layout = dock1
+        self.layout.insertWidget(0, self.toolbar)
+        
+        for dock2 in self.kontejner.findChildren(QtWidgets.QTreeView):
+            self.tree_view = dock2
+        # self.layout.treeView
         self.activated = True
         print("Activated")
         
         #TODO: dodati remove tabWidget 
     def deactivate(self):
         self.iface.removeToolBar(self.toolbar)
-        
-        # self.dock_widget.setParent(None)
-        # self.dock_widget.setWidget(None)
-        # self.activated = False
         print("Deactivated")
     
         
     def show_create_dialog(self):
         self.create_dialog = CreateDialog()
         self.create_dialog.show()
+
+    def remove_document (self):
+                print("gsgd")
+                for i in self.tree_view.selectedIndexes():
+                    text = i.data()
+                    print(text)
+                    # return text
+                    with open('radni_prostor/workspace.json' ) as data_file:  
+                            data = json.load(data_file)
+                    for i in data:
+                            for j in data[i]:
+                                    for z in data[i][j]:
+                                            if z == text:
+                                                    z = text
+                                                    data[i][j].remove(z)
+                                                    with open('radni_prostor/workspace.json', 'w' ) as data_ffile: 
+                                                            data_json = json.dumps(data, sort_keys=True, indent=4)
+                                                            data_ffile.write(str(data_json))
+                                                    with open('rad_sa_celim_dokumentom/spec_ceoDokument.json') as doc_file:
+                                                        document = json.load(doc_file)
+                                                        del document[text]
+                                                    with open('rad_sa_celim_dokumentom/spec_ceoDokument.json', 'w') as doc_ffile:
+                                                        doc_json = json.dumps(document, sort_keys=True, indent=4)
+                                                        doc_ffile.write(str(doc_json))
+                                                    self.tree_view.kliknuto_update()  
+                                                    

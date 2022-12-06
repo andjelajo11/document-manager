@@ -3,28 +3,18 @@
         "kolekcija1": [
             "dokument1",
             "dokument2",
-            "dokument10",
-            "dokument111",
-            "dokument5555"
+            "dokument10"
         ],
         "kolekcija2": [
             "dokument3",
-            "dokument4",
-            "dokument22"
+            "dokument31"
         ],
         "kolekcija3": [
             "dokument5",
-            "dokument6",
-            "dokument88",
-            "dokument63452",
-            "dokument545"
+            "dokument6"
         ],
         "kolekcija4": [
-            "dokument7",
-            "dokument8",
-            "dokument1000",
-            "dokument6661",
-            "dokument7880"
+            "dokument7"
         ]
     }
 }

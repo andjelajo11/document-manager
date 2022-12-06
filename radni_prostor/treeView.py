@@ -56,6 +56,24 @@ class TreeView(QTreeView):
                                                         kolekcija.appendRow(dokument)
                                         count +=1
                 self.expandAll()
-
                 self.setModel(self.model)    
-  
+        
+        def delete_selcted_item (self):
+                for i in self.selectedIndexes():
+                    text = i.data()
+                    return text
+                with open('radni_prostor/workspace.json' ) as data_file:  
+                        data = json.load(data_file)
+                for i in data:
+                        for j in data[i]:
+                                for z in data[i][j]:
+                                        if z == text:
+                                                z = text
+                                                data[i][j].remove(z)
+                                                with open('radni_prostor/workspace.json', 'w' ) as data_ffile: 
+                                                        data_json = json.dumps(data, sort_keys=True, indent=4)
+                                                        data_ffile.write(str(data_json))
+
+
+                #     if "dokument" in text:
+                #         print(text)
