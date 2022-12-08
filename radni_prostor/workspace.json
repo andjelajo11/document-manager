@@ -2,11 +2,19 @@
     "workspace": {
         "kolekcija1": [
             "dokument1",
+<<<<<<< Updated upstream
             "dokument2"          
         ],
         "kolekcija2": [
             "dokument3",
             "dokument4"           
+=======
+            "dokument2"
+        ],
+        "kolekcija2": [
+            "dokument3",
+            "dokument4"
+>>>>>>> Stashed changes
         ],
         "kolekcija3": [
             "dokument5",

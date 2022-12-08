@@ -1,5 +1,9 @@
 from plugin_framework.extension import Extension
+<<<<<<< Updated upstream
 from PySide2.QtWidgets import QVBoxLayout, QHBoxLayout
+=======
+from PySide2.QtWidgets import QVBoxLayout, QHBoxLayout, QLayout
+>>>>>>> Stashed changes
 from PySide2 import QtWidgets
 import json
 from PySide2.QtWidgets import  QLabel
@@ -18,6 +22,11 @@ class Plugin(Extension):
         super().__init__(specification, iface)
         self.layoutV = QVBoxLayout() #gore i dole
         self.layoutH = QHBoxLayout() #levo i desno
+<<<<<<< Updated upstream
+=======
+        self.layoutV1 = QVBoxLayout()
+        self.layoutH1 = QHBoxLayout()
+>>>>>>> Stashed changes
         self.tabWidget = QtWidgets.QTabWidget()
         self.tabWidget.setTabsClosable(True)
         self.tabWidget.tabCloseRequested.connect(self.delete_tab)
@@ -91,9 +100,16 @@ class Plugin(Extension):
         self.label1.setFrameStyle(QFrame.StyledPanel | QFrame.Plain)
         self.label1.setLineWidth(1)
 
+<<<<<<< Updated upstream
         self.widgetT.setLayout(self.layoutH)
         self.layoutH.addWidget(self.label)
         self.layoutH.addWidget(self.label1)
+=======
+        self.widgetT.setLayout(self.layoutH1)
+        self.layoutH1.addWidget(self.label)
+        # self.layoutH1.addWidget(self.label1)
+        self.widget1 = QtWidgets.QWidget()
+>>>>>>> Stashed changes
 
         for ix in self.treeView.selectedIndexes():
             text = ix.data()
@@ -106,6 +122,7 @@ class Plugin(Extension):
 
     def Up(self):
         print("radi")
+<<<<<<< Updated upstream
         self.labelL = QLabel()
         self.labelL.setText("ovo je test")
         self.layoutV.addWidget(self.labelL)
@@ -114,6 +131,28 @@ class Plugin(Extension):
         self.layoutV.addWidget(self.label)
 
         self.widgetT.setLayout(self.layoutV)
+=======
+
+        #stavljamo starom layoutu privremeni parent da bismo ga obrisali      
+        if self.widget1.layout() is None:
+            print(self.widget1.layout())
+            self.widget1.setLayout(self.layoutH1)
+
+
+        self.labelL = QLabel()
+        self.labelL.setText("ovo je test")
+        self.layoutV1.addWidget(self.labelL)
+        self.labelL.setFrameStyle(QFrame.StyledPanel | QFrame.Plain)
+        self.labelL.setLineWidth(1)
+        self.layoutV1.addWidget(self.label)
+
+        self.widgetT.setLayout(self.layoutV1)
+
+        
+
+
+        
+>>>>>>> Stashed changes
 
         
 

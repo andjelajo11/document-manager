@@ -20,7 +20,6 @@ class TreeView(QTreeView):
                         workspace = StandardItem(i)
                         rootNode.appendRow(workspace)
                         for v in data["workspace"]:
-                                print(v)
                                 kolekcija = StandardItem(v)
                                 workspace.appendRow(kolekcija)
                                 for x in data.values():
