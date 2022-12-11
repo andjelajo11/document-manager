@@ -5,19 +5,19 @@ class InterfejsDokument(ABC):
     # pass
     
     @abstractmethod
-    def get_document(self): #gde realizovati implementaciju ove metode u kojoj klasi
+    def get_document(self): 
         pass
     
     @abstractmethod
-    def create_document(self): #gde realizovati implementaciju ove metode u kojoj klasi
+    def create_document(self): 
         pass
 
     @abstractmethod
-    def removeDocument(self): #gde realizovati implementaciju ove metode u kojoj klasi
+    def removeDocument(self): 
         pass
     
     @abstractmethod
-    def updateWorkpsace(self): #gde realizovati implementaciju ove metode u kojoj klasi
+    def updateWorkpsace(self): 
         pass
         
     

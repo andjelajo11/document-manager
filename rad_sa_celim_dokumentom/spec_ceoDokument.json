@@ -1,5 +1,12 @@
 {
+    "dokument1": {},
+    "dokument111": {},
+    "dokument2": {},
     "dokument3": {},
-    "dokument31": {},
-    "dokument7777777": {}
+    "dokument4": {
+        "thumbnail": "path"
+    },
+    "dokument5": {},
+    "dokument6": {},
+    "dokument7": {}
 }

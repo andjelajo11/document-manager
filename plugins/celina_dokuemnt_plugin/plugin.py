@@ -7,8 +7,8 @@ from radni_prostor.treeView import TreeView
 from PySide2 import QtCore
 from rad_sa_celim_dokumentom.ui.tool_bar import ToolBar
 from rad_sa_celim_dokumentom.ui.create_dialog import CreateDialog
+from rad_sa_celim_dokumentom.ui.rename_dialog import RenameDialog
 import json
-from plugins.workspace_plugin.plugin import Plugin
 
 class Plugin(Extension):
     def __init__(self, specification, iface):
@@ -41,6 +41,7 @@ class Plugin(Extension):
         self.toolbar.add_crud()
         self.toolbar.create_action.triggered.connect(self.show_create_dialog)
         self.toolbar.delete_action.triggered.connect(self.remove_document)
+        self.toolbar.rename_action.triggered.connect(self.rename_document)
         self.layout.addWidget(self.tabWidget) 
         
         for dock in self.iface.findChildren(QtWidgets.QDockWidget):
@@ -68,7 +69,6 @@ class Plugin(Extension):
         self.create_dialog.show()
 
     def remove_document (self):
-                print("gsgd")
                 for i in self.tree_view.selectedIndexes():
                     text = i.data()
                     print(text)
@@ -91,4 +91,39 @@ class Plugin(Extension):
                                                         doc_json = json.dumps(document, sort_keys=True, indent=4)
                                                         doc_ffile.write(str(doc_json))
                                                     self.tree_view.kliknuto_update()  
-                                                    
+    
+    def rename_document (self):
+                self.rename_dialog = RenameDialog()
+                self.rename_dialog.show()
+                self.rename_dialog.button_rename.clicked.connect(self.rename_dugme_kliknuto)
+
+    def rename_dugme_kliknuto (self):
+                self.rename_uneto = self.rename_dialog.rename_input.text()
+                for i in self.tree_view.selectedIndexes():
+                    text = i.data()
+                    with open('radni_prostor/workspace.json' ) as data_file:  
+                            data = json.load(data_file)
+                    for i in data:
+                            for j in data[i]:
+                                    for z in data[i][j]:
+                                            if z == text:
+                                                z = text
+                                                y = self.rename_uneto
+                                                print(data[i][j])
+                                                print(z)
+                                                print(y)
+                                                data[i][j][data[i][j].index(z)] = y
+                                                with open('radni_prostor/workspace.json', 'w' ) as data_ffile: 
+                                                    data_json = json.dumps(data, sort_keys=True, indent=4)
+                                                    data_ffile.write(str(data_json))
+                                                with open('rad_sa_celim_dokumentom/spec_ceoDokument.json') as doc_file:
+                                                    document = json.load(doc_file)
+                                                    document[self.rename_uneto] = document.pop(text)
+                                                    print(document)
+                                                with open('rad_sa_celim_dokumentom/spec_ceoDokument.json', 'w') as doc_ffile:
+                                                    doc_json = json.dumps(document, sort_keys=True, indent=4)
+                                                    doc_ffile.write(str(doc_json))
+
+                                                # data[i][j].insert(data[i][j].index(z), y )
+                                                print(data)
+                                                break
