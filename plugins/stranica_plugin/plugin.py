@@ -1,15 +1,9 @@
 from plugin_framework.extension import Extension
-<<<<<<< Updated upstream
-from PySide2.QtWidgets import QVBoxLayout, QHBoxLayout
-=======
-from PySide2.QtWidgets import QVBoxLayout, QHBoxLayout, QLayout
->>>>>>> Stashed changes
-from PySide2 import QtWidgets
-import json
-from PySide2.QtWidgets import  QLabel
-from integrativna_komponenta.ui.layout import Layout
-from PySide2.QtWidgets import QFrame, QToolBar, QAction
+from PySide2.QtWidgets import QVBoxLayout, QHBoxLayout, QLabel, QFrame, QToolBar, QAction, QGridLayout, QApplication
 from PySide2.QtGui import QIcon
+from PySide2.QtCore import Qt
+import json
+
 
 
 from PySide2 import QtWidgets
@@ -20,28 +14,24 @@ class Plugin(Extension):
         :param iface: main_window aplikacije
         """
         super().__init__(specification, iface)
-        self.layoutV = QVBoxLayout() #gore i dole
+        self.mainLayoutV = QVBoxLayout() #gore i dole na main widgetu
         self.layoutH = QHBoxLayout() #levo i desno
-<<<<<<< Updated upstream
-=======
-        self.layoutV1 = QVBoxLayout()
         self.layoutH1 = QHBoxLayout()
->>>>>>> Stashed changes
         self.tabWidget = QtWidgets.QTabWidget()
         self.tabWidget.setTabsClosable(True)
         self.tabWidget.tabCloseRequested.connect(self.delete_tab)
-        self.widget = QtWidgets.QWidget()
-
+        self.mainWidget = QtWidgets.QWidget()
+        self. innerWidgetList = []
         toolbar = QToolBar()   
-        left = QAction(QIcon("resources/icons/arrow-left.png"),"left",self.layoutV)
-        right = QAction(QIcon("resources/icons/arrow-right.png"),"right",self.layoutV)
-        up = QAction(QIcon("resources/icons/arrow-up.png"),"up",self.layoutV)
-        down = QAction(QIcon("resources/icons/arrow-down.png"),"down",self.layoutV)
-        delete = QAction(QIcon("resources/icons/kanta.png"),"delete",self.layoutV)
-
-        self.widget.setLayout(self.layoutV)
-        self.layoutV.addWidget(toolbar)
-        self.layoutV.addWidget(self.tabWidget)
+        left = QAction(QIcon("resources/icons/arrow-left.png"),"left",self.mainLayoutV)
+        right = QAction(QIcon("resources/icons/arrow-right.png"),"right",self.mainLayoutV)
+        up = QAction(QIcon("resources/icons/arrow-up.png"),"up",self.mainLayoutV)
+        down = QAction(QIcon("resources/icons/arrow-down.png"),"down",self.mainLayoutV)
+        delete = QAction(QIcon("resources/icons/kanta.png"),"delete",self.mainLayoutV)
+        
+        self.mainWidget.setLayout(self.mainLayoutV)
+        self.mainLayoutV.addWidget(toolbar)
+        self.mainLayoutV.addWidget(self.tabWidget)
 
         self.dockWidget = QtWidgets.QDockWidget
         
@@ -51,8 +41,11 @@ class Plugin(Extension):
         toolbar.addAction(down)
         toolbar.addAction(delete)
 
-        up.triggered.connect(self.Up)
-
+        down.triggered.connect(self.down)
+        right.triggered.connect(self.right)
+        left.triggered.connect(self.left)
+        up.triggered.connect(self.up)
+        delete.triggered.connect(self.delete)
 
         
 
@@ -60,7 +53,7 @@ class Plugin(Extension):
     def activate(self):
         print("Activated")
         self.activated = True
-        self.iface.layout.addWidget(self.widget)
+        
         for dock in self.iface.findChildren(QtWidgets.QDockWidget):
             self.dockWidget = dock
 
@@ -80,79 +73,119 @@ class Plugin(Extension):
 
         
     def onClicked(self):
+        self.iface.layout.addWidget(self.mainWidget)
+
         with open('radni_prostor/dokumenti.json') as data_file:  
             data = json.load(data_file) 
-        data_file.close()
+        data_file.close()   
 
         
-
-        self.widgetT = QtWidgets.QWidget() 
+        # self.layoutH1 = QHBoxLayout()
         
+        self.grid = QGridLayout()
+        
+        self.page = self.tabWidget.currentWidget()
+        
+         
+        self.page = QtWidgets.QWidget()
+        
+        
+        self.page.setLayout(self.grid)
+
+
+        self.tester = 1
+        self.row = self.grid.rowCount() - 1
+        self.column = self.grid.columnCount() - 1
+
         self.label = QLabel()
-        self.label.setText("ovo je test")
-        
+        self.label.setText("ovo je gore" + str(self.tester))        
         self.label.setFrameStyle(QFrame.StyledPanel | QFrame.Plain)
         self.label.setLineWidth(1)
-
-        self.label1 = QLabel()
-        self.label1.setText("ovo je test2")
+        self.label.setFocusPolicy(Qt.StrongFocus)
+       
         
-        self.label1.setFrameStyle(QFrame.StyledPanel | QFrame.Plain)
-        self.label1.setLineWidth(1)
-
-<<<<<<< Updated upstream
-        self.widgetT.setLayout(self.layoutH)
-        self.layoutH.addWidget(self.label)
-        self.layoutH.addWidget(self.label1)
-=======
-        self.widgetT.setLayout(self.layoutH1)
-        self.layoutH1.addWidget(self.label)
-        # self.layoutH1.addWidget(self.label1)
-        self.widget1 = QtWidgets.QWidget()
->>>>>>> Stashed changes
 
         for ix in self.treeView.selectedIndexes():
             text = ix.data()
             if "dokument" in text:
                 for i in data:
                     if text == i:
-                        self.tabWidget.addTab(self.widgetT,"" + text)
-
                         
+                        self.tabWidget.addTab(self.page,"" + text)
+                        self.grid.addWidget(self.label, 0, 0)
+        print("row:")
+        print(self.row)
+        print("column:")
+        print(self.column)
+                       
 
-    def Up(self):
-        print("radi")
-<<<<<<< Updated upstream
-        self.labelL = QLabel()
-        self.labelL.setText("ovo je test")
-        self.layoutV.addWidget(self.labelL)
-        self.labelL.setFrameStyle(QFrame.StyledPanel | QFrame.Plain)
-        self.labelL.setLineWidth(1)
-        self.layoutV.addWidget(self.label)
-
-        self.widgetT.setLayout(self.layoutV)
-=======
-
-        #stavljamo starom layoutu privremeni parent da bismo ga obrisali      
-        if self.widget1.layout() is None:
-            print(self.widget1.layout())
-            self.widget1.setLayout(self.layoutH1)
+        
+                        
+                            
+                         
 
 
-        self.labelL = QLabel()
-        self.labelL.setText("ovo je test")
-        self.layoutV1.addWidget(self.labelL)
-        self.labelL.setFrameStyle(QFrame.StyledPanel | QFrame.Plain)
-        self.labelL.setLineWidth(1)
-        self.layoutV1.addWidget(self.label)
+    def addLabel(self):
+        currentTabIndex = self.tabWidget.currentIndex()
+        self.activeWidget = self.tabWidget.widget(currentTabIndex)
+        
+        
+        
+        
 
-        self.widgetT.setLayout(self.layoutV1)
+        self.label = QLabel()
+        self.label.setText("Slot")        
+        self.label.setFrameStyle(QFrame.StyledPanel | QFrame.Plain)
+        self.label.setLineWidth(1)
+
+        if self.activeWidget.layout().itemAtPosition(self.row, self.column) is None:
+            self.activeWidget.layout().addWidget(self.label, self.row, self.column)
+
+        self.label.setFocusPolicy(Qt.StrongFocus)    
+
+
+    def down(self):
+        self.row += 1
+        print("row:")
+        print(self.row)
+        print("column:")
+        print(self.column)
+        self.addLabel()
+    
+    def up(self):
+        self.row -=1
+        self.addLabel()
+        
+
+    def right(self):    
+        self.row = 0
+        self.column += 1    
+        self.addLabel()        
+        print("row:")
+        print(self.row)
+        print("column:")
+        print(self.column)
+
+    def left(self):
+        self.row = 0
+        if self.column > 0:
+            self.column -= 1
+        self.addLabel()
+    
+
+    def delete(self):
+        currentTabIndex = self.tabWidget.currentIndex()
+        self.activeWidget = self.tabWidget.widget(currentTabIndex)
+        focused_widget = QApplication.focusWidget()
+        if focused_widget is not None:
+            self.activeWidget.layout().removeWidget(focused_widget)
+            focused_widget.deleteLater()
+            
 
         
 
 
         
->>>>>>> Stashed changes
 
         
 

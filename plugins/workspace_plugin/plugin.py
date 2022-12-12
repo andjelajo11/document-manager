@@ -1,6 +1,7 @@
 from plugin_framework.extension import Extension
 from radni_prostor.dock_widget import DockWidget
 from radni_prostor.treeView import TreeView
+from plugins.stranica_plugin import plugin
 from PySide2 import QtCore
 
 class Plugin(Extension):
@@ -25,13 +26,15 @@ class Plugin(Extension):
         self.dock_widget.setLayout(self.iface.layout)
         self.dock_widget.setWidget(self.treeView)
         self.activated = True
+
+
+
         print("Activated")
         
 
     def deactivate(self):
         self.iface.removeDockWidget(self.dock_widget)
-        # self.dock_widget.setParent(None)
-        # self.dock_widget.setWidget(None)
-        # self.activated = False
+        self.treeView.deleteLater()
+        self.activated = False
         print("Deactivated")
         
