@@ -18,10 +18,10 @@ class Plugin(Extension):
         # 
         super().__init__(specification, iface)
         self.layout = iface.layout
-        self.tabWidget = QtWidgets.QTabWidget()
-        self.tabWidget.setTabsClosable(True)
-        #self.tabWidget.tabCloseRequested.connect(self.delete_tab)
-        self.tabWidget.setFixedWidth(500)
+        # self.tabWidget = QtWidgets.QTabWidget()
+        # self.tabWidget.setTabsClosable(True)
+        # #self.tabWidget.tabCloseRequested.connect(self.delete_tab)
+        # self.tabWidget.setFixedWidth(500)
 
     # FIXME: implementacija apstraktnih metoda
     def activate(self):
@@ -32,7 +32,7 @@ class Plugin(Extension):
         
         self.layout.addWidget(self.tabWidget) 
         self.activated = True
-        # self.toolbar.update_action.triggered.connect(self.update_worspace) #gde implementirati ovde metode u kojoj klasi
+        # self.toolbar.update_action.triggered.connect(self.update_workspace) #gde implementirati ovde metode u kojoj klasi
         # self.toolbar.delete_action.triggered.connect(self.delete_document) #gde implementirati ovde metode u kojoj klasi
 
 
