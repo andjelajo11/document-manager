@@ -2,13 +2,11 @@
     "workspace": {
         "kolekcija1": [
             "dokument1",
-            "dokument2",
-            "dokument10"
+            "dokument2"
         ],
         "kolekcija2": [
             "dokument3",
-            "dokument4",
-            "dokument22"
+            "dokument4"
         ],
         "kolekcija3": [
             "dokument5",

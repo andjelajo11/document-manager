@@ -1,0 +1,98 @@
+{
+
+
+
+    "dokument1" : [{
+
+        "naziv" : "dokument1",
+
+        "thumbnail" : "slikaPath",
+
+        "hyperlink1" :
+
+        [{
+
+            "hyperlink1.1" : "putanjaDofajla",
+
+            "hyperlink1.2" : "putanja"
+
+        }],
+
+        "hyperlink2" :
+
+        [{
+
+            "hyperlink2.1" : "putanjaDofajla",
+
+            "hyperlink2.2" : "putanja"
+
+        }]
+
+    }],
+
+
+
+    "dokument2" : [{
+
+        "naziv" : "dokument2",
+
+        "thumbnail" : "slikaPath"
+
+    }],
+
+
+
+    "dokument3" : [{
+
+        "naziv" : "dokument3",
+
+        "thumbnail" : "slikaPath"
+
+    }],
+
+
+
+    "dokument4" : [{
+
+        "naziv" : "dokument4",
+
+        "thumbnail" : "slikaPath"
+
+    }],
+
+    "dokument5" : [{
+
+        "naziv" : "dokument5",
+
+        "thumbnail" : "slikaPath"
+
+    }],
+
+    "dokument6" : [{
+
+        "naziv" : "dokument6",
+
+        "thumbnail" : "slikaPath"
+
+    }],
+
+    "dokument7" : [{
+
+        "naziv" : "dokument7",
+
+        "thumbnail" : "slikaPath"
+
+    }],
+
+    "dokument8" : [{
+
+        "naziv" : "dokument8",
+
+        "thumbnail" : "slikaPath"
+
+    }]
+
+
+
+
+}
