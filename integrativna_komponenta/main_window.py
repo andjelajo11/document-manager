@@ -96,10 +96,6 @@ class MainWindow(QtWidgets.QMainWindow):
         
     def remove_tabovi(self,index):
         self.central_widget.delete_tab(index)
-        
-    # def remowe_ToolBar(self):
-        
-        
 
 
     
