@@ -7,10 +7,11 @@ import radni_prostor
 class RenameDialog(QtWidgets.QDialog):
     created = QtCore.Signal()
 
-    def __init__(self, parent = None):
+    def __init__(self, parent):
         super().__init__(parent)
 
         self.setWindowTitle("Rename Document")
+        self.setWindowIcon(QtGui.QIcon("resources/icons/rename document.png"))
         self._layout = QtWidgets.QGridLayout()
         self.setLayout(self._layout)
 
