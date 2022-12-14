@@ -20,8 +20,8 @@ class Plugin(Extension):
         # 
         super().__init__(specification, iface)
         self.layout = iface.layout
-        self.tabWidget = QtWidgets.QTabWidget()
-        self.tabWidget.setTabsClosable(True)
+        # self.tabWidget = QtWidgets.QTabWidget()
+        # self.tabWidget.setTabsClosable(True)
         self.create_dialog = CreateDialog(iface)
 
         
@@ -38,7 +38,7 @@ class Plugin(Extension):
         self.create_dialog.button_create.clicked.connect(self.create_refresh)
         self.rename_dialog = RenameDialog(self.iface)
         self.rename_dialog.button_rename.clicked.connect(self.rename_dugme_kliknuto)
-        self.layout.addWidget(self.tabWidget) 
+        # self.layout.addWidget(self.tabWidget) 
         
         for dock in self.iface.findChildren(QtWidgets.QDockWidget):
             self.dockWidget = dock
