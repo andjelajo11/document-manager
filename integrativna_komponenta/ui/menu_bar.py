@@ -11,7 +11,7 @@ class MenuBar(QtWidgets.QMenuBar):
         file_menu = QtWidgets.QMenu("&File", self)
         plugins_menu = QtWidgets.QMenu("&Plugins", self)
         help_menu = QtWidgets.QMenu("&Help", self)
-
+        print("dokument")
         file_menu.addAction(actions_dict["quit"])
         plugins_menu.addAction(actions_dict["plugin_manager"])
 
