@@ -67,7 +67,6 @@ class Plugin(Extension):
             data = json.load(data_file) 
         data_file.close()          
 
-        
         self.page = self.tabWidget.currentWidget()
         self.layoutG = QGridLayout()
          
@@ -82,6 +81,7 @@ class Plugin(Extension):
                     if text == i:
                         
                         self.tabWidget.addTab(self.page,"" + text)
+                        self.tabWidget.setCurrentWidget(self.page)
                         self.layoutG.addWidget(self.treeWidget,0,0)
                         self.treeWidget.populate(text)
 

@@ -54,13 +54,30 @@ class Plugin(Extension):
         print("Activated")
         self.activated = True
         
+        
         for dock in self.iface.findChildren(QtWidgets.QDockWidget):
             self.dockWidget = dock
-
-
-        self.treeView = self.dockWidget.widget()
-        self.treeView.clicked.connect(self.onClicked)    
+        self.treeView1 = self.dockWidget.widget()
         
+        
+        
+        
+        self.treeView1.clicked.connect(self.mainTreeClicked)  
+        
+    
+
+    def mainTreeClicked(self):
+
+        self.mainWidget1 = self.iface.layout.itemAt(0).widget()
+        print(type(self.mainWidget1))
+        self.tab = self.mainWidget1.layout().itemAt(0).widget()
+        print(type(self.tab))
+        
+        self.stranica = self.tab.currentWidget()
+        print(type(self.stranica))
+        self.treeView = self.stranica.layout().itemAt(0).widget()
+        self.treeView.clicked.connect(self.onClicked) 
+    
 
     def deactivate(self):
         print("Deactivated")
@@ -73,50 +90,51 @@ class Plugin(Extension):
 
         
     def onClicked(self):
-        self.iface.layout.addWidget(self.mainWidget)
-
-        with open('radni_prostor/dokumenti.json') as data_file:  
-            data = json.load(data_file) 
-        data_file.close()   
-
-        
-        # self.layoutH1 = QHBoxLayout()
-        
-        self.grid = QGridLayout()
-        
-        self.page = self.tabWidget.currentWidget()
-        
-         
-        self.page = QtWidgets.QWidget()
-        
-        
-        self.page.setLayout(self.grid)
-
-
-        self.tester = 1
-        self.row = self.grid.rowCount() - 1
-        self.column = self.grid.columnCount() - 1
-
-        self.label = QLabel()
-        self.label.setText("ovo je gore" + str(self.tester))        
-        self.label.setFrameStyle(QFrame.StyledPanel | QFrame.Plain)
-        self.label.setLineWidth(1)
-        self.label.setFocusPolicy(Qt.StrongFocus)
-       
-        
 
         for ix in self.treeView.selectedIndexes():
-            text = ix.data()
-            if "dokument" in text:
-                for i in data:
-                    if text == i:
-                        
-                        self.tabWidget.addTab(self.page,"" + text)
-                        self.grid.addWidget(self.label, 0, 0)
-        print("row:")
-        print(self.row)
-        print("column:")
-        print(self.column)
+            text = ix.data()  
+            if "hyperlink" in text:
+                self.iface.layout.addWidget(self.mainWidget)
+
+                with open('radni_prostor/dokumenti.json') as data_file:  
+                    data = json.load(data_file) 
+                data_file.close()   
+
+                
+                # self.layoutH1 = QHBoxLayout()
+                
+                self.grid = QGridLayout()
+                
+                self.page = self.tabWidget.currentWidget()
+                
+                self.page = QtWidgets.QWidget()
+                
+                
+                self.page.setLayout(self.grid)
+
+
+                self.tester = 1
+                self.row = self.grid.rowCount() - 1
+                self.column = self.grid.columnCount() - 1
+
+                self.label = QLabel()
+                self.label.setText("ovo je gore" + str(self.tester))        
+                self.label.setFrameStyle(QFrame.StyledPanel | QFrame.Plain)
+                self.label.setLineWidth(1)
+                self.label.setFocusPolicy(Qt.StrongFocus)
+            
+                
+
+                
+                print(text)          
+                self.tabWidget.addTab(self.page,"" + text)
+                self.grid.addWidget(self.label, 0, 0)
+
+
+                print("row:")
+                print(self.row)
+                print("column:")
+                print(self.column)
                        
 
         
