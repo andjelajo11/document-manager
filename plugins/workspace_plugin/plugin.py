@@ -16,12 +16,11 @@ class Plugin(Extension):
         # 
         super().__init__(specification, iface)
        
-        self.button_update = QtWidgets.QPushButton("Refresh workspace")
-        self.layout_button = QtWidgets.QGridLayout()
+        # self.button_update = QtWidgets.QPushButton("Refresh workspace")
+        # self.layout_button = QtWidgets.QGridLayout()
         self.kontejner = QtWidgets.QWidget()
         # self._layout = QtWidgets.QHBoxLayout(self.kontejner)
         self._layout = QtWidgets.QVBoxLayout()
-        # self.toolbar = ToolBar()        
 
         
 
@@ -33,16 +32,12 @@ class Plugin(Extension):
         self.treeView = TreeView()
         self.dock_widget = DockWidget("Workspace", self.iface)
         self.iface.addDockWidget(QtCore.Qt.LeftDockWidgetArea, self.dock_widget)
-        # self.dock_widget.setLayout(self.iface.layout)
         self.dock_widget.setWidget(self.kontejner)
         self.kontejner.setLayout(self._layout)
-        # self._layout.addWidget(self.toolbar)
-        # self.toolbar.add_crud()
-        # self.toolbar.delete_action.triggered.connect(self.remove_document)
-        self._layout.addWidget(self.button_update)
+        # self._layout.addWidget(self.button_update)
         self._layout.addWidget(self.treeView)
         
-        self.button_update.clicked.connect(self.treeView.kliknuto_update)
+        # self.button_update.clicked.connect(self.treeView.kliknuto_update)
 
         self.activated = True
         print("Activated")

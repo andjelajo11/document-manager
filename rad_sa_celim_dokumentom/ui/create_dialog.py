@@ -1,6 +1,7 @@
 from PySide2 import QtCore
 from PySide2 import QtCore, QtGui, QtWidgets
 from rad_sa_celim_dokumentom.interfejsi.extension_dok_celina import ExtensionDokument
+from radni_prostor.treeView import TreeView
 import json
 import radni_prostor
 
@@ -29,8 +30,9 @@ class CreateDialog(QtWidgets.QDialog):
         
         self.populate_dialog()
 
-
         self.resize(300, 300)
+        
+        self.tree_view1 = TreeView()
     
     def populate_dialog(self):
         self._layout.addWidget(self._workspace) 
@@ -43,10 +45,10 @@ class CreateDialog(QtWidgets.QDialog):
         self._layout.addWidget(self._dokument_input) 
         
         self.button_create = QtWidgets.QPushButton("Dodaj Dokument")
-        self.button_create.clicked.connect(self.dugme_kliknuto)
+        # self.button_create.clicked.connect(self.dugme_kliknuto)
 
         self._layout.addWidget(self.button_create)     
-        self.button_create.clicked.connect(self.dugme_kliknuto)
+        # self.button_create.clicked.connect(self.dugme_kliknuto)
    
     def dugme_kliknuto(self):
         self.workspace_uneto = self._workspace_input.text()
@@ -58,7 +60,7 @@ class CreateDialog(QtWidgets.QDialog):
         #nad kojim obj bi se pozivala posebna funkcja write json document
         with open('radni_prostor/workspace.json' ) as data_file:  
             data = json.load(data_file)
-            print(self.workspace_uneto)                    
+            # print(self.workspace_uneto)                    
         for i in data:
                 if i == self.workspace_uneto:
                     i = self.workspace_uneto
@@ -81,6 +83,7 @@ class CreateDialog(QtWidgets.QDialog):
                                         doc_json = json.dumps(document, sort_keys=True, indent=4)
                                         doc_ffile.write(str(doc_json))
                                     
+                                    # self.tree_view1.kliknuto_update()
                                     return data
                                         
                             else : print("Naziv dokumenta nije validan")

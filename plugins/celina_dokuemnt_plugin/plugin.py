@@ -22,16 +22,6 @@ class Plugin(Extension):
         self.layout = iface.layout
         self.tabWidget = QtWidgets.QTabWidget()
         self.tabWidget.setTabsClosable(True)
-        # self.dock = self.iface.findChildren(QtWidgets.QDockWidget)
-        # self.dockWidget = self.dock[1].widget()
-        # for d in self.dock:
-        #      self.dock = d #vraca kontejner QDockWidget
-        #      self.dockWidget = self.dock.widget()
-        #      return self.dockWidget
-        # self.dockWidget = self.dock.widget()
-        # self.layout = self.dockWidget.findChildren(QtWidgets.QVBoxLayout) # vraca QVBoxLayout
-        # self.treeView = self.layout.findChildren(QtWidgets.QTreeView)# vraca QTreeView
-
         
 
     # FIXME: implementacija apstraktnih metoda
@@ -42,6 +32,10 @@ class Plugin(Extension):
         self.toolbar.create_action.triggered.connect(self.show_create_dialog)
         self.toolbar.delete_action.triggered.connect(self.remove_document)
         self.toolbar.rename_action.triggered.connect(self.rename_document)
+        self.create_dialog = CreateDialog()
+        self.create_dialog.button_create.clicked.connect(self.create_refresh)
+        self.rename_dialog = RenameDialog()
+        self.rename_dialog.button_rename.clicked.connect(self.rename_dugme_kliknuto)
         self.layout.addWidget(self.tabWidget) 
         
         for dock in self.iface.findChildren(QtWidgets.QDockWidget):
@@ -65,13 +59,17 @@ class Plugin(Extension):
     
         
     def show_create_dialog(self):
-        self.create_dialog = CreateDialog()
         self.create_dialog.show()
+    
+    def create_refresh (self):
+        self.create_dialog.dugme_kliknuto()
+        self.tree_view.kliknuto_update()  
+
 
     def remove_document (self):
                 for i in self.tree_view.selectedIndexes():
                     text = i.data()
-                    print(text)
+                    # print(text)
                     # return text
                     with open('radni_prostor/workspace.json' ) as data_file:  
                             data = json.load(data_file)
@@ -93,9 +91,7 @@ class Plugin(Extension):
                                                     self.tree_view.kliknuto_update()  
     
     def rename_document (self):
-                self.rename_dialog = RenameDialog()
                 self.rename_dialog.show()
-                self.rename_dialog.button_rename.clicked.connect(self.rename_dugme_kliknuto)
 
     def rename_dugme_kliknuto (self):
                 self.rename_uneto = self.rename_dialog.rename_input.text()
@@ -123,7 +119,8 @@ class Plugin(Extension):
                                                 with open('rad_sa_celim_dokumentom/spec_ceoDokument.json', 'w') as doc_ffile:
                                                     doc_json = json.dumps(document, sort_keys=True, indent=4)
                                                     doc_ffile.write(str(doc_json))
-
+                                                self.tree_view.kliknuto_update()  
                                                 # data[i][j].insert(data[i][j].index(z), y )
                                                 print(data)
                                                 break
+        
