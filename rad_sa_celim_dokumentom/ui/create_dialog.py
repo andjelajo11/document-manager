@@ -149,10 +149,10 @@ class CreateDialog(QtWidgets.QDialog):
                                         data_json = json.dumps(data, sort_keys=True, indent=4)
                                         data_ffile.write(str(data_json))
                                     #dodavanje u json sa listom dokumenata, stranica i slotova
-                                    with open('rad_sa_celim_dokumentom/spec_ceoDokument.json') as doc_file:
+                                    with open('radni_prostor/dokumenti.json') as doc_file:
                                         document = json.load(doc_file)
-                                        document[self.dokument_uneto]={}
-                                    with open('rad_sa_celim_dokumentom/spec_ceoDokument.json', 'w') as doc_ffile:
+                                        document[self.dokument_uneto]=[{"naziv": z, "thumbnail": "slikaPath"}]
+                                    with open('radni_prostor/dokumenti.json', 'w') as doc_ffile:
                                         doc_json = json.dumps(document, sort_keys=True, indent=4)
                                         doc_ffile.write(str(doc_json))
                                     

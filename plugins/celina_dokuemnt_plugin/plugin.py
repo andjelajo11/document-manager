@@ -84,10 +84,10 @@ class Plugin(Extension):
                                                     with open('radni_prostor/workspace.json', 'w' ) as data_ffile: 
                                                             data_json = json.dumps(data, sort_keys=True, indent=4)
                                                             data_ffile.write(str(data_json))
-                                                    with open('rad_sa_celim_dokumentom/spec_ceoDokument.json') as doc_file:
+                                                    with open('radni_prostor/dokumenti.json') as doc_file:
                                                         document = json.load(doc_file)
                                                         del document[text]
-                                                    with open('rad_sa_celim_dokumentom/spec_ceoDokument.json', 'w') as doc_ffile:
+                                                    with open('radni_prostor/dokumenti.json', 'w') as doc_ffile:
                                                         doc_json = json.dumps(document, sort_keys=True, indent=4)
                                                         doc_ffile.write(str(doc_json))
                                                     self.tree_view.kliknuto_update()  

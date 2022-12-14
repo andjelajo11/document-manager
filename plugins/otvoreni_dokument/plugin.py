@@ -38,11 +38,21 @@ class Plugin(Extension):
         print("Activated")
         self.activated = True
         
+        # for dock in self.iface.findChildren(QtWidgets.QDockWidget):
+        #     self.dockWidget = dock
+
         for dock in self.iface.findChildren(QtWidgets.QDockWidget):
             self.dockWidget = dock
+        self.kontejner = self.dockWidget.widget()
+        
+        # for dock1 in self.kontejner.findChildren(QtWidgets.QVBoxLayout):
+        #     self.layout = dock1
+        # self.layout.insertWidget(0, self.toolbar)
+        
+        for dock2 in self.kontejner.findChildren(QtWidgets.QTreeView):
+            self.treeView = dock2 
 
-
-        self.treeView = self.dockWidget.widget()
+        # self.treeView = self.dockWidget.widget()
         self.treeView.clicked.connect(self.onClicked)    
         self.iface.layout.addWidget(self.mainWidget)
         self.mainWidget.setLayout(self.mainLayout)
