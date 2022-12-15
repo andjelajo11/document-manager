@@ -127,41 +127,64 @@ class CreateDialog(QtWidgets.QDialog):
         self.workspace_uneto = self.workpsace_menu.currentText()
         self.kolekcija_uneto = self.kolekcija_menu.currentText()
         self.dokument_uneto = self._dokument_input.text()
+
+        with open("radni_prostor/workspace.json", "r") as f:
+            json_string = f.read()
+
+        # Parse the JSON string into a Python dictionary
+        my_dict = json.loads(json_string)
+
+        # Define the new document you want to add to the "kolekcija1" collection
+
+        # Check if the new document is already in the collection
+        if self.dokument_uneto in my_dict:
+            print("Document already exists in collection")
+        else:
+            # Use the update() method to add the new document to the collection
+            my_dict[self.workspace_uneto][self.kolekcija_uneto].append(self.dokument_uneto)
+
+            # Write the updated dictionary back to the JSON file
+            with open("radni_prostor/workspace.json", "w") as f:
+                json.dump(my_dict, f)
+
+
+
+
         
         #TODO: exeptione popraviti i greske
                #mozda prepraviti da se u do+ijalogu dobave sve kolekcije i dokumenti da se ne kuca ručno
         #nad kojim obj bi se pozivala posebna funkcja write json document
-        with open('radni_prostor/workspace.json' ) as data_file:  
-            data = json.load(data_file)
-            # print(self.workspace_uneto)                    
-        for i in data:
-                if i == self.workspace_uneto:
-                    i = self.workspace_uneto
-                    for j in data[i]:
-                        if j == self.kolekcija_uneto:
-                            j = self.kolekcija_uneto
-                            for z in data[i][j]:
-                                if self.dokument_uneto not in data[i][j]:
-                                    # z == self.dokument_uneto
-                                    z = self.dokument_uneto
-                                    data[i][j].append(z)
-                                    with open('radni_prostor/workspace.json', 'w' ) as data_ffile: 
-                                        data_json = json.dumps(data, sort_keys=True, indent=4)
-                                        data_ffile.write(str(data_json))
-                                    #dodavanje u json sa listom dokumenata, stranica i slotova
-                                    with open('radni_prostor/dokumenti.json') as doc_file:
-                                        document = json.load(doc_file)
-                                        document[self.dokument_uneto]=[{"naziv": z, "thumbnail": "slikaPath"}]
-                                    with open('radni_prostor/dokumenti.json', 'w') as doc_ffile:
-                                        doc_json = json.dumps(document, sort_keys=True, indent=4)
-                                        doc_ffile.write(str(doc_json))
+        # with open('radni_prostor/workspace.json' ) as data_file:  
+        #     data = json.load(data_file)
+        #     # print(self.workspace_uneto)                    
+        # for i in data:
+        #         if i == self.workspace_uneto:
+        #             i = self.workspace_uneto
+        #             for j in data[i]:
+        #                 if j == self.kolekcija_uneto:
+        #                     j = self.kolekcija_uneto
+        #                     for z in data[i][j]:
+        #                         if self.dokument_uneto not in data[i][j]:
+        #                             # z == self.dokument_uneto
+        #                             z = self.dokument_uneto
+        #                             data[i][j].append(z)
+        #                             with open('radni_prostor/workspace.json', 'w' ) as data_ffile: 
+        #                                 data_json = json.dumps(data, sort_keys=True, indent=4)
+        #                                 data_ffile.write(str(data_json))
+        #                             #dodavanje u json sa listom dokumenata, stranica i slotova
+        #                             with open('radni_prostor/dokumenti.json') as doc_file:
+        #                                 document = json.load(doc_file)
+        #                                 document[self.dokument_uneto]=[{"naziv": z, "thumbnail": "slikaPath"}]
+        #                             with open('radni_prostor/dokumenti.json', 'w') as doc_ffile:
+        #                                 doc_json = json.dumps(document, sort_keys=True, indent=4)
+        #                                 doc_ffile.write(str(doc_json))
                                     
-                                    # self.tree_view1.kliknuto_update()
-                                    return data
+        #                             # self.tree_view1.kliknuto_update()
+        #                             return data
                                         
-                            else : print("Naziv dokumenta nije validan")
-                break                   
-        print(data)                            
+        #                     else : print("Naziv dokumenta nije validan")
+        #         break                   
+        # print(data)                            
 
 
 

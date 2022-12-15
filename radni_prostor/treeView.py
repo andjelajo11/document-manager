@@ -23,6 +23,7 @@ class TreeView(QTreeView):
 
 
         def populate(self):
+                self.model.clear()
                 self.rootNode = self.model.invisibleRootItem()
                 self.setHeaderHidden(True)
                 with open('radni_prostor/workspace.json') as data_file:  
@@ -59,7 +60,7 @@ class TreeView(QTreeView):
                 for i in data:
                         workspace = StandardItem(i)
                         self.rootNode.appendRow(workspace)
-                        for v in data["workspace"]:
+                        for v in data[i]:
                                 kolekcija = StandardItem(v)
                                 workspace.appendRow(kolekcija)
                                 for x in data.values():
@@ -165,7 +166,6 @@ class TreeView(QTreeView):
                 self.populate()
                 
               
-
 
 
         
