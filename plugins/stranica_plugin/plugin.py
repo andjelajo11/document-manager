@@ -57,7 +57,10 @@ class Plugin(Extension):
         
         for dock in self.iface.findChildren(QtWidgets.QDockWidget):
             self.dockWidget = dock
-        self.treeView1 = self.dockWidget.widget()
+        self.widget = self.dockWidget.widget()
+        print(type(self.widget))
+        self.treeView1 = self.widget.layout().itemAt(1).widget()
+        print(type(self.treeView1))
         
         
         
@@ -104,6 +107,8 @@ class Plugin(Extension):
                 # self.layoutH1 = QHBoxLayout()
                 
                 self.grid = QGridLayout()
+
+
                 
                 self.page = self.tabWidget.currentWidget()
                 
@@ -118,7 +123,7 @@ class Plugin(Extension):
                 self.column = self.grid.columnCount() - 1
 
                 self.label = QLabel()
-                self.label.setText("ovo je gore" + str(self.tester))        
+                self.label.setText("Slot" + str(self.tester))        
                 self.label.setFrameStyle(QFrame.StyledPanel | QFrame.Plain)
                 self.label.setLineWidth(1)
                 self.label.setFocusPolicy(Qt.StrongFocus)
@@ -144,6 +149,7 @@ class Plugin(Extension):
 
 
     def addLabel(self):
+        self.tester += 1
         currentTabIndex = self.tabWidget.currentIndex()
         self.activeWidget = self.tabWidget.widget(currentTabIndex)
         
@@ -152,12 +158,14 @@ class Plugin(Extension):
         
 
         self.label = QLabel()
-        self.label.setText("Slot")        
+        self.label.setText("Slot" + str(self.tester))        
         self.label.setFrameStyle(QFrame.StyledPanel | QFrame.Plain)
         self.label.setLineWidth(1)
+        
 
         if self.activeWidget.layout().itemAtPosition(self.row, self.column) is None:
             self.activeWidget.layout().addWidget(self.label, self.row, self.column)
+
 
         self.label.setFocusPolicy(Qt.StrongFocus)    
 

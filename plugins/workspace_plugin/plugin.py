@@ -1,10 +1,11 @@
 from plugin_framework.extension import Extension
+
+
 from radni_prostor.dock_widget import DockWidget
 from radni_prostor.treeView import TreeView
 from plugins.stranica_plugin import plugin
 from PySide2 import QtCore
 from PySide2 import QtWidgets, QtCore
-from rad_sa_celim_dokumentom.ui.tool_bar import ToolBar
 import json
 
 
@@ -23,6 +24,9 @@ class Plugin(Extension):
         # self._layout = QtWidgets.QHBoxLayout(self.kontejner)
         self._layout = QtWidgets.QVBoxLayout()
 
+
+        
+
         
 
         
@@ -30,6 +34,7 @@ class Plugin(Extension):
 
     # FIXME: implementacija apstraktnih metoda
     def activate(self):
+        
         self.treeView = TreeView()
         self.dock_widget = DockWidget("Workspace", self.iface)
         self.iface.addDockWidget(QtCore.Qt.LeftDockWidgetArea, self.dock_widget)
@@ -37,6 +42,7 @@ class Plugin(Extension):
         self.kontejner.setLayout(self._layout)
         # self._layout.addWidget(self.button_update)
         self._layout.addWidget(self.treeView)
+        self.treeView.populate()
         
         # self.button_update.clicked.connect(self.treeView.kliknuto_update)
 
@@ -50,8 +56,6 @@ class Plugin(Extension):
         self.activated = False
         print("Deactivated")
     
-    def update_radni_prostor(self):
-        self.dock_widget
     
     def remove_document (self):
                 for i in self.treeView.selectedIndexes():
@@ -70,3 +74,4 @@ class Plugin(Extension):
                                                             data_json = json.dumps(data, sort_keys=True, indent=4)
                                                             data_ffile.write(str(data_json))
 
+    
