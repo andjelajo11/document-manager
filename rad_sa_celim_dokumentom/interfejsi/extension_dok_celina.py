@@ -22,7 +22,7 @@ class ExtensionDokument(InterfejsDokument, ABC):
                         return z
     
     
-    def write_document(data, workspace, kolekcija, naziv_dokumenta):
+    def write_document(workspace, kolekcija, naziv_dokumenta):
         with open('workspace.json') as data_file:  
             data = json.load(data_file)
         for i in data:
@@ -38,10 +38,7 @@ class ExtensionDokument(InterfejsDokument, ABC):
             #         elif j != kolekcija: print("Ne postoji trazena kolekcija za uneti workspaca ")
             # elif i !=  workspace: print("Ne postoji trazeni workspace")
 
-    
-    # def update_workspace():
         
         
-            
         
 

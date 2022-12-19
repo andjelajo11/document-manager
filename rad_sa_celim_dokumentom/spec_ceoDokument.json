@@ -1,17 +1,8 @@
 {
-    "dokuement22": {},
-    "dokument0000": {},
-    "dokument1": {},
-    "dokument111": {},
-    "dokument33333": {},
-    "dokument4": {
-        "thumbnail": "path"
-    },
-    "dokument5": {},
-    "dokument56544": {},
-    "dokument61111": {},
-    "dokument656533": {},
-    "dokument6777": {},
-    "dokument8": {},
-    "dokumentTest": {}
+    "naziv": "dokument1",
+    "path": "putanja",
+    "workspace":[{
+        "kolekcija" : 
+            []
+}]
 }

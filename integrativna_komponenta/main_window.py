@@ -12,6 +12,7 @@ from PySide2 import QtWidgets, QtCore
 from rad_sa_celim_dokumentom.ui.tool_bar import ToolBar
 
 
+
 class MainWindow(QtWidgets.QMainWindow):
     layout = Layout()
     def __init__(self, config, parent=None, user=None):
@@ -96,6 +97,10 @@ class MainWindow(QtWidgets.QMainWindow):
         
     def remove_tabovi(self,index):
         self.central_widget.delete_tab(index)
+        
+    # def remowe_ToolBar(self):
+        
+        
 
 
     
