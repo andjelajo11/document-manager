@@ -2,20 +2,22 @@ from abc import ABC, abstractmethod
  
 
 class InterfejsDokument(ABC):
+    # pass
     
     @abstractmethod
-    def get_document(self): 
-        pass
-        
-    @abstractmethod
-    def updateWorkpsace(self): 
-        pass
-        
-    @abstractmethod
-    def group_documents(self): 
+    def get_document(self): #gde realizovati implementaciju ove metode u kojoj klasi
         pass
     
     @abstractmethod
-    def open_document(self): 
+    def create_document(self): #gde realizovati implementaciju ove metode u kojoj klasi
         pass
 
+    @abstractmethod
+    def removeDocument(self): #gde realizovati implementaciju ove metode u kojoj klasi
+        pass
+    
+    @abstractmethod
+    def updateWorkpsace(self): #gde realizovati implementaciju ove metode u kojoj klasi
+        pass
+        
+    

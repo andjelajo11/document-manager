@@ -15,13 +15,8 @@ class Plugin(Extension):
         """
         super().__init__(specification, iface)
         self.mainLayoutV = QVBoxLayout() #gore i dole na main widgetu
-        self.layoutH = QHBoxLayout() #levo i desno
-        self.layoutH1 = QHBoxLayout()
-        self.tabWidget = QtWidgets.QTabWidget()
-        self.tabWidget.setTabsClosable(True)
-        self.tabWidget.tabCloseRequested.connect(self.delete_tab)
         self.mainWidget = QtWidgets.QWidget()
-        self. innerWidgetList = []
+
         toolbar = QToolBar()   
         left = QAction(QIcon("resources/icons/arrow-left.png"),"left",self.mainLayoutV)
         right = QAction(QIcon("resources/icons/arrow-right.png"),"right",self.mainLayoutV)
@@ -31,7 +26,6 @@ class Plugin(Extension):
         
         self.mainWidget.setLayout(self.mainLayoutV)
         self.mainLayoutV.addWidget(toolbar)
-        self.mainLayoutV.addWidget(self.tabWidget)
 
         self.dockWidget = QtWidgets.QDockWidget
         
@@ -55,12 +49,10 @@ class Plugin(Extension):
         self.activated = True
         
         
+        
         for dock in self.iface.findChildren(QtWidgets.QDockWidget):
             self.dockWidget = dock
-        self.widget = self.dockWidget.widget()
-        print(type(self.widget))
-        self.treeView1 = self.widget.layout().itemAt(1).widget()
-        print(type(self.treeView1))
+        self.treeView1 = self.dockWidget.widget()
         
         
         
@@ -96,21 +88,10 @@ class Plugin(Extension):
 
         for ix in self.treeView.selectedIndexes():
             text = ix.data()  
-            if "hyperlink" in text:
+            if "stranica" in text:
                 self.iface.layout.addWidget(self.mainWidget)
-
-                with open('radni_prostor/dokumenti.json') as data_file:  
-                    data = json.load(data_file) 
-                data_file.close()   
-
-                
-                # self.layoutH1 = QHBoxLayout()
                 
                 self.grid = QGridLayout()
-
-
-                
-                self.page = self.tabWidget.currentWidget()
                 
                 self.page = QtWidgets.QWidget()
                 
@@ -132,7 +113,7 @@ class Plugin(Extension):
 
                 
                 print(text)          
-                self.tabWidget.addTab(self.page,"" + text)
+                self.mainLayoutV.addWidget(self.page)
                 self.grid.addWidget(self.label, 0, 0)
 
 
@@ -149,23 +130,13 @@ class Plugin(Extension):
 
 
     def addLabel(self):
-        self.tester += 1
-        currentTabIndex = self.tabWidget.currentIndex()
-        self.activeWidget = self.tabWidget.widget(currentTabIndex)
-        
-        
-        
-        
-
         self.label = QLabel()
-        self.label.setText("Slot" + str(self.tester))        
+        self.label.setText("Slot")        
         self.label.setFrameStyle(QFrame.StyledPanel | QFrame.Plain)
         self.label.setLineWidth(1)
-        
 
-        if self.activeWidget.layout().itemAtPosition(self.row, self.column) is None:
-            self.activeWidget.layout().addWidget(self.label, self.row, self.column)
-
+        if self.page.layout().itemAtPosition(self.row, self.column) is None:
+            self.page.layout().addWidget(self.label, self.row, self.column)
 
         self.label.setFocusPolicy(Qt.StrongFocus)    
 
@@ -200,11 +171,9 @@ class Plugin(Extension):
     
 
     def delete(self):
-        currentTabIndex = self.tabWidget.currentIndex()
-        self.activeWidget = self.tabWidget.widget(currentTabIndex)
         focused_widget = QApplication.focusWidget()
         if focused_widget is not None:
-            self.activeWidget.layout().removeWidget(focused_widget)
+            self.page.layout().removeWidget(focused_widget)
             focused_widget.deleteLater()
             
 

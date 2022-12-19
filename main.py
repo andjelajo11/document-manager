@@ -1,10 +1,23 @@
-import sys, json
+import sys, json, atexit
 from PySide2 import QtWidgets
 from plugin_framework.plugin_registry import PluginRegistry
 from integrativna_komponenta.main_window import MainWindow
 from administracija.ui.login_dialog import LoginDialog
 from administracija.controller.login_controller import LoginController
 
+
+
+def reset_json_values():
+    # Load the JSON file
+    with open("plugin_framework/plugins.json", "r") as f:
+        data = json.load(f)
+
+    # Reset the values in the JSON data
+    data = {"workspace_plugin": False, "celina_dokument": False, "otvoreni_dokument": False, "stranica_plugin": False}
+
+    # Write the data back to the JSON file
+    with open("plugin_framework/plugins.json", "w") as f:
+        json.dump(data, f, indent=4)
 
 def _load_configuration(path="configuration.json"):
     with open(path, "r", encoding="utf-8") as fp:
@@ -47,4 +60,10 @@ if __name__ == "__main__":
         main_window.add_plugin_registry(plugin_registry)
 
         main_window.show()
+    atexit.register(reset_json_values)
     sys.exit(application.exec_())
+
+
+
+
+
