@@ -2,21 +2,23 @@
     "dokument1": [
         {
             "naziv": "dokument1",
-            "thumbnail": "slikaPath",
+            "thumbnail": [
+                {
+                    "stranica1" : "putanjaDoSlike", 
+                    "stranica2" : "putanjaDoSlike"
+                    }
+                ],
             "stranica1": [
                 {
-                    "element1.1": "putanjaDofajla",
-                    "element1.2": "putanja"
+                    "slot1.1" : "putanja",
+                    "slot1.2": "putanja"
                 }
             ],
             "stranica2": [
                 {
-                    "element2.1": "putanjaDofajla",
-                    "element2.2": "putanja"
+                    "slot2.1": "putanja",
+                    "slot2.2": "putanja"
                 }
-            ],
-            "stranica3": [
-                {}
             ]
         }
     ],
@@ -24,7 +26,7 @@
         {
             "naziv": "dokument2",
             "thumbnail": "slikaPath",
-            "hyperlink1": [
+            "stranica1": [
                 {}
             ]
         }
