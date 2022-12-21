@@ -34,11 +34,9 @@ class TreeView(QTreeView):
                     stranice = StandardItem(y)  
                     naziv.appendRow(stranice)          
                     for x in i.values():
-                        # print(x)
                         for z in x:
-                            # print(z)
                             for j in z:
-                                if "element" + str(counter) in j:
+                                if "slot" + str(counter) in j:
                                     element = StandardItem(j)
                                     stranice.appendRow(element)
                     counter +=1  
@@ -50,7 +48,7 @@ class TreeView(QTreeView):
                         for z in x:
                             # print(z)
                             for j in z:
-                                if "element" + str(counter + 1) in j:
+                                if "slot" + str(counter + 1) in j:
                                     element = StandardItem(j)
                                     stranice.appendRow(element)
                     counter +=1 
