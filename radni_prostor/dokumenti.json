@@ -2,10 +2,14 @@
     "dokument1": [
         {
             "naziv": "dokument1",
-            "thumbnail": [
+            "thumbnails": [
                 {
-                    "stranica1" : "putanjaDoSlike", 
-                    "stranica2" : "putanjaDoSlike"
+                    "stranica1" : "resources/icons/plaza.jpg", 
+                    "stranica2" : "resources/icons/plaza.jpg", 
+                    "stranica3" : "resources/icons/plaza.jpg", 
+                    "stranica4" : "resources/icons/plaza.jpg", 
+                    "stranica5" : "resources/icons/plaza.jpg", 
+                    "stranica6" : "resources/icons/plaza.jpg"
                     }
                 ],
             "stranica1": [
@@ -25,7 +29,11 @@
     "dokument2": [
         {
             "naziv": "dokument2",
-            "thumbnail": "slikaPath",
+            "thumbnails": [
+                {
+                    "stranica1" : "resources/icons/plaza.jpg"
+                    }
+                ],
             "stranica1": [
                 {}
             ]
