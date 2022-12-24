@@ -1,6 +1,7 @@
 from plugin_framework.extension import Extension
 from PySide2.QtWidgets import QVBoxLayout, QHBoxLayout, QGridLayout
 from plugins.otvoreni_dokument.treeWidget import TreeView
+from plugins.otvoreni_dokument.thumbnail_widget import ThumbnailWidget
 
 import json
 
@@ -16,12 +17,11 @@ class Plugin(Extension):
         super().__init__(specification, iface)
         self.mainLayout = QVBoxLayout() #gore i dole na main widgetu
          #levo i desno
-        self.layoutH1 = QHBoxLayout()
+      
         self.tabWidget = QtWidgets.QTabWidget()
         self.tabWidget.setTabsClosable(True)
         self.tabWidget.tabCloseRequested.connect(self.delete_tab)
-        self.innerTabWidget = QtWidgets.QTabWidget()
-        self.innerTabWidget.setTabsClosable(False)
+        
 
         self.mainWidget = QtWidgets.QWidget()
 
@@ -82,8 +82,11 @@ class Plugin(Extension):
             if self.tabWidget.tabText(i) == self.treeView.selectedIndexes()[0].data():
                 existing_page = self.tabWidget.widget(i)
                 break
+            
 
         if existing_page == None:
+            self.innerTabWidget = QtWidgets.QTabWidget()
+            self.innerTabWidget.setTabsClosable(False)
             self.treeWidget = TreeView()
             
             with open('radni_prostor/dokumenti.json') as data_file:  
@@ -92,12 +95,13 @@ class Plugin(Extension):
 
             self.page = self.innerTabWidget.currentWidget()
             self.layoutG = QGridLayout()
+            self.layoutH1 = QHBoxLayout()
 
             self.page = QtWidgets.QWidget()
-            
+            self.newWidget = self.tabWidget.currentWidget()
             self.mainLayout.addWidget(self.tabWidget)
             self.newWidget = QtWidgets.QWidget()
-            self.label = QtWidgets.QLabel()
+            self.thumbnail = ThumbnailWidget()
 
             self.newWidget.setLayout(self.layoutH1)
             self.layoutH1.addWidget(self.innerTabWidget)
@@ -114,8 +118,9 @@ class Plugin(Extension):
                             
                             self.tabWidget.addTab(self.newWidget,"" + text)
                             self.tabWidget.setCurrentWidget(self.newWidget)
-                            self.innerTabWidget.addTab(self.label, "Thumbnail")
+                            self.innerTabWidget.addTab(self.thumbnail, "Thumbnail")
                             self.innerTabWidget.addTab(self.page, "Bookmark")
+                            self.innerTabWidget.setCurrentWidget(self.page)
                             self.layoutG.addWidget(self.treeWidget,0,0)
                             self.treeWidget.populate(text)
 
