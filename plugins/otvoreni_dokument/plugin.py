@@ -101,7 +101,7 @@ class Plugin(Extension):
             self.newWidget = self.tabWidget.currentWidget()
             self.mainLayout.addWidget(self.tabWidget)
             self.newWidget = QtWidgets.QWidget()
-            self.thumbnail = ThumbnailWidget()
+            
 
             self.newWidget.setLayout(self.layoutH1)
             self.layoutH1.addWidget(self.innerTabWidget)
@@ -115,6 +115,7 @@ class Plugin(Extension):
                 if "dokument" in text:
                     for i in data:
                         if text == i:
+                            self.thumbnail = ThumbnailWidget(text)
                             
                             self.tabWidget.addTab(self.newWidget,"" + text)
                             self.tabWidget.setCurrentWidget(self.newWidget)
