@@ -53,7 +53,8 @@ class Plugin(Extension):
         for dock in self.iface.findChildren(QtWidgets.QDockWidget):
             self.dockWidget = dock
 
-        self.treeView = self.dockWidget.widget()
+        self.kontejner = self.dockWidget.widget()
+        self.treeView = self.kontejner.layout().itemAt(1).widget()
         self.treeView.clicked.connect(self.onClicked)    
         self.iface.layout.addWidget(self.mainWidget)
         self.mainWidget.setLayout(self.mainLayout)
