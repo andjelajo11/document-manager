@@ -69,8 +69,8 @@ class Plugin(Extension):
 
 
     def remove_document (self):
-                for i in self.tree_view.selectedIndexes():
-                    text = i.data()
+                for y in self.tree_view.selectedIndexes():
+                    text = y.data()
                     # print(text)
                     # return text
                     with open('radni_prostor/workspace.json' ) as data_file:  
@@ -84,10 +84,10 @@ class Plugin(Extension):
                                                     with open('radni_prostor/workspace.json', 'w' ) as data_ffile: 
                                                             data_json = json.dumps(data, sort_keys=True, indent=4)
                                                             data_ffile.write(str(data_json))
-                                                    with open('rad_sa_celim_dokumentom/spec_ceoDokument.json') as doc_file:
+                                                    with open('radni_prostor/dokumenti.json') as doc_file:
                                                         document = json.load(doc_file)
                                                         del document[text]
-                                                    with open('rad_sa_celim_dokumentom/spec_ceoDokument.json', 'w') as doc_ffile:
+                                                    with open('radni_prostor/dokumenti.json', 'w') as doc_ffile:
                                                         doc_json = json.dumps(document, sort_keys=True, indent=4)
                                                         doc_ffile.write(str(doc_json))
                                                     self.tree_view.kliknuto_update()  
@@ -97,8 +97,8 @@ class Plugin(Extension):
 
     def rename_dugme_kliknuto (self):
                 self.rename_uneto = self.rename_dialog.rename_input.text()
-                for i in self.tree_view.selectedIndexes():
-                    text = i.data()
+                for w in self.tree_view.selectedIndexes():
+                    text = w.data()
                     with open('radni_prostor/workspace.json' ) as data_file:  
                             data = json.load(data_file)
                     for i in data:
@@ -111,12 +111,14 @@ class Plugin(Extension):
                                                 with open('radni_prostor/workspace.json', 'w' ) as data_ffile: 
                                                     data_json = json.dumps(data, sort_keys=True, indent=4)
                                                     data_ffile.write(str(data_json))
-                                                with open('rad_sa_celim_dokumentom/spec_ceoDokument.json') as doc_file:
+                                                with open('radni_prostor/dokumenti.json') as doc_file:
                                                     document = json.load(doc_file)
                                                     document[self.rename_uneto] = document.pop(text)
-                                                with open('rad_sa_celim_dokumentom/spec_ceoDokument.json', 'w') as doc_ffile:
-                                                    doc_json = json.dumps(document, sort_keys=True, indent=4)
-                                                    doc_ffile.write(str(doc_json))
+                                                    for i in document[self.rename_uneto]:
+                                                        document[self.rename_uneto][0]["naziv"] = self.rename_uneto
+                                                    with open('radni_prostor/dokumenti.json', 'w') as doc_ffile:
+                                                        doc_json = json.dumps(document, sort_keys=True, indent=4)
+                                                        doc_ffile.write(str(doc_json))
                                                 self.tree_view.kliknuto_update()  
                                                 # data[i][j].insert(data[i][j].index(z), y )
                                                 break

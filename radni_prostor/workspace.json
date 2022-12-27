@@ -1,24 +1,45 @@
 {
-    "workspace": {
+    "workspace1": {
         "kolekcija1": [
-            "dokument1",
-            "dokuement22",
-            "dokument111",
-            "dokument0000",
-            "dokumentTest"
+            "dokument0"
         ],
         "kolekcija2": [
-            "dokument4",
-            "dokument56544",
-            "dokument6777",
-            "dokument61111"
+            "dokumentZadnji",
+            "dokument4"
         ],
         "kolekcija3": [
-            "dokument5"
+            "dokument5",
+            "dokument6"
         ],
         "kolekcija4": [
-            "dokument7",
-            "dokument656533"
+            "dokument77",
+            "dokument8"
+        ]
+    },
+    "workspace2": {
+        "kolekcija1": [
+            "dokument1",
+            "dokument2"
+        ],
+        "kolekcija2": [
+            "dokument3",
+            "dokument4"
+        ],
+        "kolekcija3": [
+            "dokument5",
+            "dokument6"
+        ],
+        "kolekcija4": [
+            "dokument77",
+            "dokument8"
+        ],
+        "kolekcija5": [
+            "dokument8886"
+        ]
+    },
+    "workspace3": {
+        "kolekcija1": [
+            "dokumentTest2"
         ]
     }
 }

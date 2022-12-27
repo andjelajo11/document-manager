@@ -1,5 +1,5 @@
-from PySide2.QtWidgets import QVBoxLayout
+from PySide2.QtWidgets import QHBoxLayout
 
-class Layout(QVBoxLayout):
+class Layout(QHBoxLayout):
     def __init__(self):
         super().__init__()

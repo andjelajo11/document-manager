@@ -73,7 +73,6 @@ class TreeView(QTreeView):
                 menu = QMenu()
                 menu.addAction(self.delete)
                 menu.addAction(self.newPage)
-                menu.addAction(self.newMono)
                 
                                 
                 menu.triggered[QAction].connect(self.on_menu_triggered)
@@ -91,8 +90,6 @@ class TreeView(QTreeView):
             print("test")
         elif action == self.newPage:
             self.dodajStranicu()
-        elif action == self.newMono:
-            self.dodajMono()
 
     
     def obrisi(self):
@@ -142,35 +139,6 @@ class TreeView(QTreeView):
         with open("radni_prostor/dokumenti.json", "w") as json_file:
             json.dump(json_object, json_file)
         
-        self.model.clear()
-
-        self.populate(self.dokument)
-
-
-
-
-
-
-
-    def dodajMono(self):
-        
-        hiperlink = self.text
-        with open("radni_prostor/dokumenti.json", "r") as json_file:
-            json_object = json.load(json_file)
-
-        lista = []
-        for x in json_object[self.dokument][0][hiperlink][0]:
-            if "hyperlink" in x:
-                lista.append(x)
-
-
-        print(lista)
-        json_object[self.dokument][0][hiperlink][0].update({hiperlink + "." + str(len(lista) + 1) : "putanja"})
-
-
-        with open("radni_prostor/dokumenti.json", "w") as json_file:
-            json.dump(json_object, json_file)
-
         self.model.clear()
 
         self.populate(self.dokument)
