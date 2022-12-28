@@ -21,7 +21,7 @@ class TreeView(QTreeView):
                 self.deleteCollection = QAction("Obrisi Kolekciju", self)
                 self.installEventFilter(self)
 
-                self.clicked.connect(self.onClicked)
+                self.doubleClicked.connect(self.onClicked)
 
 
         def onClicked(self):

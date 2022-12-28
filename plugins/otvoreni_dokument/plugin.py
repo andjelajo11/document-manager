@@ -79,10 +79,46 @@ class Plugin(Extension):
 
 
     def delete_tab(self,index):
+        #zatvaranje taba brise naziv dokumenta iz json fajla -> dokument je zatvoren
+        with open('rad_sa_celim_dokumentom/otvoreniDokumenti.json') as data_file: 
+            data = json.load(data_file)
+        tab_text = self.tabWidget.tabText(index)
+        if tab_text in data:
+            print("1")
+            data.remove(tab_text)
+            print("2")
+            print(data)
+            print("3")
+            with open('rad_sa_celim_dokumentom/otvoreniDokumenti.json', 'w') as data_ffile: 
+                    print("4")
+                    data_json = json.dumps(data, sort_keys=True, indent=4)
+                    print("5")
+                    data_ffile.write(str(data_json))
+                    print("6")
         self.tabWidget.removeTab(index)
 
         
+        
     def onClicked(self):
+        #upisivanje dokumenta u json file kada je kliknut da se otvori -> dokument je otvoren
+        for y in self.treeView.selectedIndexes():
+                text = y.data()
+        with open('rad_sa_celim_dokumentom/otvoreniDokumenti.json') as data_ffile: 
+            data_list = json.load(data_ffile)
+        #provera da li je dokument vec upisan u json 
+        if text in data_list:
+            print("dokument je vec upisan")
+        else:
+            data_list.append(text) 
+            # for i in data_list:
+            #     for j in data_list[i]:
+            #         data_list[i].append(text) 
+            #         print(data_list)
+            #         break
+            with open('rad_sa_celim_dokumentom/otvoreniDokumenti.json', 'w') as doc_file: 
+                data_json = json.dumps(data_list, sort_keys=True, indent=4)
+                doc_file.write(str(data_json))
+            
         existing_page = None
         for i in range(self.tabWidget.count()):
             if self.tabWidget.tabText(i) == self.treeView.selectedIndexes()[0].data():

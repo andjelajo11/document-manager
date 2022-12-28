@@ -69,31 +69,45 @@ class Plugin(Extension):
 
 
     def remove_document (self):
-                for y in self.tree_view.selectedIndexes():
+        with open('rad_sa_celim_dokumentom/otvoreniDokumenti.json') as data_file: 
+            data_check = json.load(data_file)               
+        for y in self.tree_view.selectedIndexes():
                     text = y.data()
+                    if text in data_check:
+                    #TODO: napraviti dijalog za ovu poruku
+                        print("Prvo zatvorite dokument") 
+                    else:
                     # print(text)
                     # return text
-                    with open('radni_prostor/workspace.json' ) as data_file:  
-                            data = json.load(data_file)
-                    for i in data:
-                            for j in data[i]:
-                                    for z in data[i][j]:
-                                            if z == text:
-                                                    z = text
-                                                    data[i][j].remove(z)
-                                                    with open('radni_prostor/workspace.json', 'w' ) as data_ffile: 
-                                                            data_json = json.dumps(data, sort_keys=True, indent=4)
-                                                            data_ffile.write(str(data_json))
-                                                    with open('radni_prostor/dokumenti.json') as doc_file:
-                                                        document = json.load(doc_file)
-                                                        del document[text]
-                                                    with open('radni_prostor/dokumenti.json', 'w') as doc_ffile:
-                                                        doc_json = json.dumps(document, sort_keys=True, indent=4)
-                                                        doc_ffile.write(str(doc_json))
-                                                    self.tree_view.kliknuto_update()  
+                        with open('radni_prostor/workspace.json' ) as data_file:  
+                                data = json.load(data_file)
+                        for i in data:
+                                for j in data[i]:
+                                        for z in data[i][j]:
+                                                if z == text:
+                                                        z = text
+                                                        data[i][j].remove(z)
+                                                        with open('radni_prostor/workspace.json', 'w' ) as data_ffile: 
+                                                                data_json = json.dumps(data, sort_keys=True, indent=4)
+                                                                data_ffile.write(str(data_json))
+                                                        with open('radni_prostor/dokumenti.json') as doc_file:
+                                                            document = json.load(doc_file)
+                                                            del document[text]
+                                                        with open('radni_prostor/dokumenti.json', 'w') as doc_ffile:
+                                                            doc_json = json.dumps(document, sort_keys=True, indent=4)
+                                                            doc_ffile.write(str(doc_json))
+                                                        self.tree_view.kliknuto_update()  
     
     def rename_document (self):
-                self.rename_dialog.show()
+        with open('rad_sa_celim_dokumentom/otvoreniDokumenti.json') as data_file: 
+            data_check = json.load(data_file) 
+        for y in self.tree_view.selectedIndexes():
+                    text = y.data()
+                    if text in data_check:
+                    #TODO: napraviti dijalog za ovu poruku
+                        print("Prvo zatvorite dokument") 
+                    else:
+                        self.rename_dialog.show()
 
     def rename_dugme_kliknuto (self):
                 self.rename_uneto = self.rename_dialog.rename_input.text()
