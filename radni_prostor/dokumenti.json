@@ -1,72 +1,54 @@
 {
-    "dokument&%$#\"\"": [
-        {
-            "naziv": "dokument&%$#\"\"",
-            "thumbnail": "slikaPath"
-        }
-    ],
     "dokument1": [
         {
-            "hyperlink1": [
-                {
-                    "hyperlink1.2": "putanja",
-                    "hyperlink1.3": "putanja"
-                }
-            ],
-            "hyperlink2": [
-                {
-                    "hyperlink2.1": "putanjaDofajla",
-                    "hyperlink2.2": "putanja"
-                }
-            ],
-            "hyperlink3": [
-                {
-                    "hyperlink3.1": "putanja",
-                    "hyperlink3.2": "putanja"
-                }
-            ],
-            "hyperlink4": [
-                {}
-            ],
-            "hyperlink5": [
-                {}
-            ],
-            "hyperlink6": [
-                {}
-            ],
-            "hyperlink7": [
-                {}
-            ],
             "naziv": "dokument1",
-            "thumbnail": "slikaPath"
+            "stranica1": [
+                {
+                    "slot1.1": "putanja",
+                    "slot1.2": "putanja"
+                }
+            ],
+            "stranica2": [
+                {
+                    "slot2.1": "putanja",
+                    "slot2.2": "putanja"
+                }
+            ],
+            "stranica3": [
+                {}
+            ],
+            "stranica4": [
+                {}
+            ],
+            "thumbnails": [
+                {
+                    "stranica1": "resources/icons/plaza.jpg",
+                    "stranica2": "resources/icons/plaza.jpg"
+                }
+            ]
         }
     ],
     "dokument2": [
         {
-            "hyperlink1": [
-                {
-                    "hyperlink1.1": "putanja",
-                    "hyperlink1.2": "putanja",
-                    "hyperlink1.3": "putanja"
-                }
-            ],
-            "hyperlink2": [
-                {
-                    "hyperlink2.1": "putanja"
-                }
-            ],
             "naziv": "dokument2",
+            "stranica1": [
+                {}
+            ],
+            "thumbnails": [
+                {
+                    "stranica1": "resources/icons/plaza.jpg"
+                }
+            ]
+        }
+    ],
+    "dokument3": [
+        {
+            "naziv": "dokument3",
             "thumbnail": "slikaPath"
         }
     ],
     "dokument4": [
         {
-            "hyperlink1": [
-                {
-                    "hyperlink1.1": "putanja",
-                    "hyperlink1.2": "putanja"
-                }
-            ],
             "naziv": "dokument4",
             "thumbnail": "slikaPath"
         }
@@ -83,15 +65,6 @@
             "thumbnail": "slikaPath"
         }
     ],
-    "dokument66666666": [
-        {
-            "naziv": "dokument66666666",
-            "thumbnail": "slikaPath"
-        }
-    ],
-    "dokument6767": [
-        {}
-    ],
     "dokument7": [
         {
             "naziv": "dokument7",
@@ -104,23 +77,12 @@
             "thumbnail": "slikaPath"
         }
     ],
-    "dokument888888": {},
-    "dokumentGGGG": [
+    "dokument9": [
         {
-            "naziv": "dokumentGGGG",
-            "thumbnail": "slikaPath"
-        }
-    ],
-    "dokumentProba": [
-        {
-            "naziv": "dokumentProba",
-            "thumbnail": "slikaPath"
-        }
-    ],
-    "dokumentTest2": [
-        {
-            "naziv": "dokumentTest2",
-            "thumbnail": "slikaPath"
+            "naziv": "dokument9",
+            "thumbnails": [
+                {}
+            ]
         }
     ]
 }

@@ -1,4 +1,4 @@
-from PySide2.QtWidgets import QTreeView, QMenu, QAction
+from PySide2.QtWidgets import QTreeView, QMenu, QAction, QMessageBox
 from PySide2.QtCore import QEvent
 from PySide2.QtGui import QStandardItemModel
 from integrativna_komponenta.ui.standard_item import StandardItem
@@ -20,6 +20,23 @@ class TreeView(QTreeView):
                 self.deleteWorksace = QAction("Obrisi Workspace", self)
                 self.deleteCollection = QAction("Obrisi Kolekciju", self)
                 self.installEventFilter(self)
+
+                self.doubleClicked.connect(self.onClicked)
+
+
+        def onClicked(self):
+                with open("plugin_framework/plugins.json", "r") as json_file:
+                        plugins = json.load(json_file)
+
+                
+                for ix in self.selectedIndexes():
+                        text = ix.data()
+                if "dokument" in text:
+                        if plugins["otvoreni_dokument"] == False:
+                                message_box = QMessageBox()
+                                message_box.setWindowTitle("Notification")
+                                message_box.setText("Nije aktivirana komponenta za rad sa otvorenim dokumentima.")
+                                message_box.exec_()
 
 
         def populate(self):
@@ -69,24 +86,6 @@ class TreeView(QTreeView):
                                         dokument = StandardItem(document)
                                         kolekcija.appendRow(dokument)
 
-                # self.rootNode = self.model.invisibleRootItem()
-                # self.setHeaderHidden(True)
-                # with open('radni_prostor/workspace.json') as data_file:  
-                #         data = json.load(data_file)
-                # data_file.close()
-                # count = 1
-                # for i in data:
-                #         workspace = StandardItem(i)
-                #         self.rootNode.appendRow(workspace)
-                #         for v in data[i]:
-                #                 kolekcija = StandardItem(v)
-                #                 workspace.appendRow(kolekcija)
-                #                 for x in data.values():
-                #                         if "kolekcija" + str(count) in x:
-                #                                 for y in x["kolekcija" + str(count)]:
-                #                                         dokument = StandardItem(y)
-                #                                         kolekcija.appendRow(dokument)
-                #                         count +=1
 
                 self.setModel(self.model)    
         
