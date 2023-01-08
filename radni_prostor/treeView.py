@@ -176,25 +176,24 @@ class TreeView(QTreeView):
                 for i in self.selectedIndexes():
                         parent = i.parent()
                 
-
-                with open('workspaces/'+ parent.data() + '.json') as data_file:  
+                parent = parent.data()
+                with open('workspaces/'+ parent + '.json') as data_file:  
                         data = json.load(data_file)
                 data_file.close()
 
-                # Get the number of collections in the workspace
-                num_collections = len(data[text])
+                num_collections = len(data[parent])
+                print(len(data[parent]))
 
-                # Create a new collection name by appending the number of collections to "kolekcija"
                 new_collection_name = "kolekcija" + str(num_collections + 1)
 
                 # Add the new collection to the workspace in the JSON data
-                data[text][new_collection_name] = []
+                data[parent][new_collection_name] = []
 
                 # Save the updated JSON data to the file
-                with open('workspaces/'+ parent.data() + '.json', 'w') as data_file:  
+                with open('workspaces/'+ parent + '.json', 'w') as data_file:  
                         json.dump(data, data_file, indent=4)
                 data_file.close()
                 self.model.clear()
 
-                self.populate()
+                self.populate(parent)
         
