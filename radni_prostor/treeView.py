@@ -15,9 +15,7 @@ class TreeView(QTreeView):
 
 
 
-                self.newWorkspace = QAction("Novi Workspace", self)
                 self.newCollection = QAction("Nova Kolekcija", self)
-                self.deleteWorksace = QAction("Obrisi Workspace", self)
                 self.deleteCollection = QAction("Obrisi Kolekciju", self)
                 self.installEventFilter(self)
 
@@ -39,12 +37,17 @@ class TreeView(QTreeView):
                                 message_box.exec_()
 
 
-        def populate(self):
+        def populate(self, file):
                 self.rootNode = self.model.invisibleRootItem()
                 self.setHeaderHidden(True)
-                with open('radni_prostor/workspace.json') as data_file:  
-                        data = json.load(data_file)
-                data_file.close()
+                if "workspaces/" in file:
+                        with open(file) as data_file:  
+                                data = json.load(data_file)
+                        data_file.close()
+                else:
+                        with open('workspaces/' + file + ".json") as data_file:
+                                data = json.load(data_file)
+                
                 for workspace in data:
                         workspace1 = StandardItem(workspace)
                         self.rootNode.appendRow(workspace1)  # Print the workspace name
@@ -111,9 +114,7 @@ class TreeView(QTreeView):
                         self.text = ix.data()            
                         if event.type() == QEvent.ContextMenu and source is self:
                                 menu = QMenu()
-                                menu.addAction(self.newWorkspace)
                                 menu.addAction(self.newCollection)
-                                menu.addAction(self.deleteWorksace)
                                 menu.addAction(self.deleteCollection)
                                 
                                                 
@@ -127,31 +128,13 @@ class TreeView(QTreeView):
                 return super().eventFilter(source, event)
                 
         def on_menu_triggered(self, action):
-                if action == self.newWorkspace:
-                        self.noviWorkspace()
-                elif action == self.newCollection:
+                if action == self.newCollection:
                         self.novaKolekcija()
                 elif action == self.deleteCollection:
                         self.obrisiKolekciju()
-                elif action == self.deleteWorksace:
-                        self.obrisiWorkspace()
 
         
-        def obrisiWorkspace(self):
-                for i in self.selectedIndexes():
-                    text = i.data()
-                
-                if "workspace" in text:
-                        with open('radni_prostor/workspace.json', 'r') as f:
-                                data = json.load(f)
-                                
-                        del data[text]
-                        
-                        with open('radni_prostor/workspace.json', 'w') as f:
-                                json.dump(data, f)
-                self.model.clear()
 
-                self.populate()
         
         def obrisiKolekciju(self):
                 for i in self.selectedIndexes():
@@ -162,8 +145,8 @@ class TreeView(QTreeView):
 
                 print(text)
                 print(parent.data())
-
-                with open('radni_prostor/workspace.json', 'r') as f:
+                work = parent.data()
+                with open('workspaces/'+ parent.data() + '.json', 'r') as f:
                         data = json.load(f)
                 for workspace in data:
                         if workspace == parent.data():
@@ -172,47 +155,29 @@ class TreeView(QTreeView):
                                         # Delete the collection from the JSON file
                                                 data[workspace].pop(collection)
                                         # Save the updated data to the JSON file
-                                                with open('radni_prostor/workspace.json', 'w') as data_file:
+                                                with open('workspaces/'+ parent.data() + '.json', 'w') as data_file:
                                                         json.dump(data, data_file, sort_keys=True, indent=4)
                                                 break
 
-                # Close the JSON file
+
                 data_file.close()
                 self.model.clear()
-
-                self.populate()
+                
+                print(work)
+                self.populate(work)
                 
               
-
-
-
-        
-        def noviWorkspace(self):
-                with open('radni_prostor/workspace.json', 'r') as f:
-                        data = json.load(f)
-                        
-                max_workspace_num = 0
-                for workspace_name in data:
-                        workspace_num = int(workspace_name.split('workspace')[1])
-                        if workspace_num > max_workspace_num:
-                                max_workspace_num = workspace_num
-                        
-                new_workspace_num = max_workspace_num + 1
-                new_workspace_name = f'workspace{new_workspace_num}'
-                
-                data[new_workspace_name] = {}
-                
-                with open('radni_prostor/workspace.json', 'w') as f:
-                        json.dump(data, f)
-                
-                self.model.clear()
-
-                self.populate()
         
         def novaKolekcija(self):
                 for i in self.selectedIndexes():
                     text = i.data()
-                with open('radni_prostor/workspace.json') as data_file:  
+
+
+                for i in self.selectedIndexes():
+                        parent = i.parent()
+                
+
+                with open('workspaces/'+ parent.data() + '.json') as data_file:  
                         data = json.load(data_file)
                 data_file.close()
 
@@ -226,7 +191,7 @@ class TreeView(QTreeView):
                 data[text][new_collection_name] = []
 
                 # Save the updated JSON data to the file
-                with open('radni_prostor/workspace.json', 'w') as data_file:  
+                with open('workspaces/'+ parent.data() + '.json', 'w') as data_file:  
                         json.dump(data, data_file, indent=4)
                 data_file.close()
                 self.model.clear()
