@@ -15,11 +15,11 @@ class TreeView(QTreeView):
         self.newPage = QAction("Nova Stranica", self)
         self.installEventFilter(self)
 
-    def populate(self, dokument):
+    def populate(self, dokument, workspace):
         self.dokument = dokument
         self.rootNode = self.model.invisibleRootItem()
         self.setHeaderHidden(True)
-        with open('radni_prostor/dokumenti.json') as data_file:  
+        with open('dokumenti/' + workspace + '.json') as data_file:  
                 data = json.load(data_file)
         data_file.close()
 

@@ -15,8 +15,7 @@ class Plugin(Extension):
         :param iface: main_window aplikacije
         """
         super().__init__(specification, iface)
-        self.mainLayout = QVBoxLayout() #gore i dole na main widgetu
-         #levo i desno
+        self.mainLayout = QVBoxLayout()
       
         self.tabWidget = QtWidgets.QTabWidget()
         self.tabWidget.setTabsClosable(True)
@@ -101,7 +100,7 @@ class Plugin(Extension):
         new_size = QSize(parent_size.width() / 2, parent_size.height() / 2)
         self.mainWidget.resize(new_size)
         self.iface.layout.setAlignment(self.mainWidget, Qt.AlignLeft)
-        #upisivanje dokumenta u json file kada je kliknut da se otvori -> dokument je otvoren
+        # upisivanje dokumenta u json file kada je kliknut da se otvori -> dokument je otvoren
         # for y in self.treeView.selectedIndexes():
         #         text = y.data()
         # with open('rad_sa_celim_dokumentom/otvoreniDokumenti.json') as data_ffile: 
@@ -120,54 +119,53 @@ class Plugin(Extension):
         #         data_json = json.dumps(data_list, sort_keys=True, indent=4)
         #         doc_file.write(str(data_json))
             
-        existing_page = None
-        for i in range(self.tabWidget.count()):
-            if self.tabWidget.tabText(i) == self.treeView.selectedIndexes()[0].data():
-                existing_page = self.tabWidget.widget(i)
-                break
-            
 
-        if existing_page == None:
-            self.innerTabWidget = QtWidgets.QTabWidget()
-            self.innerTabWidget.setTabsClosable(False)
-            self.treeWidget = TreeView()
-            
-            with open('radni_prostor/dokumenti.json') as data_file:  
-                data = json.load(data_file) 
-            data_file.close()          
+        self.innerTabWidget = QtWidgets.QTabWidget()
+        self.innerTabWidget.setTabsClosable(False)
+        self.treeWidget = TreeView()
+        
+        with open('radni_prostor/dokumenti.json') as data_file:  
+            data = json.load(data_file) 
+        data_file.close()          
 
-            self.page = self.innerTabWidget.currentWidget()
-            self.layoutG = QGridLayout()
-            self.layoutH1 = QHBoxLayout()
+        self.page = self.innerTabWidget.currentWidget()
+        self.layoutG = QGridLayout()
+        self.layoutH1 = QHBoxLayout()
 
-            self.page = QtWidgets.QWidget()
-            self.newWidget = self.tabWidget.currentWidget()
-            self.mainLayout.addWidget(self.tabWidget)
-            self.newWidget = QtWidgets.QWidget()
-            
+        self.page = QtWidgets.QWidget()
+        self.newWidget = self.tabWidget.currentWidget()
+        self.mainLayout.addWidget(self.tabWidget)
+        self.newWidget = QtWidgets.QWidget()
+        
 
-            self.newWidget.setLayout(self.layoutH1)
-            self.layoutH1.addWidget(self.innerTabWidget)
-            
-            self.page.setLayout(self.layoutG)
-            self.layoutG.addWidget(self.treeWidget)
+        self.newWidget.setLayout(self.layoutH1)
+        self.layoutH1.addWidget(self.innerTabWidget)
+        
+        self.page.setLayout(self.layoutG)
+        self.layoutG.addWidget(self.treeWidget)
 
+        for i in self.treeView.selectedIndexes():
+            kolekcija = i.parent()
+            workspace = kolekcija.parent().data()
+            print(workspace)
+        
+        
 
-            for ix in self.treeView.selectedIndexes():
-                text = ix.data()
-                print(text)
-                if "dokument" in text:
-                    for i in data:
-                        if text == i:
-                            self.thumbnail = ThumbnailWidget(text)
-                            
-                            self.tabWidget.addTab(self.newWidget,"" + text)
-                            self.tabWidget.setCurrentWidget(self.newWidget)
-                            self.innerTabWidget.addTab(self.thumbnail, "Thumbnail")
-                            self.innerTabWidget.addTab(self.page, "Bookmark")
-                            self.innerTabWidget.setCurrentWidget(self.page)
-                            self.layoutG.addWidget(self.treeWidget,0,0)
-                            self.treeWidget.populate(text)
+        for ix in self.treeView.selectedIndexes():
+            dokument = ix.data()
+            print(dokument)
+            if "dokument" in dokument:
+                for i in data:
+                    if dokument == i:
+                        self.thumbnail = ThumbnailWidget(dokument)
+                        
+                        self.tabWidget.addTab(self.newWidget,"" + workspace + "/" + dokument)
+                        self.tabWidget.setCurrentWidget(self.newWidget)
+                        self.innerTabWidget.addTab(self.page, "Bookmark")
+                        self.innerTabWidget.addTab(self.thumbnail, "Thumbnail")                            
+                        self.innerTabWidget.setCurrentWidget(self.thumbnail)
+                        self.layoutG.addWidget(self.treeWidget,0,0)
+                        self.treeWidget.populate(dokument,workspace)
 
                        
 
