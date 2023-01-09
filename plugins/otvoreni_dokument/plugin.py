@@ -6,11 +6,10 @@ from plugins.otvoreni_dokument.thumbnail_widget import ThumbnailWidget
 
 import json
 
-
-
 from PySide2 import QtWidgets
 
 class Plugin(Extension):
+    id = 0
     def __init__(self, specification, iface):
         """
         :param iface: main_window aplikacije
@@ -27,7 +26,8 @@ class Plugin(Extension):
         self.mainWidget = QtWidgets.QWidget()
         self.mainWidget.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
         
-
+        self.recnik = {}
+        
 
         
         self.mainWidget.setLayout(self.mainLayout)
@@ -39,30 +39,24 @@ class Plugin(Extension):
 
     # FIXME: implementacija apstraktnih metoda
     def activate(self):
-        print("Activated")
         self.activated = True
-
         with open("plugin_framework/plugins.json", "r") as json_file:
             plugins = json.load(json_file)
-        
-        plugins["otvoreni_dokument"] = True
 
+        plugins["otvoreni_dokument"] = True
         with open("plugin_framework/plugins.json", "w") as json_file:
-            json.dump(plugins, json_file)
+            json.dump(plugins, json_file)        
+
+
+    def checkForWorkspace(self):
         
         for dock in self.iface.findChildren(QtWidgets.QDockWidget):
-            self.dockWidget = dock
-
-        self.kontejner = self.dockWidget.widget()
-        self.treeView = self.kontejner.layout().itemAt(1).widget()
-        self.treeView.clicked.connect(self.onClicked)    
-        self.iface.layout.addWidget(self.mainWidget)
-        self.mainWidget.setLayout(self.mainLayout)
-        parent_size = self.iface.size()
-        new_size = QSize(parent_size.width() / 2, parent_size.height() / 2)
-        self.mainWidget.resize(new_size)
-                
-        self.iface.layout.setAlignment(self.mainWidget, Qt.AlignLeft)
+                treeView = dock.widget().layout().itemAt(0).widget()
+                self.recnik[self.id] = treeView
+                self.id += 1
+        for index, treeView in self.recnik.items():
+            treeView.clicked.connect(lambda: self.onClicked(index))
+        
 
     def deactivate(self):
         with open("plugin_framework/plugins.json", "r") as json_file:
@@ -99,25 +93,32 @@ class Plugin(Extension):
 
         
         
-    def onClicked(self):
+    def onClicked(self, index):
+        self.treeView = self.recnik[index]
+        self.iface.layout.addWidget(self.mainWidget)
+        self.mainWidget.setLayout(self.mainLayout)
+        parent_size = self.iface.size()
+        new_size = QSize(parent_size.width() / 2, parent_size.height() / 2)
+        self.mainWidget.resize(new_size)
+        self.iface.layout.setAlignment(self.mainWidget, Qt.AlignLeft)
         #upisivanje dokumenta u json file kada je kliknut da se otvori -> dokument je otvoren
-        for y in self.treeView.selectedIndexes():
-                text = y.data()
-        with open('rad_sa_celim_dokumentom/otvoreniDokumenti.json') as data_ffile: 
-            data_list = json.load(data_ffile)
-        #provera da li je dokument vec upisan u json 
-        if text in data_list:
-            print("dokument je vec upisan")
-        else:
-            data_list.append(text) 
-            # for i in data_list:
-            #     for j in data_list[i]:
-            #         data_list[i].append(text) 
-            #         print(data_list)
-            #         break
-            with open('rad_sa_celim_dokumentom/otvoreniDokumenti.json', 'w') as doc_file: 
-                data_json = json.dumps(data_list, sort_keys=True, indent=4)
-                doc_file.write(str(data_json))
+        # for y in self.treeView.selectedIndexes():
+        #         text = y.data()
+        # with open('rad_sa_celim_dokumentom/otvoreniDokumenti.json') as data_ffile: 
+        #     data_list = json.load(data_ffile)
+        # #provera da li je dokument vec upisan u json 
+        # if text in data_list:
+        #     print("dokument je vec upisan")
+        # else:
+        #     data_list.append(text) 
+        #     # for i in data_list:
+        #     #     for j in data_list[i]:
+        #     #         data_list[i].append(text) 
+        #     #         print(data_list)
+        #     #         break
+        #     with open('rad_sa_celim_dokumentom/otvoreniDokumenti.json', 'w') as doc_file: 
+        #         data_json = json.dumps(data_list, sort_keys=True, indent=4)
+        #         doc_file.write(str(data_json))
             
         existing_page = None
         for i in range(self.tabWidget.count()):
@@ -154,6 +155,7 @@ class Plugin(Extension):
 
             for ix in self.treeView.selectedIndexes():
                 text = ix.data()
+                print(text)
                 if "dokument" in text:
                     for i in data:
                         if text == i:
@@ -166,6 +168,7 @@ class Plugin(Extension):
                             self.innerTabWidget.setCurrentWidget(self.page)
                             self.layoutG.addWidget(self.treeWidget,0,0)
                             self.treeWidget.populate(text)
+
                        
 
         

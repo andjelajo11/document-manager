@@ -3,6 +3,7 @@ from radni_prostor.dock_widget import DockWidget
 from radni_prostor.treeView import TreeView
 from PySide2 import QtGui
 from PySide2 import QtWidgets, QtCore
+from plugins.otvoreni_dokument import plugin
 import json
 import os
 
@@ -13,7 +14,7 @@ class Plugin(Extension):
 
         """
         super().__init__(specification, iface)
-       
+        self.other_plugin = plugin.Plugin(specification, iface)
         self.open = QtWidgets.QAction(QtGui.QIcon("resources/icons/new-workspace.png"),"Open Workspace")
         self.open.triggered.connect(self.izaberiWorkspace)
 
@@ -51,6 +52,7 @@ class Plugin(Extension):
         self.kontejner = QtWidgets.QWidget()
         self._layout = QtWidgets.QVBoxLayout()
 
+
         if file_name != "":
             self.treeView = TreeView()
             self.dock_widget = DockWidget("Workspace", self.iface)
@@ -60,8 +62,10 @@ class Plugin(Extension):
             self._layout.addWidget(self.treeView)
             
             self.treeView.populate(file_name)
-            
+            self.other_plugin.checkForWorkspace()
             self.file_names.append(file_name)
+
+        
     
     def izbrisiworkspace(self):
         path = 'workspaces'
@@ -85,6 +89,8 @@ class Plugin(Extension):
             with open('workspaces/' + workspace_name + ".json", 'w') as data_file:
                 data_json = json.dumps(data, sort_keys=True, indent=4)
                 data_file.write(data_json)
+        
+        
 
     
 
