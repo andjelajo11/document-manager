@@ -3,6 +3,7 @@ from PySide2.QtWidgets import QVBoxLayout, QHBoxLayout, QGridLayout, QSizePolicy
 from PySide2.QtCore import QSize, Qt
 from plugins.otvoreni_dokument.treeWidget import TreeView
 from plugins.otvoreni_dokument.thumbnail_widget import ThumbnailWidget
+from PySide2.QtGui import QIcon
 
 import json
 
@@ -16,6 +17,7 @@ class Plugin(Extension):
         """
         super().__init__(specification, iface)
         self.mainLayout = QVBoxLayout()
+        
       
         self.tabWidget = QtWidgets.QTabWidget()
         self.tabWidget.setTabsClosable(True)
@@ -93,13 +95,29 @@ class Plugin(Extension):
         
         
     def onClicked(self, index):
+        self.toolBar = QtWidgets.QToolBar()
+
+        self.up = QtWidgets.QAction(QIcon("resources/icons/up.png"),"Up",self.mainLayout)
+        self.down = QtWidgets.QAction(QIcon("resources/icons/down.png"),"Down",self.mainLayout)
+        self.top = QtWidgets.QAction(QIcon("resources/icons/top.png"),"First",self.mainLayout)
+        self.bottom = QtWidgets.QAction(QIcon("resources/icons/bottom.png"),"Last",self.mainLayout)
+        self.delete = QtWidgets.QAction(QIcon("resources/icons/kanta.png"),"Delete",self.mainLayout)
+        self.new = QtWidgets.QAction(QIcon("resources/icons/new-page.png"),"New Page",self.mainLayout)
+
+        self.toolBar.addAction(self.up)
+        self.toolBar.addAction(self.down)
+        self.toolBar.addAction(self.top)
+        self.toolBar.addAction(self.bottom)
+        self.toolBar.addAction(self.delete)
+        self.toolBar.addAction(self.new)
+
+
         self.treeView = self.recnik[index]
-        self.iface.layout.addWidget(self.mainWidget)
         self.mainWidget.setLayout(self.mainLayout)
         parent_size = self.iface.size()
         new_size = QSize(parent_size.width() / 2, parent_size.height() / 2)
         self.mainWidget.resize(new_size)
-        self.iface.layout.setAlignment(self.mainWidget, Qt.AlignLeft)
+
         # upisivanje dokumenta u json file kada je kliknut da se otvori -> dokument je otvoren
         # for y in self.treeView.selectedIndexes():
         #         text = y.data()
@@ -130,19 +148,23 @@ class Plugin(Extension):
 
         self.page = self.innerTabWidget.currentWidget()
         self.layoutG = QGridLayout()
-        self.layoutH1 = QHBoxLayout()
+        self.layoutH1 = QVBoxLayout()
 
         self.page = QtWidgets.QWidget()
         self.newWidget = self.tabWidget.currentWidget()
+        
         self.mainLayout.addWidget(self.tabWidget)
         self.newWidget = QtWidgets.QWidget()
         
 
         self.newWidget.setLayout(self.layoutH1)
+        self.layoutH1.addWidget(self.toolBar)
         self.layoutH1.addWidget(self.innerTabWidget)
         
         self.page.setLayout(self.layoutG)
         self.layoutG.addWidget(self.treeWidget)
+
+
 
         for i in self.treeView.selectedIndexes():
             kolekcija = i.parent()
@@ -157,8 +179,14 @@ class Plugin(Extension):
             if "dokument" in dokument:
                 for i in data:
                     if dokument == i:
-                        self.thumbnail = ThumbnailWidget(dokument)
-                        
+                        self.thumbnail = ThumbnailWidget(dokument, workspace)
+                        self.down.triggered.connect(self.thumbnail.down)
+                        self.up.triggered.connect(self.thumbnail.up)
+                        self.top.triggered.connect(self.thumbnail.top)
+                        self.bottom.triggered.connect(self.thumbnail.bottom)
+                        self.delete.triggered.connect(self.thumbnail.delete)
+                        self.new.triggered.connect(self.thumbnail.newPage)
+
                         self.tabWidget.addTab(self.newWidget,"" + workspace + "/" + dokument)
                         self.tabWidget.setCurrentWidget(self.newWidget)
                         self.innerTabWidget.addTab(self.page, "Bookmark")
@@ -166,6 +194,12 @@ class Plugin(Extension):
                         self.innerTabWidget.setCurrentWidget(self.thumbnail)
                         self.layoutG.addWidget(self.treeWidget,0,0)
                         self.treeWidget.populate(dokument,workspace)
+                        
+                        self.iface.layout.addWidget(self.mainWidget)
+                        
+                        self.iface.layout.setAlignment(self.mainWidget, Qt.AlignLeft)
+
+
 
                        
 
