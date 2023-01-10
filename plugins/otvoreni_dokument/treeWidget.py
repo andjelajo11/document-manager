@@ -13,14 +13,13 @@ class TreeView(QTreeView):
         self.model = QStandardItemModel()
         self.delete = QAction("Delete", self)
         self.newPage = QAction("Nova Stranica", self)
-        self.newMono = QAction("Novi monotip", self)
         self.installEventFilter(self)
 
-    def populate(self, dokument):
+    def populate(self, dokument, workspace):
         self.dokument = dokument
         self.rootNode = self.model.invisibleRootItem()
         self.setHeaderHidden(True)
-        with open('radni_prostor/dokumenti.json') as data_file:  
+        with open('dokumenti/' + workspace + '.json') as data_file:  
                 data = json.load(data_file)
         data_file.close()
 
@@ -31,29 +30,27 @@ class TreeView(QTreeView):
             naziv = StandardItem(i["naziv"])
             self.rootNode.appendRow(naziv)
             for y in i:
-                if "hyperlink" + str(counter) in y:     
-                    hiperlinkovi = StandardItem(y)  
-                    naziv.appendRow(hiperlinkovi)          
+                if "stranica" + str(counter) in y:     
+                    stranice = StandardItem(y)  
+                    naziv.appendRow(stranice)          
                     for x in i.values():
-                        # print(x)
                         for z in x:
-                            # print(z)
                             for j in z:
-                                if "hyperlink" + str(counter) in j:
-                                    hiperlink = StandardItem(j)
-                                    hiperlinkovi.appendRow(hiperlink)
+                                if "slot" + str(counter) in j:
+                                    element = StandardItem(j)
+                                    stranice.appendRow(element)
                     counter +=1  
-                elif "hyperlink" + str(counter + 1) in y:
-                    hiperlinkovi = StandardItem(y)  
-                    naziv.appendRow(hiperlinkovi)          
+                elif "stranica" + str(counter + 1) in y:
+                    stranice = StandardItem(y)  
+                    naziv.appendRow(stranice)          
                     for x in i.values():
                         # print(x)
                         for z in x:
                             # print(z)
                             for j in z:
-                                if "hyperlink" + str(counter + 1) in j:
-                                    hiperlink = StandardItem(j)
-                                    hiperlinkovi.appendRow(hiperlink)
+                                if "slot" + str(counter + 1) in j:
+                                    element = StandardItem(j)
+                                    stranice.appendRow(element)
                     counter +=1 
     
 
@@ -73,7 +70,6 @@ class TreeView(QTreeView):
                 menu = QMenu()
                 menu.addAction(self.delete)
                 menu.addAction(self.newPage)
-                
                                 
                 menu.triggered[QAction].connect(self.on_menu_triggered)
                 menu.exec_(event.globalPos())  
@@ -94,20 +90,15 @@ class TreeView(QTreeView):
     
     def obrisi(self):
 
-        hiperlink = self.text
+        stranica = self.text
 
         with open('radni_prostor/dokumenti.json', "r") as f:
             data = json.load(f)
 
         for i in data[self.dokument]:
-            if hiperlink in i:
-                print(i[hiperlink])
-                del i[hiperlink]
-                break
-            for j in i[hiperlink.split(".", 1)[0]]:
-                if hiperlink in j:
-                    print(j[hiperlink])
-                    del j[hiperlink]
+            if stranica in i:
+                print(i[stranica])
+                del i[stranica]
                 break
             else:
                 continue
@@ -131,9 +122,10 @@ class TreeView(QTreeView):
 
         lista = []
         for x in json_object[self.dokument][0]:
-            if "hyperlink" in x:
-                lista.append(x)
-        json_object[self.dokument][0].update({"hyperlink" + str(len(lista) + 1) : [{}]})
+            if "stranica" in x:
+                lista.append(x)            
+        
+        json_object[self.dokument][0].update({"stranica" + str(len(lista) + 1) : [{}]})
 
 
         with open("radni_prostor/dokumenti.json", "w") as json_file:
@@ -142,3 +134,10 @@ class TreeView(QTreeView):
         self.model.clear()
 
         self.populate(self.dokument)
+
+
+
+
+
+
+

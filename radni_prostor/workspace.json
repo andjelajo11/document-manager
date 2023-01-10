@@ -1,11 +1,10 @@
 {
     "workspace1": {
         "kolekcija1": [
-            "dokument1",
-            "dokument2"
+            "dokument0"
         ],
         "kolekcija2": [
-            "dokument3",
+            "dokumentZadnji",
             "dokument4"
         ],
         "kolekcija3": [
@@ -13,11 +12,9 @@
             "dokument6"
         ],
         "kolekcija4": [
-            "dokument7"
-        ],
-        "kolekcija5": [],
-        "kolekcija6": [],
-        "kolekcija7": []
+            "dokument77",
+            "dokument8"
+        ]
     },
     "workspace2": {
         "kolekcija1": [
@@ -33,9 +30,16 @@
             "dokument6"
         ],
         "kolekcija4": [
-            "dokument7",
+            "dokument77",
             "dokument8"
+        ],
+        "kolekcija5": [
+            "dokument8886"
         ]
     },
-    "workspace3": {}
+    "workspace3": {
+        "kolekcija1": [
+            "dokumentTest3"
+        ]
+    }
 }
