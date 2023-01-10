@@ -1,0 +1,3 @@
+user_id,user_password,user_registered
+admin,admin,True
+user,user,True
