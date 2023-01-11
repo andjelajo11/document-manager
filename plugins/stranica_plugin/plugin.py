@@ -1,7 +1,7 @@
 from plugin_framework.extension import Extension
 from PySide2.QtWidgets import QVBoxLayout, QHBoxLayout, QLabel, QFrame, QToolBar, QAction, QGridLayout, QApplication
 from PySide2.QtGui import QIcon
-from PySide2.QtCore import Qt
+from PySide2.QtCore import Qt, QSize
 import json
 
 
@@ -9,44 +9,16 @@ import json
 from PySide2 import QtWidgets
 
 class Plugin(Extension):
+    id = 0
     def __init__(self, specification, iface):
         """
         :param iface: main_window aplikacije
         """
         super().__init__(specification, iface)
-        self.mainLayoutV = QVBoxLayout() #gore i dole na main widgetu
-        self.layoutH = QHBoxLayout() #levo i desno
-        self.layoutH1 = QHBoxLayout()
-        self.tabWidget = QtWidgets.QTabWidget()
-        self.tabWidget.setTabsClosable(True)
-        self.tabWidget.tabCloseRequested.connect(self.delete_tab)
-        self.mainWidget = QtWidgets.QWidget()
-        self. innerWidgetList = []
-        toolbar = QToolBar()   
-        left = QAction(QIcon("resources/icons/arrow-left.png"),"left",self.mainLayoutV)
-        right = QAction(QIcon("resources/icons/arrow-right.png"),"right",self.mainLayoutV)
-        up = QAction(QIcon("resources/icons/arrow-up.png"),"up",self.mainLayoutV)
-        down = QAction(QIcon("resources/icons/arrow-down.png"),"down",self.mainLayoutV)
-        delete = QAction(QIcon("resources/icons/kanta.png"),"delete",self.mainLayoutV)
         
-        self.mainWidget.setLayout(self.mainLayoutV)
-        self.mainLayoutV.addWidget(toolbar)
-        self.mainLayoutV.addWidget(self.tabWidget)
-
-        self.dockWidget = QtWidgets.QDockWidget
-        
-        toolbar.addAction(left)
-        toolbar.addAction(right)
-        toolbar.addAction(up)
-        toolbar.addAction(down)
-        toolbar.addAction(delete)
-
-        down.triggered.connect(self.down)
-        right.triggered.connect(self.right)
-        left.triggered.connect(self.left)
-        up.triggered.connect(self.up)
-        delete.triggered.connect(self.delete)
-
+        self.recnik = {}
+        self.row = 10
+        self.column = 10
         
 
     # FIXME: implementacija apstraktnih metoda
@@ -55,21 +27,20 @@ class Plugin(Extension):
         self.activated = True
         
         
-        for dock in self.iface.findChildren(QtWidgets.QDockWidget):
-            self.dockWidget = dock
-        self.widget = self.dockWidget.widget()
-        print(type(self.widget))
-        self.treeView1 = self.widget.layout().itemAt(1).widget()
-        print(type(self.treeView1))
-        
-        
-        
-        
-        self.treeView1.clicked.connect(self.mainTreeClicked)  
-        
+
     
 
-    def mainTreeClicked(self):
+    def checkForWorkspace(self):
+        
+        for dock in self.iface.findChildren(QtWidgets.QDockWidget):
+                treeView = dock.widget().layout().itemAt(0).widget()
+                self.recnik[self.id] = treeView
+                self.id += 1
+        for index, treeView in self.recnik.items():
+            treeView.clicked.connect(lambda: self.mainTreeClicked(index))
+    
+
+    def mainTreeClicked(self, index):
 
         self.mainWidget1 = self.iface.layout.itemAt(0).widget()
         print(type(self.mainWidget1))
@@ -78,7 +49,9 @@ class Plugin(Extension):
         
         self.stranica = self.tab.currentWidget()
         print(type(self.stranica))
-        self.treeView = self.stranica.layout().itemAt(0).widget()
+        self.innerTab = self.stranica.layout().itemAt(1).widget()
+        self.widget = self.innerTab.widget(0)
+        self.treeView = self.widget.layout().itemAt(0).widget()
         self.treeView.clicked.connect(self.onClicked) 
     
 
@@ -93,34 +66,60 @@ class Plugin(Extension):
 
         
     def onClicked(self):
+        print("dohvatili treeview")
 
         for ix in self.treeView.selectedIndexes():
             text = ix.data()  
-            if "hyperlink" in text:
-                self.iface.layout.addWidget(self.mainWidget)
+            if "stranica" in text:
+
+                self.mainLayoutV = QVBoxLayout() #gore i dole 
+                self.layoutH = QHBoxLayout() #levo i desno
+                self.layoutH1 = QHBoxLayout()
+                
+                self. innerWidgetList = []
+                toolbar = QToolBar()   
+                left = QAction(QIcon("resources/icons/arrow-left.png"),"left",self.mainLayoutV)
+                right = QAction(QIcon("resources/icons/arrow-right.png"),"right",self.mainLayoutV)
+                up = QAction(QIcon("resources/icons/arrow-up.png"),"up",self.mainLayoutV)
+                down = QAction(QIcon("resources/icons/arrow-down.png"),"down",self.mainLayoutV)
+                delete = QAction(QIcon("resources/icons/kanta.png"),"delete",self.mainLayoutV)
+                self.main = QtWidgets.QWidget()
+                self.main.setLayout(self.mainLayoutV)
+                self.mainLayoutV.addWidget(toolbar)
+
+                self.dockWidget = QtWidgets.QDockWidget
+                
+                toolbar.addAction(left)
+                toolbar.addAction(right)
+                toolbar.addAction(up)
+                toolbar.addAction(down)
+                toolbar.addAction(delete)
+
+                down.triggered.connect(self.down)
+                right.triggered.connect(self.right)
+                left.triggered.connect(self.left)
+                up.triggered.connect(self.up)
+                delete.triggered.connect(self.delete)
+                self.stranica.layout().addWidget(self.main, 0, 1, 2, 2)
+
+                self.main.setSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
 
                 with open('radni_prostor/dokumenti.json') as data_file:  
                     data = json.load(data_file) 
                 data_file.close()   
 
-                
-                # self.layoutH1 = QHBoxLayout()
+
                 
                 self.grid = QGridLayout()
 
-
                 
-                self.page = self.tabWidget.currentWidget()
                 
                 self.page = QtWidgets.QWidget()
-                
+                self.mainLayoutV.addWidget(self.page)
                 
                 self.page.setLayout(self.grid)
-
-
                 self.tester = 1
-                self.row = self.grid.rowCount() - 1
-                self.column = self.grid.columnCount() - 1
+                
 
                 self.label = QLabel()
                 self.label.setText("Slot" + str(self.tester))        
@@ -131,9 +130,8 @@ class Plugin(Extension):
                 
 
                 
-                print(text)          
-                self.tabWidget.addTab(self.page,"" + text)
-                self.grid.addWidget(self.label, 0, 0)
+                print(text)
+                self.grid.addWidget(self.label, 10, 10)
 
 
                 print("row:")
@@ -148,60 +146,74 @@ class Plugin(Extension):
                          
 
 
-    def addLabel(self):
-        self.tester += 1
-        currentTabIndex = self.tabWidget.currentIndex()
-        self.activeWidget = self.tabWidget.widget(currentTabIndex)
+    def addLabel(self, row, col):
         
+        self.page = self.main.layout().itemAt(1).widget()
+        self.activeLayout = self.page.layout()
         
         
         
 
         self.label = QLabel()
-        self.label.setText("Slot" + str(self.tester))        
+           
         self.label.setFrameStyle(QFrame.StyledPanel | QFrame.Plain)
         self.label.setLineWidth(1)
         
 
-        if self.activeWidget.layout().itemAtPosition(self.row, self.column) is None:
-            self.activeWidget.layout().addWidget(self.label, self.row, self.column)
+        if self.page.layout().itemAtPosition(row, col) is None:
+            self.tester += 1
+            self.label.setText("Slot" + str(self.tester))     
+            self.activeWidget.layout().addWidget(self.label, row, col)
 
 
         self.label.setFocusPolicy(Qt.StrongFocus)    
 
 
     def down(self):
-        self.row += 1
-        print("row:")
-        print(self.row)
-        print("column:")
-        print(self.column)
-        self.addLabel()
+        focused_widget = QApplication.focusWidget()
+        self.activeWidget = self.main.layout().itemAt(1).widget()
+        idx = self.activeWidget.layout().indexOf(focused_widget)
+        row, col, i, x = self.grid.getItemPosition(idx)
+        print(row)
+        print(col)
+        row += 1
+        self.addLabel(row, col)
     
     def up(self):
-        self.row -=1
-        self.addLabel()
+        focused_widget = QApplication.focusWidget()
+        self.activeWidget = self.main.layout().itemAt(1).widget()
+        idx = self.activeWidget.layout().indexOf(focused_widget)
+        row, col, i, x = self.grid.getItemPosition(idx)
+        print(row)
+        print(col)
+        row -= 1
+        self.addLabel(row, col)
         
 
     def right(self):    
-        self.row = 0
-        self.column += 1    
-        self.addLabel()        
-        print("row:")
-        print(self.row)
-        print("column:")
-        print(self.column)
+        focused_widget = QApplication.focusWidget()
+        self.activeWidget = self.main.layout().itemAt(1).widget()
+        idx = self.activeWidget.layout().indexOf(focused_widget)
+        row, col, i, x = self.grid.getItemPosition(idx)
+        print(row)
+        print(col)
+        col += 1
+        self.addLabel(row, col)
 
     def left(self):
-        self.row = 0
-        if self.column > 0:
-            self.column -= 1
-        self.addLabel()
+        focused_widget = QApplication.focusWidget()
+        self.activeWidget = self.main.layout().itemAt(1).widget()
+        idx = self.activeWidget.layout().indexOf(focused_widget)
+        row, col, i, x = self.grid.getItemPosition(idx)
+        print(row)
+        print(col)
+        col -= 1
+        self.addLabel(row, col)
     
 
     def delete(self):
-        currentTabIndex = self.tabWidget.currentIndex()
-        self.activeWidget = self.tabWidget.widget(currentTabIndex)
+       
+        self.activeWidget = self.main.layout().itemAt(1).widget()
         focused_widget = QApplication.focusWidget()
         if focused_widget is not None:
             self.activeWidget.layout().removeWidget(focused_widget)

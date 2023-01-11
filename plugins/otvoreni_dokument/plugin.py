@@ -25,7 +25,7 @@ class Plugin(Extension):
         
 
         self.mainWidget = QtWidgets.QWidget()
-        self.mainWidget.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
+        self.mainWidget.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         
         self.recnik = {}
         
@@ -46,7 +46,8 @@ class Plugin(Extension):
 
         plugins["otvoreni_dokument"] = True
         with open("plugin_framework/plugins.json", "w") as json_file:
-            json.dump(plugins, json_file)        
+            json.dump(plugins, json_file)    
+
 
 
     def checkForWorkspace(self):
@@ -111,12 +112,11 @@ class Plugin(Extension):
         self.toolBar.addAction(self.delete)
         self.toolBar.addAction(self.new)
 
-
         self.treeView = self.recnik[index]
         self.mainWidget.setLayout(self.mainLayout)
-        parent_size = self.iface.size()
-        new_size = QSize(parent_size.width() / 2, parent_size.height() / 2)
-        self.mainWidget.resize(new_size)
+        # parent_size = self.iface.size()
+        # new_size = QSize(parent_size.width() / 2, parent_size.height() / 2)
+        # self.mainWidget.resize(new_size)
 
         # upisivanje dokumenta u json file kada je kliknut da se otvori -> dokument je otvoren
         # for y in self.treeView.selectedIndexes():
@@ -148,7 +148,7 @@ class Plugin(Extension):
 
         self.page = self.innerTabWidget.currentWidget()
         self.layoutG = QGridLayout()
-        self.layoutH1 = QVBoxLayout()
+        self.layoutH1 = QGridLayout()
 
         self.page = QtWidgets.QWidget()
         self.newWidget = self.tabWidget.currentWidget()
@@ -158,8 +158,8 @@ class Plugin(Extension):
         
 
         self.newWidget.setLayout(self.layoutH1)
-        self.layoutH1.addWidget(self.toolBar)
-        self.layoutH1.addWidget(self.innerTabWidget)
+        self.layoutH1.addWidget(self.toolBar, 0, 0)
+        self.layoutH1.addWidget(self.innerTabWidget, 1, 0)
         
         self.page.setLayout(self.layoutG)
         self.layoutG.addWidget(self.treeWidget)
@@ -197,7 +197,7 @@ class Plugin(Extension):
                         
                         self.iface.layout.addWidget(self.mainWidget)
                         
-                        self.iface.layout.setAlignment(self.mainWidget, Qt.AlignLeft)
+                        self.newWidget.layout().setAlignment(self.innerTabWidget, Qt.AlignLeft)
 
 
 

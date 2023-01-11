@@ -3,7 +3,8 @@ from radni_prostor.dock_widget import DockWidget
 from radni_prostor.treeView import TreeView
 from PySide2 import QtGui
 from PySide2 import QtWidgets, QtCore
-from plugins.otvoreni_dokument import plugin
+from plugins.otvoreni_dokument import plugin as otvoreni
+from plugins.stranica_plugin import plugin as stranica
 import json
 import os
 
@@ -14,7 +15,8 @@ class Plugin(Extension):
 
         """
         super().__init__(specification, iface)
-        self.other_plugin = plugin.Plugin(specification, iface)
+        self.otvoreni_plugin = otvoreni.Plugin(specification, iface)
+        self.stranica_plugin = stranica.Plugin(specification, iface)
         self.open = QtWidgets.QAction(QtGui.QIcon("resources/icons/new-workspace.png"),"Open Workspace")
         self.open.triggered.connect(self.izaberiWorkspace)
 
@@ -62,7 +64,9 @@ class Plugin(Extension):
             self._layout.addWidget(self.treeView)
             
             self.treeView.populate(file_name)
-            self.other_plugin.checkForWorkspace()
+            self.otvoreni_plugin.checkForWorkspace()
+            self.stranica_plugin.checkForWorkspace()
+
             self.file_names.append(file_name)
 
         
