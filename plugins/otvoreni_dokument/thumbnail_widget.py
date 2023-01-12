@@ -1,5 +1,4 @@
 from PySide2 import QtWidgets, QtCore
-from PySide2.QtGui import QPixmap
 from plugins.otvoreni_dokument.clickable_label import ClickableLabel
 import json
 
@@ -15,6 +14,7 @@ class ThumbnailWidget(QtWidgets.QScrollArea):
     def pokreni(self):
         label_width = 200
         label_height = 150
+        
         self.layout = QtWidgets.QGridLayout()
         self.selected_label = None
         self.overlay = QtWidgets.QLabel()
@@ -24,6 +24,8 @@ class ThumbnailWidget(QtWidgets.QScrollArea):
         self.newLayout.setContentsMargins(0,0,0,0)
         self.glavni = QtWidgets.QWidget()
         
+
+
         with open("dokumenti/" + self.workspace + ".json", "r") as f:
             json_data = f.read()
 
@@ -40,16 +42,11 @@ class ThumbnailWidget(QtWidgets.QScrollArea):
             row = 0
             col = 0
 
-            for stranica in self.stranice:
-                image1 = QPixmap(self.stranice[stranica])    
-                self.preview_label = ClickableLabel()
+            for stranica in self.stranice:  
+                self.preview_label = ClickableLabel(self.workspace, self.dokument, stranica)
                 self.preview_label.setScaledContents(True)
                 self.preview_label.mousePressEvent = self.labelClicked
                 self.preview_label.setFixedSize(label_width, label_height)
-                scaled_image = image1.scaledToWidth(label_width)
-                self.preview_label.setPixmap(scaled_image)
-                
-
                 self.layout.addWidget(self.preview_label, row, col)
                 row += 1
 

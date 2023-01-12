@@ -33,26 +33,29 @@ class Plugin(Extension):
     def checkForWorkspace(self):
         
         for dock in self.iface.findChildren(QtWidgets.QDockWidget):
-                treeView = dock.widget().layout().itemAt(0).widget()
-                self.recnik[self.id] = treeView
-                self.id += 1
-        for index, treeView in self.recnik.items():
-            treeView.clicked.connect(lambda: self.mainTreeClicked(index))
+                self.tab = dock.widget().layout().itemAt(0).widget()
+                self.treeWidget = self.tab.currentWidget()
+        for index, self.treeWidget in self.recnik.items():
+            self.treeWidget.clicked.connect(lambda: self.mainTreeClicked(index))
     
 
     def mainTreeClicked(self, index):
 
-        self.mainWidget1 = self.iface.layout.itemAt(0).widget()
-        print(type(self.mainWidget1))
-        self.tab = self.mainWidget1.layout().itemAt(0).widget()
-        print(type(self.tab))
-        
-        self.stranica = self.tab.currentWidget()
-        print(type(self.stranica))
-        self.innerTab = self.stranica.layout().itemAt(1).widget()
-        self.widget = self.innerTab.widget(0)
-        self.treeView = self.widget.layout().itemAt(0).widget()
-        self.treeView.clicked.connect(self.onClicked) 
+        for ix in self.treeWidget.selectedIndexes():
+            text = ix.data()  
+            if "dokument" in text:
+
+                self.mainWidget1 = self.iface.layout.itemAt(0).widget()
+                print(type(self.mainWidget1))
+                self.tab = self.mainWidget1.layout().itemAt(0).widget()
+                print(type(self.tab))
+                
+                self.stranica = self.tab.currentWidget()
+                print(type(self.stranica))
+                self.innerTab = self.stranica.layout().itemAt(1).widget()
+                self.widget = self.innerTab.widget(0)
+                self.treeView = self.widget.layout().itemAt(0).widget()
+                self.treeView.clicked.connect(self.onClicked) 
     
 
     def deactivate(self):
@@ -113,7 +116,6 @@ class Plugin(Extension):
                 self.grid = QGridLayout()
 
                 
-                
                 self.page = QtWidgets.QWidget()
                 self.mainLayoutV.addWidget(self.page)
                 
@@ -146,7 +148,7 @@ class Plugin(Extension):
                          
 
 
-    def addLabel(self, row, col):
+    def addLabel(self, row, col, itemCount):
         
         self.page = self.main.layout().itemAt(1).widget()
         self.activeLayout = self.page.layout()
@@ -163,7 +165,7 @@ class Plugin(Extension):
         if self.page.layout().itemAtPosition(row, col) is None:
             self.tester += 1
             self.label.setText("Slot" + str(self.tester))     
-            self.activeWidget.layout().addWidget(self.label, row, col)
+            self.activeWidget.layout().addWidget(self.label, row, col,itemCount, 1)
 
 
         self.label.setFocusPolicy(Qt.StrongFocus)    
@@ -174,20 +176,34 @@ class Plugin(Extension):
         self.activeWidget = self.main.layout().itemAt(1).widget()
         idx = self.activeWidget.layout().indexOf(focused_widget)
         row, col, i, x = self.grid.getItemPosition(idx)
-        print(row)
-        print(col)
-        row += 1
-        self.addLabel(row, col)
+        itemCount = 1
+        print("i and x:")
+        print(i)
+        print(x)
+        if i > 1:
+            self.activeWidget.layout().removeWidget(focused_widget)
+            focused_widget.deleteLater()
+            t = 0
+            while t < i:                
+                self.addLabel(row, col, itemCount)
+                row += 1
+                t +=1
+        else:
+            print(row)
+            print(col)
+            row += 1
+            self.addLabel(row, col, itemCount)
     
     def up(self):
         focused_widget = QApplication.focusWidget()
         self.activeWidget = self.main.layout().itemAt(1).widget()
         idx = self.activeWidget.layout().indexOf(focused_widget)
         row, col, i, x = self.grid.getItemPosition(idx)
+        itemCount = 1
         print(row)
         print(col)
         row -= 1
-        self.addLabel(row, col)
+        self.addLabel(row, col, itemCount)
         
 
     def right(self):    
@@ -195,20 +211,30 @@ class Plugin(Extension):
         self.activeWidget = self.main.layout().itemAt(1).widget()
         idx = self.activeWidget.layout().indexOf(focused_widget)
         row, col, i, x = self.grid.getItemPosition(idx)
-        print(row)
-        print(col)
+        itemCount = int(self.grid.rowCount()) -10
+
+        num = 0
+        for rows in range(self.grid.rowCount()):
+            if self.grid.itemAtPosition(rows, col) is not None:
+                num += 1
+
+
+        print("Number of rows")
+        print(num)
         col += 1
-        self.addLabel(row, col)
+        self.addLabel(row, col, num)
 
     def left(self):
         focused_widget = QApplication.focusWidget()
         self.activeWidget = self.main.layout().itemAt(1).widget()
         idx = self.activeWidget.layout().indexOf(focused_widget)
         row, col, i, x = self.grid.getItemPosition(idx)
-        print(row)
-        print(col)
+        num = 0
+        for rows in range(self.grid.rowCount()):
+            if self.grid.itemAtPosition(rows, col) is not None:
+                num += 1     
         col -= 1
-        self.addLabel(row, col)
+        self.addLabel(row, col, num)
     
 
     def delete(self):

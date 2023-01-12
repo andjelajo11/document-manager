@@ -4,10 +4,12 @@
       "naziv": "dokument1",
       "stranica1": [
         {
-          "slot1.1": "putanja",
-          "slot1.2": "putanja",
-          "slot1.3": "putanja",
-          "slot1.4": "putanja"
+          "slot1.1": "",
+          "slot1.2": "",
+          "slot1.3": "",
+          "slot1.4": "",
+          "slot1.5": "",
+          "slot1.6": ""
         }
       ],
       "stranica2": [
@@ -24,10 +26,14 @@
           "stranica1": "resources/icons/plaza.jpg",
           "stranica2": "resources/icons/plaza.jpg",
           "stranica3": "resources/icons/plaza.jpg",
-          "stranica4": "resources/icons/plaza.jpg"
+          "stranica4": "resources/icons/plaza.jpg",
+          "stranica5": "resources/icons/plaza.jpg"
         }
       ],
       "stranica4": [
+        {}
+      ],
+      "stranica5": [
         {}
       ]
     }

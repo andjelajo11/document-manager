@@ -9,6 +9,7 @@ import json
 import os
 
 class Plugin(Extension):
+    id = 0
     def __init__(self, specification, iface):
         """
         :param iface: main_window aplikacije
@@ -17,20 +18,34 @@ class Plugin(Extension):
         super().__init__(specification, iface)
         self.otvoreni_plugin = otvoreni.Plugin(specification, iface)
         self.stranica_plugin = stranica.Plugin(specification, iface)
+
         self.open = QtWidgets.QAction(QtGui.QIcon("resources/icons/new-workspace.png"),"Open Workspace")
-        self.open.triggered.connect(self.izaberiWorkspace)
-
         self.new = QtWidgets.QAction(QtGui.QIcon("resources/icons/new-workspace.png"),"New Workspace")
-        self.new.triggered.connect(self.noviWorkspace)
-
         self.delete = QtWidgets.QAction(QtGui.QIcon("resources/icons/delete-workspace.png"),"Delete Workspace")
+
         self.delete.triggered.connect(self.izbrisiworkspace)
+        self.open.triggered.connect(self.izaberiWorkspace)
+        self.new.triggered.connect(self.noviWorkspace)
 
     def activate(self):
         self.iface.add_menu_action("&File", self.open)
         self.iface.add_menu_action("&File", self.new)
         self.iface.add_menu_action("&File", self.delete)
         self.file_names = []
+        self.recnik = {}
+
+        self.kontejner = QtWidgets.QWidget()
+        self._layout = QtWidgets.QVBoxLayout()
+
+        self.tabWidget = QtWidgets.QTabWidget()
+        self.tabWidget.setTabsClosable(True)
+        self.tabWidget.tabCloseRequested.connect(self.delete_tab)
+
+        self.dock_widget = DockWidget("Workspace", self.iface)
+        self.iface.addDockWidget(QtCore.Qt.LeftDockWidgetArea, self.dock_widget)
+        self.dock_widget.setWidget(self.kontejner)
+        self.kontejner.setLayout(self._layout)
+        self._layout.addWidget(self.tabWidget)
         
 
         
@@ -45,6 +60,9 @@ class Plugin(Extension):
         self.activated = False
         print("Deactivated")
 
+    def delete_tab(self, index):
+        self.tabWidget.removeTab(index)
+        
     def izaberiWorkspace(self):
         path = 'workspaces'
         dialog = QtWidgets.QFileDialog()
@@ -57,20 +75,34 @@ class Plugin(Extension):
 
         if file_name != "":
             self.treeView = TreeView()
-            self.dock_widget = DockWidget("Workspace", self.iface)
-            self.iface.addDockWidget(QtCore.Qt.LeftDockWidgetArea, self.dock_widget)
-            self.dock_widget.setWidget(self.kontejner)
-            self.kontejner.setLayout(self._layout)
-            self._layout.addWidget(self.treeView)
+            newFile = file_name.split("/")[-1].split(".")[0]
+            self.tabWidget.addTab(self.treeView, newFile)
+            print(newFile)
             
             self.treeView.populate(file_name)
-            self.otvoreni_plugin.checkForWorkspace()
-            self.stranica_plugin.checkForWorkspace()
+            
 
             self.file_names.append(file_name)
 
+            self.recnik[self.id] = self.treeView
+            self.id += 1
+            for index, self.treeView in self.recnik.items():
+                self.treeView.clicked.connect(lambda: self.treeClicked(index))
+
         
-    
+
+        
+    def treeClicked(self, index):
+        treeView = self.recnik[index]
+        for i in treeView.selectedIndexes():
+            dokument = i.data()
+        for i in treeView.selectedIndexes():
+            kolekcija = i.parent()
+            workspace = kolekcija.parent().data()
+        self.otvoreni_plugin.onClicked(dokument, workspace)
+        treeView.clearSelection()
+        
+
     def izbrisiworkspace(self):
         path = 'workspaces'
         dialog = QtWidgets.QFileDialog()
