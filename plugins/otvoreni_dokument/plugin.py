@@ -3,6 +3,7 @@ from PySide2.QtWidgets import QVBoxLayout, QHBoxLayout, QGridLayout, QSizePolicy
 from PySide2.QtCore import QSize, Qt
 from plugins.otvoreni_dokument.treeWidget import TreeView
 from plugins.otvoreni_dokument.thumbnail_widget import ThumbnailWidget
+from plugins.stranica_plugin.plugin import Plugin as Stranica_plugin
 from PySide2.QtGui import QIcon
 
 import json
@@ -29,6 +30,7 @@ class Plugin(Extension):
         
         self.recnik = {}
         
+        self.stranica_plugin = Stranica_plugin(specification, iface)
 
         
         self.mainLayout.addWidget(self.tabWidget)
@@ -136,11 +138,7 @@ class Plugin(Extension):
 
             self.innerTabWidget = QtWidgets.QTabWidget()
             self.innerTabWidget.setTabsClosable(False)
-            self.treeWidget = TreeView()
-            
-            with open('radni_prostor/dokumenti.json') as data_file:  
-                data = json.load(data_file) 
-            data_file.close()          
+            self.treeWidget = TreeView() 
 
             self.page = self.innerTabWidget.currentWidget()
             self.layoutG = QGridLayout()
@@ -166,28 +164,48 @@ class Plugin(Extension):
         
         
 
-            if "dokument" in dokument:
-                for i in data:
-                    if dokument == i:
-                        self.thumbnail = ThumbnailWidget(dokument, workspace)
-                        self.down.triggered.connect(self.thumbnail.down)
-                        self.up.triggered.connect(self.thumbnail.up)
-                        self.top.triggered.connect(self.thumbnail.top)
-                        self.bottom.triggered.connect(self.thumbnail.bottom)
-                        self.delete.triggered.connect(self.thumbnail.delete)
-                        self.new.triggered.connect(self.thumbnail.newPage)
+            if "dokument" in dokument:        
+                self.thumbnail = ThumbnailWidget(dokument, workspace, self.stranica_plugin)
+                self.down.triggered.connect(self.thumbnail.down)
+                self.up.triggered.connect(self.thumbnail.up)
+                self.top.triggered.connect(self.thumbnail.top)
+                self.bottom.triggered.connect(self.thumbnail.bottom)
+                self.delete.triggered.connect(self.thumbnail.delete)
+                self.new.triggered.connect(self.thumbnail.newPage)
 
-                        self.tabWidget.addTab(self.newWidget,"" + workspace + "/" + dokument)
-                        self.tabWidget.setCurrentWidget(self.newWidget)
-                        self.innerTabWidget.addTab(self.thumbnail, "Thumbnail")   
-                        self.innerTabWidget.addTab(self.page, "Bookmark")                         
-                        self.innerTabWidget.setCurrentWidget(self.thumbnail)
-                        self.layoutG.addWidget(self.treeWidget,0,0)
-                        self.treeWidget.populate(dokument,workspace)
-                        
-                        self.iface.layout.addWidget(self.mainWidget)
-                        
-                        self.newWidget.layout().setAlignment(self.innerTabWidget, Qt.AlignLeft)
+                self.tabWidget.addTab(self.newWidget,"" + workspace + "/" + dokument)
+                self.tabWidget.setCurrentWidget(self.newWidget)
+                self.innerTabWidget.addTab(self.thumbnail, "Thumbnail")   
+                self.innerTabWidget.addTab(self.page, "Bookmark")                         
+                self.innerTabWidget.setCurrentWidget(self.thumbnail)
+                self.layoutG.addWidget(self.treeWidget,0,0)
+                self.treeWidget.populate(dokument,workspace)
+                self.iface.layout.addWidget(self.mainWidget)
+                
+                self.newWidget.layout().setAlignment(self.innerTabWidget, Qt.AlignLeft)
+                self.dokument = dokument
+                self.workspace = workspace
+
+
+
+                self.recnik[self.id] = self.treeWidget
+                self.id += 1
+        for index, treeView in self.recnik.items():
+            treeView.clicked.connect(lambda: self.treeClicked(index))
+        
+                
+
+        
+
+        
+    def treeClicked(self, index):
+        tree = self.recnik[index]
+        for i in tree.selectedIndexes():
+            stranica = i.data()   
+        dokument = self.dokument
+        workspace = self.workspace  
+        self.stranica_plugin.onClicked(dokument, workspace, stranica)
+        tree.clearSelection()
 
 
 

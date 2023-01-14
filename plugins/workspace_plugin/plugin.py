@@ -17,7 +17,6 @@ class Plugin(Extension):
         """
         super().__init__(specification, iface)
         self.otvoreni_plugin = otvoreni.Plugin(specification, iface)
-        self.stranica_plugin = stranica.Plugin(specification, iface)
 
         self.open = QtWidgets.QAction(QtGui.QIcon("resources/icons/new-workspace.png"),"Open Workspace")
         self.new = QtWidgets.QAction(QtGui.QIcon("resources/icons/new-workspace.png"),"New Workspace")
