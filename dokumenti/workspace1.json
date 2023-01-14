@@ -4,22 +4,23 @@
       "naziv": "dokument1",
       "stranica1": [
         {
-          "slot1.1": "",
-          "slot1.2": "",
-          "slot1.3": "",
-          "slot1.4": "",
-          "slot1.5": "",
-          "slot1.6": ""
+          "slot1": "",
+          "slot2": "",
+          "slot3": "",
+          "slot4": ""
         }
       ],
       "stranica2": [
         {
-          "slot2.1": "putanja",
-          "slot2.2": "putanja"
+          "slot1": "putanja",
+          "slot2": "putanja",
+          "slot3": ""
         }
       ],
       "stranica3": [
-        {}
+        {
+          "slot1": "putanja"
+        }
       ],
       "thumbnails": [
         {

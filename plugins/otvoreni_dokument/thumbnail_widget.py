@@ -4,8 +4,9 @@ import json
 
 class ThumbnailWidget(QtWidgets.QScrollArea):
 
-    def __init__(self, dokument, workspace):
+    def __init__(self, dokument, workspace, stranica_plugin):
         super().__init__()
+        self.stranica_plugin = stranica_plugin
         self.dokument = dokument
         self.workspace = workspace
         self.pokreni()
@@ -75,7 +76,7 @@ class ThumbnailWidget(QtWidgets.QScrollArea):
         if focused_widget is not None:
             if event.button() == QtCore.Qt.LeftButton:                
                 index = self.glavni.layout().indexOf(focused_widget)
-                
+                self.stranica = list(self.keys)[index]
                 self.overlay.setText(list(self.keys)[index])
                 focused_widget.setLayout(self.newLayout)
                 self.newLayout.addWidget(self.overlay)
@@ -83,6 +84,8 @@ class ThumbnailWidget(QtWidgets.QScrollArea):
                 parent_size = focused_widget.size()
                 new_size = QtCore.QSize(parent_size.width(), parent_size.height())
                 self.overlay.resize(new_size)
+                self.stranica_plugin.onClicked(self.dokument, self.workspace, self.stranica)
+
 
 
     def down(self):
@@ -180,3 +183,4 @@ class ThumbnailWidget(QtWidgets.QScrollArea):
             json.dump(data, f, indent=2)
         
         self.pokreni() 
+        self.bottom()
