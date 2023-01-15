@@ -3,6 +3,8 @@ from PySide2.QtWidgets import QVBoxLayout, QLabel, QFrame, QToolBar, QAction, QG
 from PySide2.QtGui import QIcon
 from PySide2.QtCore import Qt
 from plugins.stranica_plugin.clickableLabel import DoubleClickLabel
+from plugins.text_plugin.plugin import Plugin as textEditorPlugin
+from monotip_handler.monotip_tab import MonotipTab
 import json
 
 
@@ -18,7 +20,8 @@ class Plugin(Extension):
         super().__init__(specification, iface)
 
         
-            
+        self.monotipTab = MonotipTab()
+        self.textPlugin = textEditorPlugin(specification, iface)
         self.recnik = {}
         self.row = 10
         self.column = 10
@@ -97,7 +100,7 @@ class Plugin(Extension):
             x = 9
             y = 9
             for slot in slots:
-                self.label = DoubleClickLabel(self.workspace, self.dokument, self.strana, slot)
+                self.label = DoubleClickLabel(self.workspace, self.dokument, self.strana, slot, self.textPlugin)
                 self.label.setText(slot)        
                 self.label.setFrameStyle(QFrame.StyledPanel | QFrame.Plain)
                 self.label.setLineWidth(1)
@@ -112,12 +115,13 @@ class Plugin(Extension):
 
                 #dohvtimo stranicu i doajemo joj main widget
             self.mainWidget1 = self.iface.layout.itemAt(0).widget()
+            self.mainWidget1.layout().addWidget(self.monotipTab)
             self.tab = self.mainWidget1.layout().itemAt(0).widget()      
             self.index = self.tab.currentIndex()  
             self.stranica = self.tab.widget(self.index)
             if self.stranica.layout().itemAt(2) is not None:
                 self.stranica.layout().itemAt(2).widget().setParent(None)
-            self.stranica.layout().addWidget(self.main, 0, 1, 0, 2)
+            self.stranica.layout().addWidget(self.main, 0, 1, 0, 1)
                     
 
         

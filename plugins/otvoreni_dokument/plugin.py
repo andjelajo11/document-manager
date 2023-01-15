@@ -6,6 +6,7 @@ from plugins.otvoreni_dokument.thumbnail_widget import ThumbnailWidget
 from plugins.stranica_plugin.plugin import Plugin as Stranica_plugin
 from PySide2.QtGui import QIcon
 
+
 import json
 
 from PySide2 import QtWidgets
@@ -18,7 +19,6 @@ class Plugin(Extension):
         """
         super().__init__(specification, iface)
         self.mainLayout = QVBoxLayout()
-        
       
         self.tabWidget = QtWidgets.QTabWidget()
         self.tabWidget.setTabsClosable(True)
@@ -33,7 +33,8 @@ class Plugin(Extension):
         self.stranica_plugin = Stranica_plugin(specification, iface)
 
         
-        self.mainLayout.addWidget(self.tabWidget)
+
+
 
 
 
@@ -139,6 +140,8 @@ class Plugin(Extension):
             self.innerTabWidget = QtWidgets.QTabWidget()
             self.innerTabWidget.setTabsClosable(False)
             self.treeWidget = TreeView() 
+            
+            
 
             self.page = self.innerTabWidget.currentWidget()
             self.layoutG = QGridLayout()
@@ -150,10 +153,12 @@ class Plugin(Extension):
             self.mainLayout.addWidget(self.tabWidget)
             self.newWidget = QtWidgets.QWidget()
             
+            
 
             self.newWidget.setLayout(self.layoutH1)
             self.layoutH1.addWidget(self.toolBar, 0, 0)
             self.layoutH1.addWidget(self.innerTabWidget, 1, 0)
+            
             
             self.page.setLayout(self.layoutG)
             self.layoutG.addWidget(self.treeWidget)
