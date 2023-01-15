@@ -2,11 +2,14 @@ from PySide2 import QtWidgets, QtCore
 from PySide2.QtGui import QKeySequence, QFont, QIcon, QFontDatabase
 
 class TextEditor(QtWidgets.QWidget):
-    def __init__(self, parent = None):
+    def __init__(self, path, parent = None):
         super().__init__(parent)
         self.mainLayout = QtWidgets.QVBoxLayout()
         self.setLayout(self.mainLayout)
         self.text_edit = QtWidgets.QTextEdit(self)
+        self.path = path
+        text = open(path).read()
+        self.text_edit.setText(text)
         self.text_edit.setFontPointSize(12)
         # Create a toolbar and add it to the main window
         self.toolbar = QtWidgets.QToolBar()
@@ -74,7 +77,16 @@ class TextEditor(QtWidgets.QWidget):
         self.right_align_action.setCheckable(True)
         self.toolbar.addAction(self.right_align_action)
 
-       
+        self.undo_action = QtWidgets.QAction(QIcon("resources/icons/text-undo.png"), "Undo", self)
+        self.undo_action.setShortcut(QKeySequence.Undo)
+        self.undo_action.triggered.connect(self.text_edit.undo)
+        self.toolbar.addAction(self.undo_action)
+
+
+        self.redo_action = QtWidgets.QAction(QIcon("resources/icons/text-redo.png"), "Undo", self)
+        self.redo_action.setShortcut(QKeySequence.Redo)
+        self.redo_action.triggered.connect(self.text_edit.redo)
+        self.toolbar.addAction(self.redo_action)
 
 
 
@@ -90,6 +102,7 @@ class TextEditor(QtWidgets.QWidget):
         self.left_align_action.triggered.connect(self.set_left_align)
         self.right_align_action.triggered.connect(self.set_right_align)
         self.center_align_action.triggered.connect(self.set_center_align)
+        self.save_action.triggered.connect(self.save_file)
 
     def set_bold(self, checked):
         if checked:
@@ -117,3 +130,14 @@ class TextEditor(QtWidgets.QWidget):
 
     def set_center_align(self):
         self.text_edit.setAlignment(QtCore.Qt.AlignCenter)
+
+    def save_file(self):
+        text = self.text_edit.toPlainText()
+        with open(self.path, "w") as f:
+            f.write(text)
+
+    def undo(self):
+        self.text_edit.undo()
+    
+    def redo(self):
+        self.text_edit.redo()
