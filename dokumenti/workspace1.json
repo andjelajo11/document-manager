@@ -51,5 +51,18 @@
         {}
       ]
     }
+  ],
+  "dokument3": [
+    {
+      "naziv": "dokument3",
+      "thumbnails": [
+        {
+          "stranica1": "resources/icons/plaza.jpg"
+        }
+      ],
+      "stranica1": [
+        {}
+      ]
+    }
   ]
 }

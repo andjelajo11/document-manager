@@ -18,15 +18,24 @@ class Plugin(Extension):
         :param iface: main_window aplikacije
         """
         super().__init__(specification, iface)
-        self.mainLayout = QVBoxLayout()
-      
-        self.tabWidget = QtWidgets.QTabWidget()
-        self.tabWidget.setTabsClosable(True)
-        self.tabWidget.tabCloseRequested.connect(self.delete_tab)
         
+        self.mainLayout = QVBoxLayout()
 
         self.mainWidget = QtWidgets.QWidget()
         self.mainWidget.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        self.mainWidget.setLayout(self.mainLayout)
+        parent_size = self.iface.size()
+        new_size = QSize(parent_size.width() / 2, parent_size.height() / 2)
+        self.mainWidget.resize(new_size)
+        
+        
+
+
+        self.tabWidget = QtWidgets.QTabWidget()
+        self.tabWidget.setTabsClosable(True)
+        self.tabWidget.tabCloseRequested.connect(self.delete_tab)
+
+        self.mainLayout.addWidget(self.tabWidget)
         
         self.recnik = {}
         
@@ -112,10 +121,7 @@ class Plugin(Extension):
             self.toolBar.addAction(self.new)
 
             
-            self.mainWidget.setLayout(self.mainLayout)
-            parent_size = self.iface.size()
-            new_size = QSize(parent_size.width() / 2, parent_size.height() / 2)
-            self.mainWidget.resize(new_size)
+            
 
             # # upisivanje dokumenta u json file kada je kliknut da se otvori -> dokument je otvoren
             # for y in self.treeView.selectedIndexes():
@@ -150,7 +156,7 @@ class Plugin(Extension):
             self.page = QtWidgets.QWidget()
             self.newWidget = self.tabWidget.currentWidget()
             
-            self.mainLayout.addWidget(self.tabWidget)
+            
             self.newWidget = QtWidgets.QWidget()
             
             
