@@ -1,9 +1,51 @@
-from PySide2 import QtWidgets, QtCore
+from PySide2 import QtWidgets, QtCore, QtGui
+import json
 
 class ClickableLabel(QtWidgets.QLabel):
-    def __init__(self, parent=None):
+    def __init__(self, workspace, dokument, stranica, parent=None):
         super().__init__(parent)
+        print(workspace)
+        print(dokument)
+        print(stranica)
 
         self.setFrameStyle(QtWidgets.QFrame.StyledPanel | QtWidgets.QFrame.Plain)
         self.setLineWidth(1)
         self.setFocusPolicy(QtCore.Qt.StrongFocus)
+        with open("dokumenti/" + workspace + ".json", "r") as file:
+            json_data = json.load(file)
+
+        # count the number of slots in stranica1 of dokument1
+        num_slots = len(json_data[dokument][0][stranica][0])
+        print(num_slots)
+        pixmapWidth = 180
+        pixmapHeight = 130
+        pixmap = QtGui.QPixmap(pixmapWidth, pixmapHeight)
+        pixmap.fill(QtCore.Qt.white)
+        pen = QtGui.QPen()
+        pen.setWidth(2)
+        pen.setColor(QtCore.Qt.black)
+        pen.setStyle(QtCore.Qt.SolidLine)
+        
+
+
+        painter = QtGui.QPainter(pixmap)
+        painter.setPen(pen)
+        
+        painter.setFont(QtGui.QFont("Arial", 5))
+        painter.begin(pixmap)
+        width = 40
+        height = 40
+        x = 10
+        y = 20
+        for i in range(num_slots):        
+            painter.drawRect(x, y, width, height)
+            painter.drawText(x, y, width, height, QtCore.Qt.AlignCenter, "slot" + str(i+ 1))
+            x += width
+            if (i+1) %3 == 0: #if 6 squares have been drawn in a row
+                x = 10
+                y += height
+
+        
+        painter.end()
+
+        self.setPixmap(pixmap)

@@ -4,30 +4,37 @@
       "naziv": "dokument1",
       "stranica1": [
         {
-          "slot1.1": "putanja",
-          "slot1.2": "putanja",
-          "slot1.3": "putanja",
-          "slot1.4": "putanja"
+          "slot1": "C:/Users/User/Documents/Upisivanje.txt",
+          "slot2": "C:/Users/User/Documents/Predavanja.txt",
+          "slot3": "",
+          "slot4": ""
         }
       ],
       "stranica2": [
         {
-          "slot2.1": "putanja",
-          "slot2.2": "putanja"
+          "slot1": "putanja",
+          "slot2": "putanja",
+          "slot3": ""
         }
       ],
       "stranica3": [
-        {}
+        {
+          "slot1": "putanja"
+        }
       ],
       "thumbnails": [
         {
           "stranica1": "resources/icons/plaza.jpg",
           "stranica2": "resources/icons/plaza.jpg",
           "stranica3": "resources/icons/plaza.jpg",
-          "stranica4": "resources/icons/plaza.jpg"
+          "stranica4": "resources/icons/plaza.jpg",
+          "stranica5": "resources/icons/plaza.jpg"
         }
       ],
       "stranica4": [
+        {}
+      ],
+      "stranica5": [
         {}
       ]
     }
@@ -35,6 +42,19 @@
   "dokument2": [
     {
       "naziv": "dokument2",
+      "thumbnails": [
+        {
+          "stranica1": "resources/icons/plaza.jpg"
+        }
+      ],
+      "stranica1": [
+        {}
+      ]
+    }
+  ],
+  "dokument3": [
+    {
+      "naziv": "dokument3",
       "thumbnails": [
         {
           "stranica1": "resources/icons/plaza.jpg"
