@@ -1,6 +1,1 @@
-{
-    "workspace_plugin": false,
-    "celina_dokument": false,
-    "otvoreni_dokument": false,
-    "stranica_plugin": false
-}
+{"workspace_plugin": false, "celina_dokument": false, "otvoreni_dokument": true, "stranica_plugin": false}
