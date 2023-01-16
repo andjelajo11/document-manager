@@ -10,6 +10,6 @@ class MonotipTab(QtWidgets.QTabWidget):
 
     def textEditor(self, textEditor):
         self.addTab(textEditor, "Text Editor")
-    
+
     def delete_tab(self,index):
         self.removeTab(index)

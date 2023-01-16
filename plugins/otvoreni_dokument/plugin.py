@@ -41,13 +41,6 @@ class Plugin(Extension):
         
         self.stranica_plugin = Stranica_plugin(specification, iface)
 
-        
-
-
-
-
-
-        
 
     # FIXME: implementacija apstraktnih metoda
     def activate(self):
@@ -61,6 +54,12 @@ class Plugin(Extension):
         self.activated = True
 
 
+        # for dock in self.iface.findChildren(QtWidgets.QDockWidget):
+        #     self.dockWidget = dock
+        # self.kontejner = self.dockWidget.findChild(QtWidgets.QWidget)
+        # self.tab = self.kontejner.widget()
+        # self.treeView = self.tab.layout().itemAt(0).widget()
+        # self.treeView.clicked.connect(self.onClicked)    
         
 
     def deactivate(self):
@@ -123,24 +122,23 @@ class Plugin(Extension):
             
             
 
-            # # upisivanje dokumenta u json file kada je kliknut da se otvori -> dokument je otvoren
-            # for y in self.treeView.selectedIndexes():
-            #         text = y.data()
-            # with open('rad_sa_celim_dokumentom/otvoreniDokumenti.json') as data_ffile: 
-            #     data_list = json.load(data_ffile)
-            # #provera da li je dokument vec upisan u json 
-            # if text in data_list:
-            #     print("dokument je vec upisan")
-            # else:
-            #     data_list.append(text) 
-            #     # for i in data_list:
-            #     #     for j in data_list[i]:
-            #     #         data_list[i].append(text) 
-            #     #         print(data_list)
-            #     #         break
-            #     with open('rad_sa_celim_dokumentom/otvoreniDokumenti.json', 'w') as doc_file: 
-            #         data_json = json.dumps(data_list, sort_keys=True, indent=4)
-            #         doc_file.write(str(data_json))
+            # upisivanje dokumenta u json file kada je kliknut da se otvori -> dokument je otvoren
+            with open('rad_sa_celim_dokumentom/otvoreniDokumenti.json') as data_ffile: 
+                data_list = json.load(data_ffile)
+            #provera da li je dokument vec upisan u json 
+            workspace_dokument = workspace + "/" + dokument
+            if workspace_dokument in data_list:
+                print("dokument je vec upisan")
+            else:
+                data_list.append(workspace_dokument) 
+                # for i in data_list:
+                #     for j in data_list[i]:
+                #         data_list[i].append(text) 
+                #         print(data_list)
+                #         break
+                with open('rad_sa_celim_dokumentom/otvoreniDokumenti.json', 'w') as doc_file: 
+                    data_json = json.dumps(data_list, sort_keys=True, indent=4)
+                    doc_file.write(str(data_json))
                 
 
             self.innerTabWidget = QtWidgets.QTabWidget()

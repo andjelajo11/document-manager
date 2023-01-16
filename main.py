@@ -18,7 +18,34 @@ def reset_json_values():
     # Write the data back to the JSON file
     with open("plugin_framework/plugins.json", "w") as f:
         json.dump(data, f, indent=4)
+        
+    #brisanje konteksta za otvorene workspace kada se close app
+    with open("rad_sa_celim_dokumentom/workspace_otvoreni.json", "r") as f:
+        data = json.load(f)
 
+    # Reset the values in the JSON data
+    data = []
+
+    # Write the data back to the JSON file
+    with open("rad_sa_celim_dokumentom/workspace_otvoreni.json", "w") as f:
+        json.dump(data, f, indent=4)
+
+
+    #brisanje konteksta za otvorene dokumente kada se close app
+    with open("rad_sa_celim_dokumentom/otvoreniDokumenti.json", "r") as f:
+        data = json.load(f)
+
+    # Reset the values in the JSON data
+    data = []
+
+    # Write the data back to the JSON file
+    with open("rad_sa_celim_dokumentom/otvoreniDokumenti.json", "w") as f:
+        json.dump(data, f, indent=4)
+   
+   
+   
+   
+    
 def _load_configuration(path="configuration.json"):
     with open(path, "r", encoding="utf-8") as fp:
         config = json.load(fp)

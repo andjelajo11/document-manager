@@ -12,6 +12,7 @@ class ToolBar (QToolBar):
         # self.update_action = self.addAction(QtGui.QIcon("resources/icons/Save-icon.png"), "Update")
         self.delete_action = self.addAction(QtGui.QIcon("resources/icons/trash-bin-document.png"), "Delete Document")
         self.rename_action = self.addAction(QtGui.QIcon("resources/icons/rename document.png"), "Rename Document")
+        self.share_document =  self.addAction(QtGui.QIcon("resources/icons/document share.png"), "Share Document")
         # self.save_action = self.addAction(QtGui.QIcon("resources/icons/save.png"), "Save")
 
             
