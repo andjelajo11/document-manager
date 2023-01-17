@@ -4,6 +4,7 @@ from PySide2.QtGui import QIcon
 from PySide2.QtCore import Qt
 from plugins.stranica_plugin.clickableLabel import DoubleClickLabel
 from plugins.text_plugin.plugin import Plugin as textEditorPlugin
+from plugins.vektorska_slika_plugin.plugin import Plugin as vectorPlugin
 from monotip_handler.monotip_tab import MonotipTab
 import json
 
@@ -22,6 +23,7 @@ class Plugin(Extension):
         
         self.monotipTab = MonotipTab()
         self.textPlugin = textEditorPlugin(specification, iface)
+        self.vectorPlugin = vectorPlugin(specification, iface)
         self.recnik = {}
         self.row = 10
         self.column = 10
@@ -101,7 +103,7 @@ class Plugin(Extension):
             x = 9
             y = 9
             for slot in slots:
-                self.label = DoubleClickLabel(self.workspace, self.dokument, self.strana, slot, self.textPlugin)
+                self.label = DoubleClickLabel(self.workspace, self.dokument, self.strana, slot, self.textPlugin, self.vectorPlugin)
                 print(self.workspace)
                 print(self.dokument)
                 print(self.strana)
