@@ -60,6 +60,16 @@ class Plugin(Extension):
         print("Deactivated")
 
     def delete_tab(self, index):
+        #zatvaranje taba brise naziv workspace iz json fajla -> workspace je zatvoren
+        with open('rad_sa_celim_dokumentom/workspace_otvoreni.json') as data_file: 
+            data = json.load(data_file)
+        tab_text = self.tabWidget.tabText(index)
+        if tab_text in data:
+            data.remove(tab_text)
+            print(data)
+            with open('rad_sa_celim_dokumentom/workspace_otvoreni.json', 'w') as data_ffile: 
+                    data_json = json.dumps(data, sort_keys=True, indent=4)
+                    data_ffile.write(str(data_json))        
         self.tabWidget.removeTab(index)
         
     def izaberiWorkspace(self):
@@ -77,18 +87,31 @@ class Plugin(Extension):
             newFile = file_name.split("/")[-1].split(".")[0]
             self.tabWidget.addTab(self.treeView, newFile)
             print(newFile)
-            
+            # workspace = file_name.split(".")[0]
             self.treeView.populate(file_name)
             
 
             self.file_names.append(file_name)
 
+            with open("rad_sa_celim_dokumentom/workspace_otvoreni.json", "r") as json_file:
+                kontekst_workspace = json.load(json_file)
+            if newFile in kontekst_workspace:
+                print("workspace je vec upisan")
+            else:
+                kontekst_workspace.append(newFile) 
+                with open('rad_sa_celim_dokumentom/workspace_otvoreni.json', 'w') as doc_ffile:
+                    json.dump(kontekst_workspace, doc_ffile, sort_keys=True, indent=4)
+                    # doc_ffile.write(str(doc_json))
+                                            
+
+
             self.recnik[self.id] = self.treeView
             self.id += 1
             for index, self.treeView in self.recnik.items():
-                self.treeView.clicked.connect(lambda: self.treeClicked(index))
+                self.treeView.doubleClicked.connect(lambda: self.treeClicked(index))
 
         
+
 
         
     def treeClicked(self, index):

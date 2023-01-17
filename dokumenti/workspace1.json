@@ -4,10 +4,11 @@
       "naziv": "dokument1",
       "stranica1": [
         {
-          "slot1": "",
-          "slot2": "",
+          "slot1": "C:/Users/User/Documents/Upisivanje.txt",
+          "slot2": "C:/Users/User/Documents/kododvi.txt",
           "slot3": "",
-          "slot4": ""
+          "slot4": "",
+          "slot5": ""
         }
       ],
       "stranica2": [
