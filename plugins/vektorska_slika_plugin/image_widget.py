@@ -35,8 +35,8 @@ class imageWidget(QWidget):
         # Connect the buttons to the corresponding operations
         zoom_in_button.clicked.connect(lambda: view.scale(1.2, 1.2))
         zoom_out_button.clicked.connect(lambda: view.scale(1 / 1.2, 1 / 1.2))
-        rotate_left_button.clicked.connect(lambda: renderer.setViewBox(QTransform().rotate(-90)))
-        rotate_right_button.clicked.connect(lambda: renderer.setViewBox(QTransform().rotate(90)))
+        rotate_left_button.clicked.connect(lambda: svg_item.setRotation(svg_item.rotation() - 90))
+        rotate_right_button.clicked.connect(lambda: svg_item.setRotation(svg_item.rotation() + 90))
         flip_horizontal_button.clicked.connect(lambda: renderer.setViewBox(QTransform().scale(-1, 1)))
         flip_vertical_button.clicked.connect(lambda: renderer.setViewBox(QTransform().scale(1, -1)))
 
