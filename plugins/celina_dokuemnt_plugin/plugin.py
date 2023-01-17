@@ -75,11 +75,27 @@ class Plugin(Extension):
 
     #pre nego sto korisnik obrise dokument iskace dijalog za potvrdu
     def before_remowe (self):
-        self.alert_dialog = AlertDialog(self.iface)
-        self.alert_dialog.button_potvrdi.clicked.connect(self.remove_document)
-        self.alert_dialog.button_cancle.clicked.connect(self.alert_dialog.reject)
-        self.alert_dialog.setModal(True)
-        self.alert_dialog.show()
+        with open('rad_sa_celim_dokumentom/otvoreniDokumenti.json') as data_file: 
+            data_check = json.load(data_file)               
+        for y in self.tree_view.selectedIndexes():
+            dokument = y.data()
+            print("Dokument: " + dokument)
+        for i in self.tree_view.selectedIndexes():
+            x = i.parent()
+            kolekcija = i.parent().data()
+            print("Kolekcija: " + kolekcija)
+            workspace = x.parent().data()
+            for y in self.tree_view.selectedIndexes():
+                text = workspace + '/' + y.data()
+            if text in data_check:
+                self.info_dijalog.show()
+                print("Prvo zatvorite dokument") 
+            else:
+                self.alert_dialog = AlertDialog(self.iface)
+                self.alert_dialog.button_potvrdi.clicked.connect(self.remove_document)
+                self.alert_dialog.button_cancle.clicked.connect(self.alert_dialog.reject)
+                self.alert_dialog.setModal(True)
+                self.alert_dialog.show()
     
     def remove_document (self):
         self.tabWidget = self.kontejner.layout().itemAt(1).widget()

@@ -80,17 +80,11 @@ class Plugin(Extension):
         #zatvaranje taba brise naziv dokumenta iz json fajla -> dokument je zatvoren
         with open('rad_sa_celim_dokumentom/otvoreniDokumenti.json') as data_file: 
             data = json.load(data_file)
-<<<<<<< HEAD
         # tab_text_list = self.tabWidget.tabText(index).split('/')
         # tab_text = tab_text_list[1]
         tab_text_list = self.tabWidget.tabText(index)
         # tab_text = tab_text_list[1]
         if tab_text_list in data:
-=======
-        tab_text_list = self.tabWidget.tabText(index).split('/')
-        tab_text = tab_text_list[1]
-        if tab_text in data:
->>>>>>> 33888bf0b7354db01ea8e586fc3e6746f7d24515
             print("1")
             data.remove(tab_text_list)
             print("2")
