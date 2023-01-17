@@ -215,7 +215,7 @@ class Plugin(Extension):
             stranica = i.data()   
         dokument = self.dokument
         workspace = self.workspace  
-        self.stranica_plugin.onClicked(dokument, workspace, stranica)
+        self.stranica_plugin.onClicked(dokument, workspace, stranica, self.thumbnail)
         tree.clearSelection()
 
 

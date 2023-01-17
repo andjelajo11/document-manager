@@ -10,6 +10,9 @@ class MonotipTab(QtWidgets.QTabWidget):
 
     def textEditor(self, textEditor):
         self.addTab(textEditor, "Text Editor")
+    
+    def vectorImage(self, image):
+        self.addTab(image, "Vector")
 
     def delete_tab(self,index):
         self.removeTab(index)
