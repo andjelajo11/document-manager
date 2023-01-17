@@ -1,7 +1,33 @@
 {
-  "dokument1": [
+  "dokument2": [
     {
-      "naziv": "dokument1",
+      "naziv": "dokument2",
+      "thumbnails": [
+        {
+          "stranica1": "resources/icons/plaza.jpg"
+        }
+      ],
+      "stranica1": [
+        {}
+      ]
+    }
+  ],
+  "dokument3": [
+    {
+      "naziv": "dokument3",
+      "thumbnails": [
+        {
+          "stranica1": "resources/icons/plaza.jpg"
+        }
+      ],
+      "stranica1": [
+        {}
+      ]
+    }
+  ],
+  "dokument1.1": [
+    {
+      "naziv": "dokument1.1",
       "stranica1": [
         {
           "slot1": "C:/Users/User/Documents/Upisivanje.txt",
@@ -36,32 +62,6 @@
         {}
       ],
       "stranica5": [
-        {}
-      ]
-    }
-  ],
-  "dokument2": [
-    {
-      "naziv": "dokument2",
-      "thumbnails": [
-        {
-          "stranica1": "resources/icons/plaza.jpg"
-        }
-      ],
-      "stranica1": [
-        {}
-      ]
-    }
-  ],
-  "dokument3": [
-    {
-      "naziv": "dokument3",
-      "thumbnails": [
-        {
-          "stranica1": "resources/icons/plaza.jpg"
-        }
-      ],
-      "stranica1": [
         {}
       ]
     }

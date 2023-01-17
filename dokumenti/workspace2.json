@@ -1,47 +1,4 @@
 {
-  "dokument1": [
-    {
-      "naziv": "dokument1",
-      "stranica1": [
-        {
-          "slot1": "",
-          "slot2": "",
-          "slot3": ""
-        }
-      ],
-      "stranica2": [
-        {
-          "slot1": "",
-          "slot2": ""
-        }
-      ],
-      "stranica3": [
-        {}
-      ],
-      "stranica4": [
-        {}
-      ],
-      "thumbnails": [
-        {
-          "stranica1": "resources/icons/plaza.jpg",
-          "stranica2": "resources/icons/plaza.jpg"
-        }
-      ]
-    }
-  ],
-  "dokument2": [
-    {
-      "naziv": "dokument2",
-      "stranica1": [
-        {}
-      ],
-      "thumbnails": [
-        {
-          "stranica1": "resources/icons/plaza.jpg"
-        }
-      ]
-    }
-  ],
   "dokument3": [
     {
       "naziv": "dokument3",
@@ -49,5 +6,17 @@
         {}
       ]
     }
-  ]
+  ],
+  "dokument5": {
+    "naziv": "dokument5",
+    "thumbnails": [
+      {}
+    ]
+  },
+  "dokument6": {
+    "naziv": "dokument6",
+    "thumbnails": [
+      {}
+    ]
+  }
 }

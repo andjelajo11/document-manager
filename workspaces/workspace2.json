@@ -1,14 +1,13 @@
 {
-    "workspace2": {
-        "kolekcija1": [
-            "dokument1"
-        ],
-        "kolekcija2": [
-            "dokument2"
-        ],
-        "kolekcija3": [
-            "dokument3"
-        ],
-        "kolekcija4": []
-    }
+  "workspace2": {
+    "kolekcija1": [],
+    "kolekcija2": [],
+    "kolekcija3": [
+      "dokument3"
+    ],
+    "kolekcija4": [
+      "dokument5",
+      "dokument6"
+    ]
+  }
 }
