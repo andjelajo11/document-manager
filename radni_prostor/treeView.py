@@ -152,9 +152,7 @@ class TreeView(QTreeView):
                         if workspace == parent.data():
                                 for collection in data[workspace]:
                                         if collection == text:
-                                        # Delete the collection from the JSON file
                                                 data[workspace].pop(collection)
-                                        # Save the updated data to the JSON file
                                                 with open('workspaces/'+ parent.data() + '.json', 'w') as data_file:
                                                         json.dump(data, data_file, sort_keys=True, indent=4)
                                                 break

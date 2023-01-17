@@ -36,7 +36,6 @@ class MainWindow(QtWidgets.QMainWindow):
         #centralwidget
         self.central_widget = CentralWidget()
 
-
         self._bind_actions()
 
         self.menu_bar._populate_menu_bar(self.actions_dict)
