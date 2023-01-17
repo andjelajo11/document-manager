@@ -80,10 +80,13 @@ class Plugin(Extension):
         #zatvaranje taba brise naziv dokumenta iz json fajla -> dokument je zatvoren
         with open('rad_sa_celim_dokumentom/otvoreniDokumenti.json') as data_file: 
             data = json.load(data_file)
-        tab_text = self.tabWidget.tabText(index)
-        if tab_text in data:
+        # tab_text_list = self.tabWidget.tabText(index).split('/')
+        # tab_text = tab_text_list[1]
+        tab_text_list = self.tabWidget.tabText(index)
+        # tab_text = tab_text_list[1]
+        if tab_text_list in data:
             print("1")
-            data.remove(tab_text)
+            data.remove(tab_text_list)
             print("2")
             print(data)
             print("3")
@@ -139,7 +142,7 @@ class Plugin(Extension):
                     data_json = json.dumps(data_list, sort_keys=True, indent=4)
                     doc_file.write(str(data_json))
                 
-
+            
             self.innerTabWidget = QtWidgets.QTabWidget()
             self.innerTabWidget.setTabsClosable(False)
             self.treeWidget = TreeView() 
