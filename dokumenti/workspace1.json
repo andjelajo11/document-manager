@@ -1,30 +1,4 @@
 {
-  "dokument2": [
-    {
-      "naziv": "dokument2",
-      "thumbnails": [
-        {
-          "stranica1": "resources/icons/plaza.jpg"
-        }
-      ],
-      "stranica1": [
-        {}
-      ]
-    }
-  ],
-  "dokument3": [
-    {
-      "naziv": "dokument3",
-      "thumbnails": [
-        {
-          "stranica1": "resources/icons/plaza.jpg"
-        }
-      ],
-      "stranica1": [
-        {}
-      ]
-    }
-  ],
   "dokument1.1": [
     {
       "naziv": "dokument1.1",
@@ -32,9 +6,10 @@
         {
           "slot1": "C:/Users/User/Documents/Upisivanje.txt",
           "slot2": "C:/Users/User/Documents/kododvi.txt",
-          "slot3": "C:/Users/User/Downloads/parrot-by-graphicmama-team-prismatic-enhanced.svg",
+          "slot3": "",
           "slot4": "",
-          "slot5": ""
+          "slot5": "",
+          "slot6": ""
         }
       ],
       "stranica2": [
@@ -62,6 +37,45 @@
         {}
       ],
       "stranica5": [
+        {}
+      ]
+    }
+  ],
+  "dokument2": {
+    "naziv": "dokument2",
+    "thumbnails": [
+      {}
+    ]
+  },
+  "dokument3": [
+    {
+      "naziv": "dokument3",
+      "thumbnails": [
+        {
+          "stranica1": "resources/icons/plaza.jpg",
+          "stranica2": "resources/icons/plaza.jpg",
+          "stranica3": "resources/icons/plaza.jpg",
+          "stranica4": "resources/icons/plaza.jpg"
+        }
+      ],
+      "stranica1": [
+        {}
+      ],
+      "stranica2": [
+        {}
+      ],
+      "stranica3": [
+        {}
+      ],
+      "stranica4": [
+        {}
+      ]
+    }
+  ],
+  "dokument4.4": [
+    {
+      "naziv": "dokument4.4",
+      "thumbnails": [
         {}
       ]
     }
