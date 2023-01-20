@@ -170,7 +170,7 @@ class Plugin(Extension):
         with open('dokumenti/' + workspace + '.json' ) as data_file:  
             data = json.load(data_file)
 
-        data[dokument]["naziv"] = self.rename_uneto
+        data[dokument][0]["naziv"] = self.rename_uneto
         data[self.rename_uneto] = data.pop(dokument)
                 
         with open('dokumenti/' + workspace + '.json', 'w') as f:
