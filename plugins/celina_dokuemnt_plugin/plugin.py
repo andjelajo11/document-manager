@@ -159,7 +159,6 @@ class Plugin(Extension):
             workspace = x.parent().data()
         self.rename_uneto = self.rename_dialog.rename_input.text()
 
-
         with open('workspaces/' + workspace + '.json' ) as data_file:  
             data = json.load(data_file)
 
@@ -167,10 +166,11 @@ class Plugin(Extension):
                 
         with open('workspaces/' + workspace + '.json', 'w') as f:
             json.dump(data, f, indent=2)
+            
         with open('dokumenti/' + workspace + '.json' ) as data_file:  
             data = json.load(data_file)
 
-        data[dokument][0]["naziv"] = self.rename_uneto
+        data[dokument]["naziv"] = self.rename_uneto
         data[self.rename_uneto] = data.pop(dokument)
                 
         with open('dokumenti/' + workspace + '.json', 'w') as f:

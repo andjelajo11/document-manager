@@ -7,7 +7,9 @@
           "slot1": "C:/Users/User/Documents/Upisivanje.txt",
           "slot2": "C:/Users/User/Documents/kododvi.txt",
           "slot3": "",
-          "slot4": ""
+          "slot4": "",
+          "slot5": "",
+          "slot6": ""
         }
       ],
       "stranica2": [
@@ -35,6 +37,37 @@
         {}
       ],
       "stranica5": [
+        {}
+      ]
+    }
+  ],
+  "dokument2": {
+    "naziv": "dokument2",
+    "thumbnails": [
+      {}
+    ]
+  },
+  "dokument3": [
+    {
+      "naziv": "dokument3",
+      "thumbnails": [
+        {
+          "stranica1": "resources/icons/plaza.jpg",
+          "stranica2": "resources/icons/plaza.jpg",
+          "stranica3": "resources/icons/plaza.jpg",
+          "stranica4": "resources/icons/plaza.jpg"
+        }
+      ],
+      "stranica1": [
+        {}
+      ],
+      "stranica2": [
+        {}
+      ],
+      "stranica3": [
+        {}
+      ],
+      "stranica4": [
         {}
       ]
     }
