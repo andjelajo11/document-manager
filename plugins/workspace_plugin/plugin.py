@@ -103,7 +103,8 @@ class Plugin(Extension):
                     json.dump(kontekst_workspace, doc_ffile, sort_keys=True, indent=4)
                     # doc_ffile.write(str(doc_json))
                                             
-
+            
+            
 
             self.recnik[self.id] = self.treeView
             self.id += 1
@@ -111,7 +112,6 @@ class Plugin(Extension):
                 self.treeView.doubleClicked.connect(lambda: self.treeClicked(index))
 
         
-
 
         
     def treeClicked(self, index):

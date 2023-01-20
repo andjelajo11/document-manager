@@ -4,7 +4,6 @@ from PySide2.QtGui import QIcon
 from PySide2.QtCore import Qt
 from plugins.stranica_plugin.clickableLabel import DoubleClickLabel
 from plugins.text_plugin.plugin import Plugin as textEditorPlugin
-from plugins.vektorska_slika_plugin.plugin import Plugin as vectorPlugin
 from monotip_handler.monotip_tab import MonotipTab
 import json
 
@@ -23,7 +22,6 @@ class Plugin(Extension):
         
         self.monotipTab = MonotipTab()
         self.textPlugin = textEditorPlugin(specification, iface)
-        self.vectorPlugin = vectorPlugin(specification, iface)
         self.recnik = {}
         self.row = 10
         self.column = 10
@@ -46,11 +44,10 @@ class Plugin(Extension):
         self.tabWidget.removeTab(index)
 
         
-    def onClicked(self, dokument, workspace, strana, thumbnailWidget):
+    def onClicked(self, dokument, workspace, strana):
         self.dokument = dokument
         self.workspace = workspace
         self.strana = strana
-        self.thumbnail = thumbnailWidget
         if "stranica" in strana:          
 
             self.mainLayoutV = QVBoxLayout()
@@ -103,11 +100,7 @@ class Plugin(Extension):
             x = 9
             y = 9
             for slot in slots:
-                self.label = DoubleClickLabel(self.workspace, self.dokument, self.strana, slot, self.textPlugin, self.vectorPlugin)
-                print(self.workspace)
-                print(self.dokument)
-                print(self.strana)
-                print(slot)
+                self.label = DoubleClickLabel(self.workspace, self.dokument, self.strana, slot, self.textPlugin)
                 self.label.setText(slot)        
                 self.label.setFrameStyle(QFrame.StyledPanel | QFrame.Plain)
                 self.label.setLineWidth(1)
@@ -138,7 +131,7 @@ class Plugin(Extension):
 
 
     def addLabel(self, row, col, itemCount):
-
+        
         self.page = self.main.layout().itemAt(1).widget()
         self.activeLayout = self.page.layout()
         
@@ -156,19 +149,17 @@ class Plugin(Extension):
             self.activeWidget.layout().addWidget(self.label, row, col,itemCount, 1)
 
 
-            self.label.setFocusPolicy(Qt.StrongFocus)
+        self.label.setFocusPolicy(Qt.StrongFocus)
 
-            
-            with open("dokumenti/" + self.workspace + ".json", "r") as f:
-                data = json.load(f)
+        
+        with open("dokumenti/" + self.workspace + ".json", "r") as f:
+            data = json.load(f)
 
 
-            data[self.dokument][0][self.strana][0]["slot" + str(self.tester)] = ""
+        data[self.dokument][0][self.strana][0]["slot" + str(self.tester)] = ""
 
-            with open("dokumenti/" + self.workspace + ".json", 'w') as f:
-                json.dump(data, f, indent=2)
-            
-            self.thumbnail.pokreni()
+        with open("dokumenti/" + self.workspace + ".json", 'w') as f:
+            json.dump(data, f, indent=2)
 
 
     def addDown(self):
@@ -252,9 +243,9 @@ class Plugin(Extension):
 
             with open("dokumenti/" + self.workspace + ".json", 'w') as f:
                 json.dump(data, f, indent=2)
-            self.thumbnail.pokreni()
 
-
+    def doubleClick(self):
+        print("double clicked")
             
             
 

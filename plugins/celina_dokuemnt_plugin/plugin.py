@@ -37,7 +37,7 @@ class Plugin(Extension):
         self.toolbar = ToolBar()
         self.toolbar.add_crud()
         self.toolbar.create_action.triggered.connect(self.show_create_dialog)
-        self.toolbar.delete_action.triggered.connect(self.before_remowe)
+        self.toolbar.delete_action.triggered.connect(self.config_check_remowe)            
         self.toolbar.rename_action.triggered.connect(self.rename_document)
         self.rename_dialog = RenameDialog(self.iface)
         self.rename_dialog.button_rename.clicked.connect(self.rename_dugme_kliknuto)
@@ -71,31 +71,25 @@ class Plugin(Extension):
         self.tabWidget = self.kontejner.layout().itemAt(1).widget()
         self.tree_view = self.tabWidget.currentWidget()
         self.create_dialog.dugme_kliknuto()
-        self.tree_view.kliknuto_update(self.create_dialog.workspace_uneto)  
+        self.tree_view.kliknuto_update(self.create_dialog.workspace_uneto) 
+     
+    #prvo se proverava da li je aktivan alert dijalog za proveru pre brisanja dokumenta   
+    def config_check_remowe(self):
+        with open("rad_sa_celim_dokumentom/configuration.json", "r") as f:
+            data = json.load(f)
+        if data["alert_dialog"] == True: #poziva se metoda koja pre brisanja prikazuje dijalog
+            self.before_remowe()
+        else:
+            self.remove_document() #poziva se metoda koja brise dokument bez prikazivanja dijaloga
+
 
     #pre nego sto korisnik obrise dokument iskace dijalog za potvrdu
     def before_remowe (self):
-        with open('rad_sa_celim_dokumentom/otvoreniDokumenti.json') as data_file: 
-            data_check = json.load(data_file)               
-        for y in self.tree_view.selectedIndexes():
-            dokument = y.data()
-            print("Dokument: " + dokument)
-        for i in self.tree_view.selectedIndexes():
-            x = i.parent()
-            kolekcija = i.parent().data()
-            print("Kolekcija: " + kolekcija)
-            workspace = x.parent().data()
-            for y in self.tree_view.selectedIndexes():
-                text = workspace + '/' + y.data()
-            if text in data_check:
-                self.info_dijalog.show()
-                print("Prvo zatvorite dokument") 
-            else:
-                self.alert_dialog = AlertDialog(self.iface)
-                self.alert_dialog.button_potvrdi.clicked.connect(self.remove_document)
-                self.alert_dialog.button_cancle.clicked.connect(self.alert_dialog.reject)
-                self.alert_dialog.setModal(True)
-                self.alert_dialog.show()
+            self.alert_dialog = AlertDialog(self.iface)
+            self.alert_dialog.button_potvrdi.clicked.connect(self.remove_document)
+            self.alert_dialog.button_cancle.clicked.connect(self.alert_dialog.reject)
+            self.alert_dialog.setModal(True)
+            self.alert_dialog.show()
     
     def remove_document (self):
         self.tabWidget = self.kontejner.layout().itemAt(1).widget()
