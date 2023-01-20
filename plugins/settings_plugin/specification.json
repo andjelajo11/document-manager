@@ -1,0 +1,16 @@
+{
+    "id": 10,
+    "name": "Settings",
+    "authors": [{
+        "first_name": "Andjela",
+        "last_name": "Jovanovic",
+        "email": "amitrovic@singidunum.ac.rs",
+        "web_page": "https://gitlab.com/aleksandramitrovic"
+    }],
+    "version": "1.0.0",
+    "core_version": "1.0.0",
+    "category": "editor",
+    "licence": "MIT",
+    "description": "Podesavanja",
+    "web_page": "bbbbb"
+}

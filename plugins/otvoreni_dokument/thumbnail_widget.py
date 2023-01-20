@@ -84,7 +84,7 @@ class ThumbnailWidget(QtWidgets.QScrollArea):
                 parent_size = focused_widget.size()
                 new_size = QtCore.QSize(parent_size.width(), parent_size.height())
                 self.overlay.resize(new_size)
-                self.stranica_plugin.onClicked(self.dokument, self.workspace, self.stranica, self)
+                self.stranica_plugin.onClicked(self.dokument, self.workspace, self.stranica)
 
 
 

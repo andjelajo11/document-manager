@@ -1,7 +1,7 @@
 {
   "workspace1": {
     "kolekcija1": [
-      "dokument1"
+      "dokument1.1"
     ],
     "kolekcija2": [
       "dokument2"
@@ -10,8 +10,8 @@
       "dokument3"
     ],
     "kolekcija4": [
+      "dokument4.4"
     ],
-    "kolekcija5": [
-    ]
+    "kolekcija5": []
   }
 }
