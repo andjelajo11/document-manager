@@ -90,7 +90,7 @@ class CreateDialog(QtWidgets.QDialog):
         # self.button_create.clicked.connect(self.dugme_kliknuto)
 
         self._layout.addWidget(self.button_create)     
-        # self.button_create.clicked.connect(self.dugme_kliknuto)
+        self.button_create.clicked.connect(self.dugme_kliknuto)
         
         
     def dugme_kliknuto(self):
@@ -117,9 +117,9 @@ class CreateDialog(QtWidgets.QDialog):
             data = json.load(data_file)
 
         if self.dokument_uneto not in data:
-            data[self.dokument_uneto] = [{
+            data[self.dokument_uneto] = {
       "naziv": self.dokument_uneto,
-      "thumbnails": [{}]}]
+      "thumbnails": [{}]}
         
             with open('dokumenti/' + self.workspace_uneto + '.json', 'w') as f:
                 json.dump(data, f, indent=2)

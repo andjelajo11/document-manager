@@ -8,10 +8,6 @@ from PySide2 import QtCore
 from rad_sa_celim_dokumentom.ui.tool_bar import ToolBar
 from rad_sa_celim_dokumentom.ui.create_dialog import CreateDialog
 from rad_sa_celim_dokumentom.ui.rename_dialog import RenameDialog
-from rad_sa_celim_dokumentom.ui.info_dijalog import InfoDijalog
-from rad_sa_celim_dokumentom.ui.alert_dialog import AlertDialog
-
-
 import json
 
 class Plugin(Extension):
@@ -37,11 +33,10 @@ class Plugin(Extension):
         self.toolbar = ToolBar()
         self.toolbar.add_crud()
         self.toolbar.create_action.triggered.connect(self.show_create_dialog)
-        self.toolbar.delete_action.triggered.connect(self.config_check_remowe)            
+        self.toolbar.delete_action.triggered.connect(self.remove_document)
         self.toolbar.rename_action.triggered.connect(self.rename_document)
         self.rename_dialog = RenameDialog(self.iface)
         self.rename_dialog.button_rename.clicked.connect(self.rename_dugme_kliknuto)
-        self.info_dijalog = InfoDijalog(self.iface)
         
         for dock in self.iface.findChildren(QtWidgets.QDockWidget):
             self.dockWidget = dock
@@ -63,34 +58,13 @@ class Plugin(Extension):
     def show_create_dialog(self):
         self.create_dialog = CreateDialog(self.iface)
         self.create_dialog.show()
-        self.create_dialog.button_create.clicked.connect(self.create_refresh)
-
 
     
     def create_refresh (self):
-        self.tabWidget = self.kontejner.layout().itemAt(1).widget()
-        self.tree_view = self.tabWidget.currentWidget()
         self.create_dialog.dugme_kliknuto()
-        self.tree_view.kliknuto_update(self.create_dialog.workspace_uneto) 
-     
-    #prvo se proverava da li je aktivan alert dijalog za proveru pre brisanja dokumenta   
-    def config_check_remowe(self):
-        with open("rad_sa_celim_dokumentom/configuration.json", "r") as f:
-            data = json.load(f)
-        if data["alert_dialog"] == True: #poziva se metoda koja pre brisanja prikazuje dijalog
-            self.before_remowe()
-        else:
-            self.remove_document() #poziva se metoda koja brise dokument bez prikazivanja dijaloga
+        self.tree_view.kliknuto_update()  
 
 
-    #pre nego sto korisnik obrise dokument iskace dijalog za potvrdu
-    def before_remowe (self):
-            self.alert_dialog = AlertDialog(self.iface)
-            self.alert_dialog.button_potvrdi.clicked.connect(self.remove_document)
-            self.alert_dialog.button_cancle.clicked.connect(self.alert_dialog.reject)
-            self.alert_dialog.setModal(True)
-            self.alert_dialog.show()
-    
     def remove_document (self):
         self.tabWidget = self.kontejner.layout().itemAt(1).widget()
         self.tree_view = self.tabWidget.currentWidget()
@@ -104,10 +78,8 @@ class Plugin(Extension):
             kolekcija = i.parent().data()
             print("Kolekcija: " + kolekcija)
             workspace = x.parent().data()
-            for y in self.tree_view.selectedIndexes():
-                text = workspace + '/' + y.data()
-            if text in data_check:
-                self.info_dijalog.show()
+            print("Workspace: "+ workspace)
+            if dokument in data_check:
             #TODO: napraviti dijalog za ovu poruku
                 print("Prvo zatvorite dokument") 
             else:
@@ -125,26 +97,19 @@ class Plugin(Extension):
                 
                 with open('dokumenti/' + workspace + '.json', 'w') as f:
                     json.dump(data, f, indent=2)
-                    
-                self.tree_view.kliknuto_update(workspace)  
 
     def rename_document (self):
         self.tabWidget = self.kontejner.layout().itemAt(1).widget()
         self.tree_view = self.tabWidget.currentWidget()
         with open('rad_sa_celim_dokumentom/otvoreniDokumenti.json') as data_file: 
             data_check = json.load(data_file) 
-            for i in self.tree_view.selectedIndexes():
-                x = i.parent()
-                workspace = x.parent().data()
-            for y in self.tree_view.selectedIndexes():
-                        text = workspace + '/' + y.data()
-                        print(text)
-                        if text in data_check:
-                            self.info_dijalog.show()
-                        #TODO: napraviti dijalog za ovu poruku
-                            print("Prvo zatvorite dokument") 
-                        else:
-                            self.rename_dialog.show()
+        for y in self.tree_view.selectedIndexes():
+                    text = y.data()
+                    if text in data_check:
+                    #TODO: napraviti dijalog za ovu poruku
+                        print("Prvo zatvorite dokument") 
+                    else:
+                        self.rename_dialog.show()
 
     def rename_dugme_kliknuto (self):
         self.tabWidget = self.kontejner.layout().itemAt(1).widget()
@@ -159,6 +124,7 @@ class Plugin(Extension):
             workspace = x.parent().data()
         self.rename_uneto = self.rename_dialog.rename_input.text()
 
+
         with open('workspaces/' + workspace + '.json' ) as data_file:  
             data = json.load(data_file)
 
@@ -166,7 +132,9 @@ class Plugin(Extension):
                 
         with open('workspaces/' + workspace + '.json', 'w') as f:
             json.dump(data, f, indent=2)
-            
+       
+
+
         with open('dokumenti/' + workspace + '.json' ) as data_file:  
             data = json.load(data_file)
 
@@ -175,5 +143,3 @@ class Plugin(Extension):
                 
         with open('dokumenti/' + workspace + '.json', 'w') as f:
             json.dump(data, f, indent=2)
-            
-        self.tree_view.kliknuto_update(workspace)  

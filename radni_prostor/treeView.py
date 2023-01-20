@@ -36,7 +36,7 @@ class TreeView(QTreeView):
                                 message_box.setText("Nije aktivirana komponenta za rad sa otvorenim dokumentima.")
                                 message_box.exec_()
 
-        
+
         def populate(self, file):
                 self.rootNode = self.model.invisibleRootItem()
                 self.setHeaderHidden(True)
@@ -67,18 +67,14 @@ class TreeView(QTreeView):
                 self.setModel(self.model)  
 
 
-        def kliknuto_update (self, file):
+        def kliknuto_update (self):
                 self.model.clear()
+                self.model = QStandardItemModel()
                 self.rootNode = self.model.invisibleRootItem()
                 self.setHeaderHidden(True)
-                if "workspaces/" in file:
-                        with open(file) as data_file:  
-                                data = json.load(data_file)
-                        data_file.close()
-                else:
-                        with open('workspaces/' + file + ".json") as data_file:
-                                data = json.load(data_file)
-                
+                with open('radni_prostor/workspace.json') as data_file:  
+                        data = json.load(data_file)
+                data_file.close()
                 for workspace in data:
                         workspace1 = StandardItem(workspace)
                         self.rootNode.appendRow(workspace1)  # Print the workspace name
@@ -94,8 +90,7 @@ class TreeView(QTreeView):
                                         kolekcija.appendRow(dokument)
 
 
-
-                self.setModel(self.model)  
+                self.setModel(self.model)    
         
         def delete_selcted_item (self):
                 for i in self.selectedIndexes():
