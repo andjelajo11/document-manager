@@ -1,15 +1,14 @@
 {
-  "dokument1.1": [
+  "dokument1": [
     {
-      "naziv": "dokument1.1",
+      "naziv": "dokument1",
       "stranica1": [
         {
           "slot1": "",
           "slot2": "",
           "slot3": "",
           "slot4": "",
-          "slot5": "",
-          "slot6": ""
+          "slot5": ""
         }
       ],
       "stranica2": [
@@ -41,41 +40,28 @@
       ]
     }
   ],
-  "dokument2": {
-    "naziv": "dokument2",
-    "thumbnails": [
-      {}
-    ]
-  },
+  "dokument2": [
+    {
+      "naziv": "dokument2",
+      "thumbnails": [
+        {
+          "stranica1": "resources/icons/plaza.jpg"
+        }
+      ],
+      "stranica1": [
+        {}
+      ]
+    }
+  ],
   "dokument3": [
     {
       "naziv": "dokument3",
       "thumbnails": [
         {
-          "stranica1": "resources/icons/plaza.jpg",
-          "stranica2": "resources/icons/plaza.jpg",
-          "stranica3": "resources/icons/plaza.jpg",
-          "stranica4": "resources/icons/plaza.jpg"
+          "stranica1": "resources/icons/plaza.jpg"
         }
       ],
       "stranica1": [
-        {}
-      ],
-      "stranica2": [
-        {}
-      ],
-      "stranica3": [
-        {}
-      ],
-      "stranica4": [
-        {}
-      ]
-    }
-  ],
-  "dokument4.4": [
-    {
-      "naziv": "dokument4.4",
-      "thumbnails": [
         {}
       ]
     }
