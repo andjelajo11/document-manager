@@ -23,8 +23,8 @@
       ],
       "thumbnails": [
         {
-          "stranica1": "resources/icons/plaza.jpg",
-          "stranica2": "resources/icons/plaza.jpg"
+          "stranica1": "",
+          "stranica2": ""
         }
       ]
     }
@@ -37,7 +37,7 @@
       ],
       "thumbnails": [
         {
-          "stranica1": "resources/icons/plaza.jpg"
+          "stranica1": ""
         }
       ]
     }
