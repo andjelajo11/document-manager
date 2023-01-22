@@ -1,0 +1,86 @@
+{
+  "dokument1": [
+    {
+      "naziv": "dokument1",
+      "stranica1": [
+        {
+          "slot1": "",
+          "slot2": "",
+          "slot3": "C:/Users/User/Downloads/shutterstock_329291891.jpg",
+          "slot4": "",
+          "slot5": "",
+          "slot6": ""
+        }
+      ],
+      "stranica2": [
+        {
+          "slot1": "",
+          "slot2": "",
+          "slot3": ""
+        }
+      ],
+      "stranica3": [
+        {
+          "slot1": ""
+        }
+      ],
+      "thumbnails": [
+        {
+          "stranica1": "",
+          "stranica2": "",
+          "stranica3": "",
+          "stranica4": "",
+          "stranica5": ""
+        }
+      ],
+      "stranica4": [
+        {}
+      ],
+      "stranica5": [
+        {}
+      ]
+    }
+  ],
+  "dokument2": [
+    {
+      "naziv": "dokument2",
+      "thumbnails": [
+        {
+          "stranica1": ""
+        }
+      ],
+      "stranica1": [
+        {}
+      ]
+    }
+  ],
+  "dokument3": [
+    {
+      "naziv": "dokument3",
+      "thumbnails": [
+        {
+          "stranica1": ""
+        }
+      ],
+      "stranica1": [
+        {}
+      ]
+    }
+  ],
+  "dokument4": [
+    {
+      "naziv": "dokument4",
+      "thumbnails": [
+        {}
+      ]
+    }
+  ],
+  "dokument5": [
+    {
+      "naziv": "dokument5",
+      "thumbnails": [
+        {}
+      ]
+    }
+  ]
+}
