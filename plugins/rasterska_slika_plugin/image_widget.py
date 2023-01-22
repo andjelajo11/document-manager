@@ -1,5 +1,5 @@
 from PySide2.QtCore import Qt, QEvent, QPoint, QRect, QSize, QRectF
-from PySide2.QtGui import QTransform, QPixmap, QPainter
+from PySide2.QtGui import QTransform, QPixmap, QPainter, QIcon
 from PySide2.QtWidgets import QLabel, QWidget, QAction, QToolBar, QVBoxLayout, QGraphicsView, QGraphicsScene, QRubberBand
 
 
@@ -43,42 +43,42 @@ class imageWidget(QWidget):
         self.layout.addWidget(self.toolbar)
 
         # Add actions to toolbar
-        self.rotate_left_action = QAction("Rotate Left", self)
+        self.rotate_left_action = QAction(QIcon("resources/icons/rotate-left.png"),"Rotate Left", self)
         self.rotate_left_action.triggered.connect(self.rotate_left)
         self.toolbar.addAction(self.rotate_left_action)
 
-        self.rotate_right_action = QAction("Rotate Right", self)
+        self.rotate_right_action = QAction(QIcon("resources/icons/rotate-right.png"),"Rotate Right", self)
         self.rotate_right_action.triggered.connect(self.rotate_right)
         self.toolbar.addAction(self.rotate_right_action)
 
        
 
-        self.flip_horizontal_action = QAction("Flip Horizontal", self)
+        self.flip_horizontal_action = QAction(QIcon("resources/icons/flip-horizontal.png"),"Flip Horizontal", self)
         self.flip_horizontal_action.triggered.connect(self.flip_horizontal)
         self.toolbar.addAction(self.flip_horizontal_action)
 
-        self.flip_vertical_action = QAction("Flip Vertical", self)
+        self.flip_vertical_action = QAction(QIcon("resources/icons/vertical-flip.png"),"Flip Vertical", self)
         self.flip_vertical_action.triggered.connect(self.flip_vertical)
         self.toolbar.addAction(self.flip_vertical_action)
 
-        self.zoom_in_action = QAction("Zoom In", self)
+        self.zoom_in_action = QAction(QIcon("resources/icons/zoom-in.png"),"Zoom In", self)
         self.zoom_in_action.triggered.connect(self.zoom_in)
         self.toolbar.addAction(self.zoom_in_action)
 
-        self.zoom_out_action = QAction("Zoom Out", self)
+        self.zoom_out_action = QAction(QIcon("resources/icons/zoom-out.png"),"Zoom Out", self)
         self.zoom_out_action.triggered.connect(self.zoom_out)
         self.toolbar.addAction(self.zoom_out_action)
 
 
-        self.crop = QAction("Crop", self)
+        self.crop = QAction(QIcon("resources/icons/crop.png"),"Crop", self)
         self.crop.triggered.connect(self.crop_image)
         self.toolbar.addAction(self.crop)
 
-        self.cancel_button = QAction("Cancel", self)
+        self.cancel_button = QAction(QIcon("resources/icons/cancel.png"),"Cancel", self)
         self.cancel_button.triggered.connect(self.cancel)
         self.toolbar.addAction(self.cancel_button)
 
-        self.undo_button = QAction("Undo Crop", self)
+        self.undo_button = QAction(QIcon("resources/icons/undo.png"),"Undo Crop", self)
         self.undo_button.triggered.connect(self.undo_crop)
         self.undo_button.setEnabled(True)
         self.toolbar.addAction(self.undo_button)
@@ -99,7 +99,12 @@ class imageWidget(QWidget):
         elif event.type() == QEvent.MouseMove and source is self.view.viewport() and self.is_selecting:
             self.rubberBand.setGeometry(QRect(self.origin, event.pos()).normalized())
             return True
+        elif event.type() == QEvent.MouseButtonDblClick:
+            self.view.scale(1.2, 1.2)
+            self.view.centerOn(self.view.mapToScene(event.pos()))
+            return True
         return super().eventFilter(source, event)
+        
 
     def crop_image(self):
         # Check if an area is selected
