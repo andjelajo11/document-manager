@@ -13,6 +13,9 @@ class MonotipTab(QtWidgets.QTabWidget):
     
     def vectorImage(self, image):
         self.addTab(image, "Vector")
+    
+    def rasterImage(self, image):
+        self.addTab(image, "Raster")
 
     def delete_tab(self,index):
         self.removeTab(index)

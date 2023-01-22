@@ -6,7 +6,7 @@ import json
 
 
 class DoubleClickLabel(QLabel):
-    def __init__(self, workspace, dokument, stranica, slot, textPlugin, vectorPlugin):
+    def __init__(self, workspace, dokument, stranica, slot, textPlugin, vectorPlugin, rasterPlugin):
         super().__init__()
         self.workspace = workspace
         self.dokument = dokument
@@ -14,6 +14,7 @@ class DoubleClickLabel(QLabel):
         self.slot = slot
         self.textPlugin = textPlugin
         self.vectorPLugin = vectorPlugin
+        self.rasterPlugin = rasterPlugin
         
 
     def mouseDoubleClickEvent(self, event):
@@ -39,8 +40,12 @@ class DoubleClickLabel(QLabel):
                     self.textPlugin.slotSelected(file_name)
                 elif ".svg" in file_name:
                     self.vectorPLugin.slotSelected(file_name)
+                elif ".png" or ".jpg" in file_name:
+                    self.rasterPlugin.slotSelected(file_name)
             else:
                 if ".txt" in text:
                     self.textPlugin.slotSelected(text)
                 elif ".svg" in text:
                     self.vectorPLugin.slotSelected(text)
+                elif ".png" or ".jpg" in text:
+                    self.rasterPlugin.slotSelected(text)
