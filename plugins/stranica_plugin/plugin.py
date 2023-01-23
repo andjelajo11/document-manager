@@ -6,6 +6,7 @@ from plugins.stranica_plugin.clickableLabel import DoubleClickLabel
 from plugins.text_plugin.plugin import Plugin as textEditorPlugin
 from plugins.vektorska_slika_plugin.plugin import Plugin as vectorPlugin
 from plugins.rasterska_slika_plugin.plugin import Plugin as rasterPlugin
+from plugins.video_plugin.plugin import Plugin as videoPlugin
 from monotip_handler.monotip_tab import MonotipTab
 import json
 
@@ -26,6 +27,7 @@ class Plugin(Extension):
         self.textPlugin = textEditorPlugin(specification, iface)
         self.vectorPlugin = vectorPlugin(specification, iface)
         self.rasterPlugin = rasterPlugin(specification, iface)
+        self.videoPlugin = videoPlugin(specification, iface)
         self.recnik = {}
         self.row = 10
         self.column = 10
@@ -127,7 +129,7 @@ class Plugin(Extension):
                 x = 9
                 y = 9
                 for slot in slots:
-                    self.label = DoubleClickLabel(self.workspace, self.dokument, self.strana, slot, self.textPlugin, self.vectorPlugin, self.rasterPlugin)
+                    self.label = DoubleClickLabel(self.workspace, self.dokument, self.strana, slot, self.textPlugin, self.vectorPlugin, self.rasterPlugin, self.videoPlugin)
                     print(self.workspace)
                     print(self.dokument)
                     print(self.strana)
