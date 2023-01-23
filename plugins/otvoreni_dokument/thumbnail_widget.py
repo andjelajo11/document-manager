@@ -47,6 +47,7 @@ class ThumbnailWidget(QtWidgets.QScrollArea):
                 self.preview_label = ClickableLabel(self.workspace, self.dokument, stranica)
                 self.preview_label.setScaledContents(True)
                 self.preview_label.mousePressEvent = self.labelClicked
+                self.preview_label.mouseDoubleClickEvent = self.doubleClicked
                 self.preview_label.setFixedSize(label_width, label_height)
                 self.layout.addWidget(self.preview_label, row, col)
                 row += 1
@@ -84,7 +85,17 @@ class ThumbnailWidget(QtWidgets.QScrollArea):
                 parent_size = focused_widget.size()
                 new_size = QtCore.QSize(parent_size.width(), parent_size.height())
                 self.overlay.resize(new_size)
-                self.stranica_plugin.onClicked(self.dokument, self.workspace, self.stranica, self)
+
+    def doubleClicked(self, event):
+        with open("plugin_framework/plugins.json", "r") as json_file:
+                    plugins = json.load(json_file)
+        if plugins["stranica_plugin"] == False:
+                        message_box = QtWidgets.QMessageBox()
+                        message_box.setWindowTitle("Notification")
+                        message_box.setText("Nije aktivirana komponenta za rad sa otvorenim dokumentima.")
+                        message_box.exec_()
+        else:
+            self.stranica_plugin.onClicked(self.dokument, self.workspace, self.stranica, self)
 
 
 
@@ -97,6 +108,7 @@ class ThumbnailWidget(QtWidgets.QScrollArea):
         next_label = self.glavni.layout().itemAt(current_index + 1)
         if next_label is not None:
             self.selected_label = next_label.widget()
+            self.ensureWidgetVisible(self.selected_label, 0, 0)
             self.overlay.setText(list(self.keys)[current_index + 1])
             self.selected_label.setLayout(self.newLayout)
             self.newLayout.addWidget(self.overlay)
@@ -114,6 +126,7 @@ class ThumbnailWidget(QtWidgets.QScrollArea):
             next_label = self.glavni.layout().itemAt(current_index - 1)
             if next_label is not None:
                 self.selected_label = next_label.widget()
+                self.ensureWidgetVisible(self.selected_label, 0, 0)
                 self.overlay.setText(list(self.keys)[current_index - 1])
                 self.selected_label.setLayout(self.newLayout)
                 self.newLayout.addWidget(self.overlay)
@@ -127,6 +140,7 @@ class ThumbnailWidget(QtWidgets.QScrollArea):
         next_label = self.glavni.layout().itemAt(current_index)
         if next_label is not None:
             self.selected_label = next_label.widget()
+            self.ensureWidgetVisible(self.selected_label, 0, 0)
             self.overlay.setText(list(self.keys)[0])
             self.selected_label.setLayout(self.newLayout)
             self.newLayout.addWidget(self.overlay)
@@ -142,6 +156,7 @@ class ThumbnailWidget(QtWidgets.QScrollArea):
         last_label = self.glavni.layout().itemAt(current_index)
         if last_label is not None:
             self.selected_label = last_label.widget()
+            self.ensureWidgetVisible(self.selected_label, 0, 0)
             self.overlay.setText(list(self.keys)[current_index])
             self.selected_label.setLayout(self.newLayout)
             self.newLayout.addWidget(self.overlay)
