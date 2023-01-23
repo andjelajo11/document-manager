@@ -33,12 +33,28 @@ class Plugin(Extension):
 
     # FIXME: implementacija apstraktnih metoda
     def activate(self):
+
+
+        with open("plugin_framework/plugins.json", "r") as json_file:
+            plugins = json.load(json_file)
+
+        plugins["stranica_plugin"] = True
+        with open("plugin_framework/plugins.json", "w") as json_file:
+            json.dump(plugins, json_file)   
+    
         print("Activated")
         self.activated = True
       
     
 
     def deactivate(self):
+        with open("plugin_framework/plugins.json", "r") as json_file:
+            plugins = json.load(json_file)
+
+        plugins["stranica_plugin"] = False
+        with open("plugin_framework/plugins.json", "w") as json_file:
+            json.dump(plugins, json_file)   
+
         print("Deactivated")
         self.activated = False  
         self.iface.layout.itemAt(0).widget().setParent(None)
@@ -49,88 +65,95 @@ class Plugin(Extension):
 
         
     def onClicked(self, dokument, workspace, strana, thumbnailWidget):
-        self.dokument = dokument
-        self.workspace = workspace
-        self.strana = strana
-        self.thumbnail = thumbnailWidget
-        if "stranica" in strana:          
+        with open("plugin_framework/plugins.json", "r") as json_file:
+            plugins = json.load(json_file)
 
-            self.mainLayoutV = QVBoxLayout()
-            self.main = QtWidgets.QWidget()
-            self.main.setSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
-            self.main.setLayout(self.mainLayoutV)
-        
-            self.left = QAction(QIcon("resources/icons/arrow-left.png"),"left",self.mainLayoutV)
-            self.right = QAction(QIcon("resources/icons/arrow-right.png"),"right",self.mainLayoutV)
-            self.up = QAction(QIcon("resources/icons/arrow-up.png"),"up",self.mainLayoutV)
-            self.down = QAction(QIcon("resources/icons/arrow-down.png"),"down",self.mainLayoutV)
-            self.delete = QAction(QIcon("resources/icons/kanta.png"),"delete",self.mainLayoutV)
+        activated = plugins["stranica_plugin"]
 
+        if activated == True:
+            self.dokument = dokument
+            self.workspace = workspace
+            self.strana = strana
+            self.thumbnail = thumbnailWidget
+            if "stranica" in strana:          
 
-
-            #kreiramo novi toolbar i njegove akcije, zatim ih postavljamo na main widget
-            toolbar = QToolBar()              
-            toolbar.addAction(self.left)
-            toolbar.addAction(self.right)
-            toolbar.addAction(self.up)
-            toolbar.addAction(self.down)
-            toolbar.addAction(self.delete)
-
-            self.down.triggered.connect(self.addDown)
-            self.right.triggered.connect(self.addRight)
-            self.left.triggered.connect(self.addLeft)
-            self.up.triggered.connect(self.addUp)
-            self.delete.triggered.connect(self.deleteLabel)
+                self.mainLayoutV = QVBoxLayout()
+                self.main = QtWidgets.QWidget()
+                self.main.setSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
+                self.main.setLayout(self.mainLayoutV)
             
-            self.mainLayoutV.addWidget(toolbar)
-
-            
-            #kreiramo page widget, kojem dodlejujemo grid layout
-            
-            self.grid = QGridLayout()            
-            self.page = QtWidgets.QWidget()
-            self.mainLayoutV.addWidget(self.page)
-            
-            self.page.setLayout(self.grid)
-            self.tester = 1
-            
-            #prebrojavamo koliko ima slotova u odabranoj stranici, zatim ih postavljamo na page widget preko grid layout-a
-
-            with open('dokumenti/' + workspace + ".json", "r") as data_file:  
-                data = json.load(data_file) 
-            data_file.close()   
-
-            slots = data[dokument][0][strana][0]
-            self.tester = 0
-            x = 9
-            y = 9
-            for slot in slots:
-                self.label = DoubleClickLabel(self.workspace, self.dokument, self.strana, slot, self.textPlugin, self.vectorPlugin, self.rasterPlugin)
-                print(self.workspace)
-                print(self.dokument)
-                print(self.strana)
-                print(slot)
-                self.label.setText(slot)        
-                self.label.setFrameStyle(QFrame.StyledPanel | QFrame.Plain)
-                self.label.setLineWidth(1)
-                self.label.setFocusPolicy(Qt.StrongFocus)
-                self.grid.addWidget(self.label, x, y)
-                self.tester += 1
-                y += 1
-                if y % 3 == 0:
-                    y = 9
-                    x += 1
+                self.left = QAction(QIcon("resources/icons/arrow-left.png"),"left",self.mainLayoutV)
+                self.right = QAction(QIcon("resources/icons/arrow-right.png"),"right",self.mainLayoutV)
+                self.up = QAction(QIcon("resources/icons/arrow-up.png"),"up",self.mainLayoutV)
+                self.down = QAction(QIcon("resources/icons/arrow-down.png"),"down",self.mainLayoutV)
+                self.delete = QAction(QIcon("resources/icons/kanta.png"),"delete",self.mainLayoutV)
 
 
-                #dohvtimo stranicu i doajemo joj main widget
-            self.mainWidget1 = self.iface.layout.itemAt(0).widget()
-            self.mainWidget1.layout().addWidget(self.monotipTab)
-            self.tab = self.mainWidget1.layout().itemAt(0).widget()      
-            self.index = self.tab.currentIndex()  
-            self.stranica = self.tab.widget(self.index)
-            if self.stranica.layout().itemAt(2) is not None:
-                self.stranica.layout().itemAt(2).widget().setParent(None)
-            self.stranica.layout().addWidget(self.main, 0, 1, 0, 1)
+
+                #kreiramo novi toolbar i njegove akcije, zatim ih postavljamo na main widget
+                toolbar = QToolBar()              
+                toolbar.addAction(self.left)
+                toolbar.addAction(self.right)
+                toolbar.addAction(self.up)
+                toolbar.addAction(self.down)
+                toolbar.addAction(self.delete)
+
+                self.down.triggered.connect(self.addDown)
+                self.right.triggered.connect(self.addRight)
+                self.left.triggered.connect(self.addLeft)
+                self.up.triggered.connect(self.addUp)
+                self.delete.triggered.connect(self.deleteLabel)
+                
+                self.mainLayoutV.addWidget(toolbar)
+
+                
+                #kreiramo page widget, kojem dodlejujemo grid layout
+                
+                self.grid = QGridLayout()            
+                self.page = QtWidgets.QWidget()
+                self.mainLayoutV.addWidget(self.page)
+                
+                self.page.setLayout(self.grid)
+                self.tester = 1
+                
+                #prebrojavamo koliko ima slotova u odabranoj stranici, zatim ih postavljamo na page widget preko grid layout-a
+
+                with open('dokumenti/' + workspace + ".json", "r") as data_file:  
+                    data = json.load(data_file) 
+                data_file.close()   
+
+                slots = data[dokument][0][strana][0]
+                self.tester = 0
+                x = 9
+                y = 9
+                for slot in slots:
+                    self.label = DoubleClickLabel(self.workspace, self.dokument, self.strana, slot, self.textPlugin, self.vectorPlugin, self.rasterPlugin)
+                    print(self.workspace)
+                    print(self.dokument)
+                    print(self.strana)
+                    print(slot)
+                    self.label.setText(slot)        
+                    self.label.setFrameStyle(QFrame.StyledPanel | QFrame.Plain)
+                    self.label.setLineWidth(1)
+                    self.label.setFocusPolicy(Qt.StrongFocus)
+                    self.grid.addWidget(self.label, x, y)
+                    self.tester += 1
+                    y += 1
+                    if y % 3 == 0:
+                        y = 9
+                        x += 1
+
+
+                    #dohvtimo stranicu i doajemo joj main widget
+                self.mainWidget1 = self.iface.layout.itemAt(0).widget()
+                self.mainWidget1.layout().addWidget(self.monotipTab)
+                self.tab = self.mainWidget1.layout().itemAt(0).widget()      
+                self.index = self.tab.currentIndex()  
+                self.stranica = self.tab.widget(self.index)
+                if self.stranica.layout().itemAt(2) is not None:
+                    self.stranica.layout().itemAt(2).widget().setParent(None)
+                self.stranica.layout().addWidget(self.main, 0, 1, 0, 1)
+                
                     
 
         
