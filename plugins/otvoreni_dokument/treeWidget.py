@@ -16,50 +16,37 @@ class TreeView(QTreeView):
         self.installEventFilter(self)
 
     def populate(self, dokument, workspace):
+        self.model.clear()
         self.dokument = dokument
         self.rootNode = self.model.invisibleRootItem()
         self.setHeaderHidden(True)
         with open('dokumenti/' + workspace + '.json') as data_file:  
-                data = json.load(data_file)
+            data = json.load(data_file)
         data_file.close()
 
+        # Create a list of stranica items
+        stranica_items = []
+        for i in data[dokument]:
+            for y in i:
+                if "stranica" in y:
+                    stranica_items.append(y)
 
-        counter = 1
-
+        # Create the tree structure
         for i in data[dokument]:
             naziv = StandardItem(i["naziv"])
             self.rootNode.appendRow(naziv)
-            for y in i:
-                if "stranica" + str(counter) in y:     
-                    stranice = StandardItem(y)  
-                    naziv.appendRow(stranice)          
-                    for x in i.values():
-                        for z in x:
-                            for j in z:
-                                if "slot" + str(counter) in j:
-                                    element = StandardItem(j)
-                                    stranice.appendRow(element)
-                    counter +=1  
-                elif "stranica" + str(counter + 1) in y:
-                    stranice = StandardItem(y)  
-                    naziv.appendRow(stranice)          
-                    for x in i.values():
-                        # print(x)
-                        for z in x:
-                            # print(z)
-                            for j in z:
-                                if "slot" + str(counter + 1) in j:
-                                    element = StandardItem(j)
-                                    stranice.appendRow(element)
-                    counter +=1 
-    
 
+            for stranica in stranica_items:
+                if stranica in i:
+                    stranice = StandardItem(stranica)
+                    naziv.appendRow(stranice)
 
-        
+                    for slot in i[stranica][0]:
+                        element = StandardItem(slot)
+                        stranice.appendRow(element)
 
         self.expandAll()
-
-        self.setModel(self.model)  
+        self.setModel(self.model)
 
 
     

@@ -1,4 +1,4 @@
-from plugins.text_plugin.textEditor import TextEditor
+from plugins.video_plugin.videoPlayer import VideoPlayer
 from plugin_framework.extension import Extension
 import json
 
@@ -20,7 +20,7 @@ class Plugin(Extension):
         with open("plugin_framework/plugins.json", "r") as json_file:
             plugins = json.load(json_file)
 
-        plugins["text_plugin"] = True
+        plugins["video_plugin"] = True
         with open("plugin_framework/plugins.json", "w") as json_file:
             json.dump(plugins, json_file)   
         self.activated = True
@@ -30,13 +30,13 @@ class Plugin(Extension):
         with open("plugin_framework/plugins.json", "r") as json_file:
             plugins = json.load(json_file)
         
-        plugins["text_plugin"] = False
+        plugins["video_plugin"] = False
 
         with open("plugin_framework/plugins.json", "w") as json_file:
             json.dump(plugins, json_file)
         self.monotipTab = self.iface.layout.itemAt(0).widget().layout().itemAt(1).widget() 
         print(type(self.monotipTab))
-        tab_name = "Text Editor"
+        tab_name = "Video Player"
         tabs_with_same_name = []
         for i in range(self.monotipTab.count()):
             if self.monotipTab.tabText(i) == tab_name:
@@ -45,11 +45,12 @@ class Plugin(Extension):
             self.monotipTab.removeTab(i)
     
     def slotSelected(self, path):
+        print("video slot selected")
         with open("plugin_framework/plugins.json", "r") as json_file:
             plugins = json.load(json_file)
         
-        activated = plugins["text_plugin"]
+        activated = plugins["video_plugin"]
         if activated == True:
-            self.textEditor = TextEditor(path)
+            self.videoPlayer = VideoPlayer(path)
             self.monotipTab = self.iface.layout.itemAt(0).widget().layout().itemAt(1).widget() 
-            self.monotipTab.textEditor(self.textEditor)
+            self.monotipTab.videoPlayer(self.videoPlayer)
