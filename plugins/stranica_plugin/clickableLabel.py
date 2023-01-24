@@ -6,7 +6,7 @@ import json
 
 
 class DoubleClickLabel(QLabel):
-    def __init__(self, workspace, dokument, stranica, slot, textPlugin, vectorPlugin, rasterPlugin):
+    def __init__(self, workspace, dokument, stranica, slot, textPlugin, vectorPlugin, rasterPlugin, videoPlugin):
         super().__init__()
         self.workspace = workspace
         self.dokument = dokument
@@ -15,15 +15,17 @@ class DoubleClickLabel(QLabel):
         self.textPlugin = textPlugin
         self.vectorPLugin = vectorPlugin
         self.rasterPlugin = rasterPlugin
+        self.videoPlugin = videoPlugin
         
 
     def mouseDoubleClickEvent(self, event):
         if event.button() == Qt.LeftButton:
+            print("slot double clicked")
             with open("dokumenti/" + self.workspace + ".json", "r") as f:
                 data = json.load(f)
             text = data[self.dokument][0][self.stranica][0][self.slot]
             if text == "":
-
+                print("tekst je prazan")
                 path = ''
                 dialog = QFileDialog()
                 dialog.setDirectory(path)
@@ -42,10 +44,20 @@ class DoubleClickLabel(QLabel):
                     self.vectorPLugin.slotSelected(file_name)
                 elif ".png" or ".jpg" in file_name:
                     self.rasterPlugin.slotSelected(file_name)
+                elif ".mp" in file_name:
+                    print("video")
+                    self.videoPlugin.slotSelected(file_name)
             else:
+                print("text nije prazan")
+                print(text)
                 if ".txt" in text:
                     self.textPlugin.slotSelected(text)
                 elif ".svg" in text:
                     self.vectorPLugin.slotSelected(text)
-                elif ".png" or ".jpg" in text:
+                elif ".png" in text:
                     self.rasterPlugin.slotSelected(text)
+                elif ".jpg" in text:
+                    self.rasterPlugin.slotSelected(text)
+                elif ".mp4" in text:
+                    print("video1")
+                    self.videoPlugin.slotSelected(text)

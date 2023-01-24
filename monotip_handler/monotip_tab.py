@@ -16,6 +16,10 @@ class MonotipTab(QtWidgets.QTabWidget):
     
     def rasterImage(self, image):
         self.addTab(image, "Raster")
+    
+    def videoPlayer(self, video):
+        self.addTab(video, "Video Player")
 
     def delete_tab(self,index):
         self.removeTab(index)
+    
