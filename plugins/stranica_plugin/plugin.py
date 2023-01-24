@@ -146,7 +146,7 @@ class Plugin(Extension):
                         x += 1
 
 
-                    #dohvtimo stranicu i doajemo joj main widget
+
                 self.mainWidget1 = self.iface.layout.itemAt(0).widget()
                 self.mainWidget1.layout().addWidget(self.monotipTab)
                 self.tab = self.mainWidget1.layout().itemAt(0).widget()      

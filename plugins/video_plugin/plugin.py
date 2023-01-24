@@ -46,11 +46,11 @@ class Plugin(Extension):
     
     def slotSelected(self, path):
         print("video slot selected")
-        # with open("plugin_framework/plugins.json", "r") as json_file:
-        #     plugins = json.load(json_file)
+        with open("plugin_framework/plugins.json", "r") as json_file:
+            plugins = json.load(json_file)
         
-        # activated = plugins["video_plugin"]
-        # if activated == True:
-        self.videoPlayer = VideoPlayer(path)
-        self.monotipTab = self.iface.layout.itemAt(0).widget().layout().itemAt(1).widget() 
-        self.monotipTab.videoPlayer(self.videoPlayer)
+        activated = plugins["video_plugin"]
+        if activated == True:
+            self.videoPlayer = VideoPlayer(path)
+            self.monotipTab = self.iface.layout.itemAt(0).widget().layout().itemAt(1).widget() 
+            self.monotipTab.videoPlayer(self.videoPlayer)
