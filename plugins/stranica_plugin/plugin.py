@@ -66,7 +66,7 @@ class Plugin(Extension):
         self.tabWidget.removeTab(index)
 
         
-    def onClicked(self, dokument, workspace, strana, thumbnailWidget):
+    def onClicked(self, dokument, workspace, strana, thumbnailWidget, treeWidget):
         with open("plugin_framework/plugins.json", "r") as json_file:
             plugins = json.load(json_file)
 
@@ -77,6 +77,7 @@ class Plugin(Extension):
             self.workspace = workspace
             self.strana = strana
             self.thumbnail = thumbnailWidget
+            self.treeWidget = treeWidget
             if "stranica" in strana:          
 
                 self.mainLayoutV = QVBoxLayout()
@@ -126,10 +127,10 @@ class Plugin(Extension):
 
                 slots = data[dokument][0][strana][0]
                 self.tester = 0
-                x = 9
-                y = 9
+                x = 8
+                y = 8
                 for slot in slots:
-                    self.label = DoubleClickLabel(self.workspace, self.dokument, self.strana, slot, self.textPlugin, self.vectorPlugin, self.rasterPlugin, self.videoPlugin)
+                    self.label = DoubleClickLabel(self.workspace, self.dokument, self.strana, slot, self.textPlugin, self.vectorPlugin, self.rasterPlugin, self.videoPlugin, self.thumbnail)
                     print(self.workspace)
                     print(self.dokument)
                     print(self.strana)
@@ -141,8 +142,8 @@ class Plugin(Extension):
                     self.grid.addWidget(self.label, x, y)
                     self.tester += 1
                     y += 1
-                    if y % 3 == 0:
-                        y = 9
+                    if y % 4 == 0:
+                        y = 8
                         x += 1
 
 
@@ -195,6 +196,7 @@ class Plugin(Extension):
             with open("dokumenti/" + self.workspace + ".json", 'w') as f:
                 json.dump(data, f, indent=2)
             
+            self.treeWidget.populate(self.dokument, self.workspace)
             self.thumbnail.pokreni()
 
 
@@ -280,6 +282,7 @@ class Plugin(Extension):
             with open("dokumenti/" + self.workspace + ".json", 'w') as f:
                 json.dump(data, f, indent=2)
             self.thumbnail.pokreni()
+            self.treeWidget.populate(self.dokument, self.workspace)
 
 
             

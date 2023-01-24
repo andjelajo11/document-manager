@@ -6,7 +6,7 @@ import json
 
 
 class DoubleClickLabel(QLabel):
-    def __init__(self, workspace, dokument, stranica, slot, textPlugin, vectorPlugin, rasterPlugin, videoPlugin):
+    def __init__(self, workspace, dokument, stranica, slot, textPlugin, vectorPlugin, rasterPlugin, videoPlugin, thumbnail):
         super().__init__()
         self.workspace = workspace
         self.dokument = dokument
@@ -16,6 +16,7 @@ class DoubleClickLabel(QLabel):
         self.vectorPLugin = vectorPlugin
         self.rasterPlugin = rasterPlugin
         self.videoPlugin = videoPlugin
+        self.thumbnail = thumbnail
         
 
     def mouseDoubleClickEvent(self, event):
@@ -31,13 +32,16 @@ class DoubleClickLabel(QLabel):
                 dialog.setDirectory(path)
                 file_name, _ = dialog.getOpenFileName()
 
-                
+                    
 
 
                 data[self.dokument][0][self.stranica][0][self.slot] = file_name
+                
 
                 with open("dokumenti/" + self.workspace + ".json", 'w') as f:
                     json.dump(data, f, indent=2)
+                
+                self.thumbnail.pokreni()
                 if ".txt" in file_name:
                     self.textPlugin.slotSelected(file_name)
                 elif ".svg" in file_name:
@@ -61,3 +65,4 @@ class DoubleClickLabel(QLabel):
                 elif ".mp4" in text:
                     print("video1")
                     self.videoPlugin.slotSelected(text)
+                    

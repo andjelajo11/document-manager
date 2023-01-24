@@ -5,9 +5,9 @@
       "stranica1": [
         {
           "slot1": "C:/Users/User/Downloads/video.mp4",
-          "slot2": ".txt",
-          "slot3": ".svg",
-          "slot4": ".png",
+          "slot2": "",
+          "slot3": "",
+          "slot4": "",
           "slot5": "",
           "slot6": ""
         }
@@ -16,7 +16,8 @@
         {
           "slot1": "",
           "slot2": "",
-          "slot3": ""
+          "slot4": "",
+          "slot5": ""
         }
       ],
       "stranica3": [
@@ -29,14 +30,10 @@
           "stranica1": "",
           "stranica2": "",
           "stranica3": "",
-          "stranica4": "",
-          "stranica5": ""
+          "stranica4": ""
         }
       ],
       "stranica4": [
-        {}
-      ],
-      "stranica5": [
         {}
       ]
     }

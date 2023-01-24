@@ -4,11 +4,12 @@ import json
 
 class ThumbnailWidget(QtWidgets.QScrollArea):
 
-    def __init__(self, dokument, workspace, stranica_plugin):
+    def __init__(self, dokument, workspace, stranica_plugin, treeWidget):
         super().__init__()
         self.stranica_plugin = stranica_plugin
         self.dokument = dokument
         self.workspace = workspace
+        self.treeWidget = treeWidget
         self.pokreni()
 
 
@@ -100,7 +101,7 @@ class ThumbnailWidget(QtWidgets.QScrollArea):
                 message_box.setText("Nije aktivirana komponenta za rad sa stranicama.")
                 message_box.exec_()
         else:
-            self.stranica_plugin.onClicked(self.dokument, self.workspace, self.stranica, self)
+            self.stranica_plugin.onClicked(self.dokument, self.workspace, self.stranica, self, self.treeWidget)
 
 
 

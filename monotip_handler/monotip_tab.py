@@ -10,16 +10,21 @@ class MonotipTab(QtWidgets.QTabWidget):
 
     def textEditor(self, textEditor):
         self.addTab(textEditor, "Text Editor")
+        self.setCurrentWidget(textEditor)
     
     def vectorImage(self, image):
         self.addTab(image, "Vector")
+        self.setCurrentWidget(image)
     
     def rasterImage(self, image):
         self.addTab(image, "Raster")
+        self.setCurrentWidget(image)
     
     def videoPlayer(self, video):
         self.addTab(video, "Video Player")
+        self.setCurrentWidget(video)
 
     def delete_tab(self,index):
         self.removeTab(index)
+        
     

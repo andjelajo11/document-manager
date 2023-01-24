@@ -169,7 +169,7 @@ class Plugin(Extension):
         
 
             if "dokument" in dokument:        
-                self.thumbnail = ThumbnailWidget(dokument, workspace, self.stranica_plugin)
+                self.thumbnail = ThumbnailWidget(dokument, workspace, self.stranica_plugin, self.treeWidget)
                 self.down.triggered.connect(self.thumbnail.down)
                 self.up.triggered.connect(self.thumbnail.up)
                 self.top.triggered.connect(self.thumbnail.top)
@@ -196,6 +196,7 @@ class Plugin(Extension):
                 self.id += 1
         for index, treeView in self.recnik.items():
             treeView.clicked.connect(lambda: self.treeClicked(index))
+            self.tree = treeView
         
                 
 
@@ -216,7 +217,7 @@ class Plugin(Extension):
                                 message_box.setText("Nije aktivirana komponenta za rad sa otvorenim dokumentima.")
                                 message_box.exec_()
         else:
-            self.stranica_plugin.onClicked(dokument, workspace, stranica, self.thumbnail)
+            self.stranica_plugin.onClicked(dokument, workspace, stranica, self.thumbnail, self.tree)
             tree.clearSelection()
 
 

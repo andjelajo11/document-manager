@@ -41,8 +41,8 @@ class ClickableLabel(QtWidgets.QLabel):
         painter.begin(pixmap)
         width = 40
         height = 40
-        x = 10
-        y = 20
+        x = 5
+        y = 6
         for i in range(num_slots):  
             if ".txt" in slots_data[i]:     
                 rect = QtCore.QRect(x, y, width, height)
@@ -84,8 +84,8 @@ class ClickableLabel(QtWidgets.QLabel):
                 painter.drawRect(x, y, width, height)
                 painter.drawText(x, y, width, height, QtCore.Qt.AlignCenter, "slot" + str(i+ 1))
                 x += width
-            if (i+1) %3 == 0: #if 6 squares have been drawn in a row
-                x = 10
+            if (i+1) % 4 == 0: #if 6 squares have been drawn in a row
+                x = 5
                 y += height
 
         

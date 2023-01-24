@@ -34,6 +34,8 @@ class imageWidget(QWidget):
         self.view.setRenderHint(QPainter.Qt4CompatiblePainting)
         self.view.viewport().installEventFilter(self)
         self.view.resetTransform()
+        self.view.fitInView(self.svg_item, Qt.KeepAspectRatio)
+        self.view.scale(1 / 2, 1 / 2)
         self.zoom_in_button = QPushButton("Zoom In")
         self.zoom_out_button = QPushButton("Zoom Out")
         self.rotate_left_button = QPushButton("Rotate Left")
@@ -122,12 +124,14 @@ class imageWidget(QWidget):
 
         self.button_layout.addWidget(self.zoom_in_button)
         self.button_layout.addWidget(self.zoom_out_button)
+        self.button_layout.addWidget(self.paint_button)
         self.button_layout.addWidget(self.rotate_left_button)
         self.button_layout.addWidget(self.rotate_right_button)
         self.button_layout.addWidget(self.flip_horizontal_button)
         self.button_layout.addWidget(self.flip_vertical_button)
         self.button_layout.addWidget(self.crop_button)
         self.button_layout.addWidget(self.clear_button)
+        
     
     def reset_image(self):
         self.svg_item.setTransform(QTransform())
