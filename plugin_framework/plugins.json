@@ -1,1 +1,10 @@
-{"workspace_plugin": false, "celina_dokument": false, "otvoreni_dokument": true, "stranica_plugin": true, "text_plugin": false, "vektor_plugin": false, "raster_plugin": false, "video_plugin": false}
+{
+    "workspace_plugin": false,
+    "celina_dokument": false,
+    "otvoreni_dokument": false,
+    "stranica_plugin": false,
+    "text_plugin": false,
+    "vektor_plugin": false,
+    "raster_plugin": false,
+    "video_plugin": false
+}
