@@ -1,5 +1,5 @@
-from PySide2.QtWidgets import QTreeView, QMenu, QAction, QMessageBox
-from PySide2.QtCore import QEvent
+from PySide2.QtWidgets import QTreeView, QMenu, QAction, QMessageBox, QAbstractItemView
+from PySide2.QtCore import QEvent, Qt
 from PySide2.QtGui import QStandardItemModel
 from integrativna_komponenta.ui.standard_item import StandardItem
 import json
@@ -195,3 +195,75 @@ class TreeView(QTreeView):
 
                 self.populate(parent)
         
+        def drag_and_drop(self):
+        # Enable drag and drop on the TreeView
+                self.setDragEnabled(True)
+                self.setAcceptDrops(True)
+                self.setDropIndicatorShown(True)
+                self.setDragDropMode(QAbstractItemView.InternalMove)
+                
+                # Connect the drag and drop signals
+                self.dragEnterEvent = self.drag_enter_event
+                self.dragMoveEvent = self.drag_move_event
+                self.dropEvent = self.drop_event
+
+        def drag_enter_event(self, event):
+                selected_item = self.selectedIndexes()[0]
+                if event.mimeData().hasText() and selected_item.data() == "dokument": 
+                        event.accept()
+                # else:
+                #         event.ignore()
+
+        def drag_move_event(self, event):
+                index = self.indexAt(event.pos())
+                if index.isValid() and self.model().itemFromIndex(index).data() == "kolekcija":
+                        event.setDropAction(Qt.CopyAction)
+                        event.accept()
+                else:
+                        event.ignore()
+                # if event.mimeData().hasText():
+                #         index = self.indexAt(event.pos())
+                #         if index.isValid() and self.model().itemFromIndex(index):
+                #                 event.setDropAction(Qt.CopyAction)
+                #                 event.accept()
+                # else:
+                #         event.ignore()
+
+        def drop_event(self, event):
+                if event.mimeData().hasUrls():
+                        
+                                drop_index = self.indexAt(event.pos())
+                                # Get the list of dropped URLs
+                                
+                                urls = event.mimeData().urls()
+                                
+                                # Get the target index (where the drop is occurring)
+                                target_index = self.indexAt(event.pos())
+                                
+                                # Get the target item
+                                target_item = self.model.itemFromIndex(target_index)
+
+                                # Check if the target item is a "kolekcija" node
+                                if target_item.text() == "kolekcija":
+                                # Iterate through the URLs and perform the desired action
+                                        for url in urls:
+                                # Extract the file path from the URL
+                                                file_path = url.toLocalFile()
+
+                                # Perform the desired action (e.g. add to the TreeView)
+                                        self.add_to_treeview(file_path, target_item)
+
+                                        event.accept()
+                                else:
+                                        event.ignore()
+                else:
+                        event.ignore()
+                        
+        # def add_to_treeview(self, file_path):
+        #         # Get the selected item in the TreeView
+        #         selected_item = self.selectedIndexes()[0]
+                
+        #         # Add the new item to the TreeView
+        #         new_item = QtWidgets.QTreeWidgetItem()
+        #         new_item.setText(0, file_path)
+        #         selected_item.addChild(new_item)
