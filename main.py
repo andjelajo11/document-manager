@@ -41,6 +41,16 @@ def reset_json_values():
     # Write the data back to the JSON file
     with open("rad_sa_celim_dokumentom/otvoreniDokumenti.json", "w") as f:
         json.dump(data, f, indent=4)
+
+    #reset vrednosti konfiguracija
+    with open("rad_sa_celim_dokumentom\configuration.json", "r") as f:
+        data = json.load(f)
+
+   
+    data = {"alert_dialog": True}
+
+    with open("rad_sa_celim_dokumentom\configuration.json", "w") as f:
+        json.dump(data, f, indent=4)
    
         
 

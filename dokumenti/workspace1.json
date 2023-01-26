@@ -41,12 +41,6 @@
       ]
     }
   ],
-  "dokument2": {
-    "naziv": "dokument2",
-    "thumbnails": [
-      {}
-    ]
-  },
   "dokument3": [
     {
       "naziv": "dokument3",
@@ -72,6 +66,12 @@
       ]
     }
   ],
+  "dokument2": {
+    "naziv": "dokument2",
+    "thumbnails": [
+      {}
+    ]
+  },
   "dokument4.4": [
     {
       "naziv": "dokument4.4",

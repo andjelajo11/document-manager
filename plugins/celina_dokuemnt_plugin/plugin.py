@@ -10,6 +10,8 @@ from rad_sa_celim_dokumentom.ui.create_dialog import CreateDialog
 from rad_sa_celim_dokumentom.ui.rename_dialog import RenameDialog
 from rad_sa_celim_dokumentom.ui.info_dijalog import InfoDijalog
 from rad_sa_celim_dokumentom.ui.alert_dialog import AlertDialog
+from rad_sa_celim_dokumentom.ui.rezim_dijalog import RezimDialog
+
 
 
 import json
@@ -39,6 +41,8 @@ class Plugin(Extension):
         self.toolbar.create_action.triggered.connect(self.show_create_dialog)
         self.toolbar.delete_action.triggered.connect(self.config_check_remowe)            
         self.toolbar.rename_action.triggered.connect(self.rename_document)
+        self.toolbar.share_document.triggered.connect(self.show_rezim_dialog)
+
         self.rename_dialog = RenameDialog(self.iface)
         self.rename_dialog.button_rename.clicked.connect(self.rename_dugme_kliknuto)
         self.info_dijalog = InfoDijalog(self.iface)
@@ -59,7 +63,33 @@ class Plugin(Extension):
         self.iface.removeToolBar(self.toolbar)
         print("Deactivated")
     
-        
+    def show_rezim_dialog(self):        
+        self.tabWidget = self.kontejner.layout().itemAt(1).widget()
+        self.tree_view = self.tabWidget.currentWidget()
+        with open('rad_sa_celim_dokumentom/otvoreniDokumenti.json') as data_file: 
+            data_check = json.load(data_file)               
+        for y in self.tree_view.selectedIndexes():
+            dokument = y.data()
+            print("Dokument: " + dokument)
+        for i in self.tree_view.selectedIndexes():
+            x = i.parent()
+            kolekcija = i.parent().data()
+            print("Kolekcija: " + kolekcija)
+            workspace = x.parent().data()
+            for y in self.tree_view.selectedIndexes():
+                text = workspace + '/' + y.data()
+            if text in data_check:
+                self.info_dijalog.show()
+            #TODO: napraviti dijalog za ovu poruku
+                print("Prvo zatvorite dokument") 
+            else:
+                self.rezim_dialog = RezimDialog(self.iface)
+                self.rezim_dialog.show()
+                self.tree_view.drag_and_drop()
+                # self.tree_view.dragEnterEvent.connect(self.tree_view.drag_and_drop)     
+                # self.tree_view.dragEnterEvent.connect(self.tree_view.drag_move_event)     
+                # self.tree_view.dragEnterEvent.connect(self.tree_view.drop_event)     
+                
     def show_create_dialog(self):
         self.create_dialog = CreateDialog(self.iface)
         self.create_dialog.show()
@@ -85,11 +115,30 @@ class Plugin(Extension):
 
     #pre nego sto korisnik obrise dokument iskace dijalog za potvrdu
     def before_remowe (self):
-            self.alert_dialog = AlertDialog(self.iface)
-            self.alert_dialog.button_potvrdi.clicked.connect(self.remove_document)
-            self.alert_dialog.button_cancle.clicked.connect(self.alert_dialog.reject)
-            self.alert_dialog.setModal(True)
-            self.alert_dialog.show()
+        self.tabWidget = self.kontejner.layout().itemAt(1).widget()
+        self.tree_view = self.tabWidget.currentWidget()
+        with open('rad_sa_celim_dokumentom/otvoreniDokumenti.json') as data_file: 
+            data_check = json.load(data_file)               
+        for y in self.tree_view.selectedIndexes():
+            dokument = y.data()
+            print("Dokument: " + dokument)
+        for i in self.tree_view.selectedIndexes():
+            x = i.parent()
+            kolekcija = i.parent().data()
+            print("Kolekcija: " + kolekcija)
+            workspace = x.parent().data()
+            for y in self.tree_view.selectedIndexes():
+                text = workspace + '/' + y.data()
+            if text in data_check:
+                self.info_dijalog.show()
+            #TODO: napraviti dijalog za ovu poruku
+                print("Prvo zatvorite dokument") 
+            else:
+                self.alert_dialog = AlertDialog(self.iface)
+                self.alert_dialog.button_potvrdi.clicked.connect(self.remove_document)
+                self.alert_dialog.button_cancle.clicked.connect(self.alert_dialog.reject)
+                self.alert_dialog.setModal(True)
+                self.alert_dialog.show()
     
     def remove_document (self):
         self.tabWidget = self.kontejner.layout().itemAt(1).widget()
