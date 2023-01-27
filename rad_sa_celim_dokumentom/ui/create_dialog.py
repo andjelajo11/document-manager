@@ -90,7 +90,7 @@ class CreateDialog(QtWidgets.QDialog):
         # self.button_create.clicked.connect(self.dugme_kliknuto)
 
         self._layout.addWidget(self.button_create)     
-        self.button_create.clicked.connect(self.dugme_kliknuto)
+        # self.button_create.clicked.connect(self.dugme_kliknuto)
         
         
     def dugme_kliknuto(self):
