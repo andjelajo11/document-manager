@@ -46,9 +46,11 @@ class DoubleClickLabel(QLabel):
                     self.textPlugin.slotSelected(file_name)
                 elif ".svg" in file_name:
                     self.vectorPLugin.slotSelected(file_name)
-                elif ".png" or ".jpg" in file_name:
+                elif ".png" in file_name:
                     self.rasterPlugin.slotSelected(file_name)
-                elif ".mp" in file_name:
+                elif ".jpg" in file_name:
+                    self.rasterPlugin.slotSelected(file_name)
+                elif ".mp4" in file_name:
                     print("video")
                     self.videoPlugin.slotSelected(file_name)
             else:
@@ -63,6 +65,6 @@ class DoubleClickLabel(QLabel):
                 elif ".jpg" in text:
                     self.rasterPlugin.slotSelected(text)
                 elif ".mp4" in text:
-                    print("video1")
                     self.videoPlugin.slotSelected(text)
+
                     

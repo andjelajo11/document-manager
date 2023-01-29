@@ -23,6 +23,10 @@ class MonotipTab(QtWidgets.QTabWidget):
     def videoPlayer(self, video):
         self.addTab(video, "Video Player")
         self.setCurrentWidget(video)
+        
+    def audioPlayer(self, audio):
+        self.addTab(audio, "Audio Player")
+        self.setCurrentWidget(audio)
 
     def delete_tab(self,index):
         self.removeTab(index)

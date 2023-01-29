@@ -6,5 +6,6 @@
     "text_plugin": false,
     "vektor_plugin": false,
     "raster_plugin": false,
-    "video_plugin": false
+    "video_plugin": false,
+    "audio_plugin": false
 }
