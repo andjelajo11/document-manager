@@ -1,11 +1,11 @@
 {
-  "dokument1.1": [
+  "dokument1": [
     {
-      "naziv": "dokument1.1",
+      "naziv": "dokument1",
       "stranica1": [
         {
-          "slot1": "C:/Users/User/Documents/Upisivanje.txt",
-          "slot2": "C:/Users/User/Documents/kododvi.txt",
+          "slot1": "",
+          "slot2": "",
           "slot3": "",
           "slot4": "",
           "slot5": "",
@@ -14,29 +14,39 @@
       ],
       "stranica2": [
         {
-          "slot1": "putanja",
-          "slot2": "putanja",
-          "slot3": ""
+          "slot1": "",
+          "slot2": "",
+          "slot4": "",
+          "slot5": ""
         }
       ],
       "stranica3": [
         {
-          "slot1": "putanja"
+          "slot1": ""
         }
       ],
       "thumbnails": [
         {
-          "stranica1": "resources/icons/plaza.jpg",
-          "stranica2": "resources/icons/plaza.jpg",
-          "stranica3": "resources/icons/plaza.jpg",
-          "stranica4": "resources/icons/plaza.jpg",
-          "stranica5": "resources/icons/plaza.jpg"
+          "stranica1": "",
+          "stranica2": "",
+          "stranica3": "",
+          "stranica4": ""
         }
       ],
       "stranica4": [
         {}
+      ]
+    }
+  ],
+  "dokument2": [
+    {
+      "naziv": "dokument2",
+      "thumbnails": [
+        {
+          "stranica1": ""
+        }
       ],
-      "stranica5": [
+      "stranica1": [
         {}
       ]
     }
@@ -46,35 +56,25 @@
       "naziv": "dokument3",
       "thumbnails": [
         {
-          "stranica1": "resources/icons/plaza.jpg",
-          "stranica2": "resources/icons/plaza.jpg",
-          "stranica3": "resources/icons/plaza.jpg",
-          "stranica4": "resources/icons/plaza.jpg"
+          "stranica1": ""
         }
       ],
       "stranica1": [
         {}
-      ],
-      "stranica2": [
-        {}
-      ],
-      "stranica3": [
-        {}
-      ],
-      "stranica4": [
+      ]
+    }
+  ],
+  "dokument4": [
+    {
+      "naziv": "dokument4",
+      "thumbnails": [
         {}
       ]
     }
   ],
-  "dokument2": {
-    "naziv": "dokument2",
-    "thumbnails": [
-      {}
-    ]
-  },
-  "dokument4.4": [
+  "dokument5": [
     {
-      "naziv": "dokument4.4",
+      "naziv": "dokument5",
       "thumbnails": [
         {}
       ]

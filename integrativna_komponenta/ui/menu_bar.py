@@ -12,14 +12,15 @@ class MenuBar(QtWidgets.QMenuBar):
         plugins_menu = QtWidgets.QMenu("&Plugins", self)
         settings_menu = QtWidgets.QMenu("&Settings", self)
         help_menu = QtWidgets.QMenu("&Help", self)
-        
+
         file_menu.addAction(actions_dict["quit"])
         plugins_menu.addAction(actions_dict["plugin_manager"])
 
         self.addMenu(file_menu)
         self.addMenu(plugins_menu)
-        self.addMenu(settings_menu)
         self.addMenu(help_menu)
+        self.addMenu(settings_menu)
+
 
     def add_menu_action(self, menu_name, action):
         menues = self.findChildren(QtWidgets.QMenu)

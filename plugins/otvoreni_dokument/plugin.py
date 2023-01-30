@@ -97,7 +97,6 @@ class Plugin(Extension):
                     data_ffile.write(str(data_json))
                     print("6")
         self.tabWidget.removeTab(index)
-
         
         
     def onClicked(self, dokument, workspace):
@@ -133,16 +132,11 @@ class Plugin(Extension):
                 print("dokument je vec upisan")
             else:
                 data_list.append(workspace_dokument) 
-                # for i in data_list:
-                #     for j in data_list[i]:
-                #         data_list[i].append(text) 
-                #         print(data_list)
-                #         break
                 with open('rad_sa_celim_dokumentom/otvoreniDokumenti.json', 'w') as doc_file: 
                     data_json = json.dumps(data_list, sort_keys=True, indent=4)
                     doc_file.write(str(data_json))
                 
-            
+
             self.innerTabWidget = QtWidgets.QTabWidget()
             self.innerTabWidget.setTabsClosable(False)
             self.treeWidget = TreeView() 
@@ -176,7 +170,7 @@ class Plugin(Extension):
         
 
             if "dokument" in dokument:        
-                self.thumbnail = ThumbnailWidget(dokument, workspace, self.stranica_plugin)
+                self.thumbnail = ThumbnailWidget(dokument, workspace, self.stranica_plugin, self.treeWidget)
                 self.down.triggered.connect(self.thumbnail.down)
                 self.up.triggered.connect(self.thumbnail.up)
                 self.top.triggered.connect(self.thumbnail.top)
@@ -203,6 +197,7 @@ class Plugin(Extension):
                 self.id += 1
         for index, treeView in self.recnik.items():
             treeView.clicked.connect(lambda: self.treeClicked(index))
+            self.tree = treeView
         
                 
 
@@ -215,8 +210,16 @@ class Plugin(Extension):
             stranica = i.data()   
         dokument = self.dokument
         workspace = self.workspace  
-        self.stranica_plugin.onClicked(dokument, workspace, stranica)
-        tree.clearSelection()
+        with open("plugin_framework/plugins.json", "r") as json_file:
+            plugins = json.load(json_file)
+        if plugins["stranica_plugin"] == False:
+                                message_box = QtWidgets.QMessageBox()
+                                message_box.setWindowTitle("Notification")
+                                message_box.setText("Nije aktivirana komponenta za rad sa otvorenim dokumentima.")
+                                message_box.exec_()
+        else:
+            self.stranica_plugin.onClicked(dokument, workspace, stranica, self.thumbnail, self.tree)
+            tree.clearSelection()
 
 
 

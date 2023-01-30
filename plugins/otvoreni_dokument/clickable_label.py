@@ -14,6 +14,12 @@ class ClickableLabel(QtWidgets.QLabel):
         with open("dokumenti/" + workspace + ".json", "r") as file:
             json_data = json.load(file)
 
+
+        stranica1_data = json_data[dokument][0][stranica][0]
+
+
+        slots_data = [stranica1_data[slot] for slot in stranica1_data]
+        print(slots_data)
         # count the number of slots in stranica1 of dokument1
         num_slots = len(json_data[dokument][0][stranica][0])
         print(num_slots)
@@ -35,14 +41,51 @@ class ClickableLabel(QtWidgets.QLabel):
         painter.begin(pixmap)
         width = 40
         height = 40
-        x = 10
-        y = 20
-        for i in range(num_slots):        
-            painter.drawRect(x, y, width, height)
-            painter.drawText(x, y, width, height, QtCore.Qt.AlignCenter, "slot" + str(i+ 1))
-            x += width
-            if (i+1) %3 == 0: #if 6 squares have been drawn in a row
-                x = 10
+        x = 5
+        y = 6
+        for i in range(num_slots):  
+            if ".txt" in slots_data[i]:     
+                rect = QtCore.QRect(x, y, width, height)
+                image = QtGui.QImage("resources/icons/txt.png")           
+                painter.drawRect(x, y, width, height)
+                painter.drawImage(rect, image)
+                x += width
+            elif ".png" in slots_data[i]:
+                rect = QtCore.QRect(x, y, width, height)
+                image = QtGui.QImage("resources/icons/jpg.png")           
+                painter.drawRect(x, y, width, height)
+                painter.drawImage(rect, image)
+                x += width
+            elif ".jpg" in slots_data[i]:
+                rect = QtCore.QRect(x, y, width, height)
+                image = QtGui.QImage("resources/icons/jpg.png")           
+                painter.drawRect(x, y, width, height)
+                painter.drawImage(rect, image)
+                x += width
+            elif ".mp4" in slots_data[i]:
+                rect = QtCore.QRect(x, y, width, height)
+                image = QtGui.QImage("resources/icons/mp4.png")           
+                painter.drawRect(x, y, width, height)
+                painter.drawImage(rect, image)
+                x += width
+            elif ".svg" in slots_data[i]:
+                rect = QtCore.QRect(x, y, width, height)
+                image = QtGui.QImage("resources/icons/svg.png")           
+                painter.drawRect(x, y, width, height)
+                painter.drawImage(rect, image)
+                x += width
+            elif ".mp3" in slots_data[i]:
+                rect = QtCore.QRect(x, y, width, height)
+                image = QtGui.QImage("resources/icons/mp3.png")           
+                painter.drawRect(x, y, width, height)
+                painter.drawImage(rect, image)
+                x += width
+            else:
+                painter.drawRect(x, y, width, height)
+                painter.drawText(x, y, width, height, QtCore.Qt.AlignCenter, "slot" + str(i+ 1))
+                x += width
+            if (i+1) % 4 == 0: #if 6 squares have been drawn in a row
+                x = 5
                 y += height
 
         
