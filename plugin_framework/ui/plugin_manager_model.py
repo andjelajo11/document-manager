@@ -54,3 +54,10 @@ class PluginManagerModel(QtCore.QAbstractTableModel):
             return "Verzija aplikacije"
         elif section == 4 and orientation == Qt.Horizontal and role == Qt.DisplayRole:
             return "Status"
+    
+    def sort(self, order=Qt.AscendingOrder):
+        self.layoutAboutToBeChanged.emit()
+        self.plugins = sorted(self.plugins, key=lambda x: x.plugin_specification.id)
+        if order == Qt.DescendingOrder:
+            self.plugins = reversed(self.plugins)
+        self.layoutChanged.emit()

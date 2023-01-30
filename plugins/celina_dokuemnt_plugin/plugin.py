@@ -1,5 +1,5 @@
 from PySide2 import QtWidgets
-
+from PySide2.QtWidgets import QMessageBox
 from plugin_framework.extension import Extension
 from rad_sa_celim_dokumentom.interfejsi.extension_dok_celina import ExtensionDokument
 from radni_prostor.dock_widget import DockWidget
@@ -8,6 +8,12 @@ from PySide2 import QtCore
 from rad_sa_celim_dokumentom.ui.tool_bar import ToolBar
 from rad_sa_celim_dokumentom.ui.create_dialog import CreateDialog
 from rad_sa_celim_dokumentom.ui.rename_dialog import RenameDialog
+from rad_sa_celim_dokumentom.ui.info_dijalog import InfoDijalog
+from rad_sa_celim_dokumentom.ui.alert_dialog import AlertDialog
+from rad_sa_celim_dokumentom.ui.rezim_dijalog import RezimDialog
+
+
+
 import json
 
 class Plugin(Extension):
@@ -22,34 +28,39 @@ class Plugin(Extension):
         self.layout = iface.layout
         # self.tabWidget = QtWidgets.QTabWidget()
         # self.tabWidget.setTabsClosable(True)
-        self.create_dialog = CreateDialog(iface)
+        
+             
 
         
 
     # FIXME: implementacija apstraktnih metoda
     def activate(self):
-        self.toolbar = ToolBar()        
-        self.iface.addToolBar(self.toolbar)
+        with open("plugin_framework/plugins.json", "r") as json_file:
+            plugins = json.load(json_file)
+        if plugins["workspace_plugin"] == False:
+                                message_box = QMessageBox()
+                                message_box.setWindowTitle("Notification")
+                                message_box.setText("Nije aktivirana komponenta Radni Prostor.")
+                                message_box.exec_()
+       
+        self.toolbar = ToolBar()
         self.toolbar.add_crud()
         self.toolbar.create_action.triggered.connect(self.show_create_dialog)
-        self.toolbar.delete_action.triggered.connect(self.remove_document)
+        self.toolbar.delete_action.triggered.connect(self.config_check_remowe)            
         self.toolbar.rename_action.triggered.connect(self.rename_document)
-        # self.create_dialog = CreateDialog()
-        self.create_dialog.button_create.clicked.connect(self.create_refresh)
+        self.toolbar.share_document.triggered.connect(self.show_rezim_dialog)
+
         self.rename_dialog = RenameDialog(self.iface)
         self.rename_dialog.button_rename.clicked.connect(self.rename_dugme_kliknuto)
-        # self.layout.addWidget(self.tabWidget) 
+        # self.info_dijalog = InfoDijalog(self.iface)
         
         for dock in self.iface.findChildren(QtWidgets.QDockWidget):
             self.dockWidget = dock
         self.kontejner = self.dockWidget.widget()
+        self.kontejner.layout().insertWidget(0, self.toolbar)
         
-        for dock1 in self.kontejner.findChildren(QtWidgets.QVBoxLayout):
-            self.layout = dock1
-        self.layout.insertWidget(0, self.toolbar)
+
         
-        for dock2 in self.kontejner.findChildren(QtWidgets.QTreeView):
-            self.tree_view = dock2
         # self.layout.treeView
         self.activated = True
         print("Activated")
@@ -59,65 +70,166 @@ class Plugin(Extension):
         self.iface.removeToolBar(self.toolbar)
         print("Deactivated")
     
-        
+    def show_rezim_dialog(self):        
+        self.tabWidget = self.kontejner.layout().itemAt(1).widget()
+        self.tree_view = self.tabWidget.currentWidget()
+        with open('rad_sa_celim_dokumentom/otvoreniDokumenti.json') as data_file: 
+            data_check = json.load(data_file)               
+        for y in self.tree_view.selectedIndexes():
+            dokument = y.data()
+            print("Dokument: " + dokument)
+        for i in self.tree_view.selectedIndexes():
+            x = i.parent()
+            kolekcija = i.parent().data()
+            print("Kolekcija: " + kolekcija)
+            workspace = x.parent().data()
+            for y in self.tree_view.selectedIndexes():
+                text = workspace + '/' + y.data()
+            if text in data_check:
+                self.info_dijalog.show()
+            #TODO: napraviti dijalog za ovu poruku
+                print("Prvo zatvorite dokument") 
+            else:
+                self.rezim_dialog = RezimDialog(self.iface)
+                self.rezim_dialog.show()
+                self.tree_view.drag_and_drop()
+                # self.tree_view.dragEnterEvent.connect(self.tree_view.drag_and_drop)     
+                # self.tree_view.dragEnterEvent.connect(self.tree_view.drag_move_event)     
+                # self.tree_view.dragEnterEvent.connect(self.tree_view.drop_event)     
+                
     def show_create_dialog(self):
+        self.create_dialog = CreateDialog(self.iface)
         self.create_dialog.show()
+        self.create_dialog.button_create.clicked.connect(self.create_refresh)
+
+
     
     def create_refresh (self):
+        self.tabWidget = self.kontejner.layout().itemAt(1).widget()
+        self.tree_view = self.tabWidget.currentWidget()
         self.create_dialog.dugme_kliknuto()
-        self.tree_view.kliknuto_update()  
+        self.tree_view.kliknuto_update(self.create_dialog.workspace_uneto) 
+     
+    #prvo se proverava da li je aktivan alert dijalog za proveru pre brisanja dokumenta   
+    def config_check_remowe(self):
+        with open("rad_sa_celim_dokumentom/configuration.json", "r") as f:
+            data = json.load(f)
+        if data["alert_dialog"] == True: #poziva se metoda koja pre brisanja prikazuje dijalog
+            self.before_remowe()
+        else:
+            self.remove_document() #poziva se metoda koja brise dokument bez prikazivanja dijaloga
 
 
-    def remove_document (self):
-                for i in self.tree_view.selectedIndexes():
-                    text = i.data()
-                    # print(text)
-                    # return text
-                    with open('radni_prostor/workspace.json' ) as data_file:  
-                            data = json.load(data_file)
-                    for i in data:
-                            for j in data[i]:
-                                    for z in data[i][j]:
-                                            if z == text:
-                                                    z = text
-                                                    data[i][j].remove(z)
-                                                    with open('radni_prostor/workspace.json', 'w' ) as data_ffile: 
-                                                            data_json = json.dumps(data, sort_keys=True, indent=4)
-                                                            data_ffile.write(str(data_json))
-                                                    with open('rad_sa_celim_dokumentom/spec_ceoDokument.json') as doc_file:
-                                                        document = json.load(doc_file)
-                                                        del document[text]
-                                                    with open('rad_sa_celim_dokumentom/spec_ceoDokument.json', 'w') as doc_ffile:
-                                                        doc_json = json.dumps(document, sort_keys=True, indent=4)
-                                                        doc_ffile.write(str(doc_json))
-                                                    self.tree_view.kliknuto_update()  
+    #pre nego sto korisnik obrise dokument iskace dijalog za potvrdu
+    def before_remowe (self):
+        self.tabWidget = self.kontejner.layout().itemAt(1).widget()
+        self.tree_view = self.tabWidget.currentWidget()
+        with open('rad_sa_celim_dokumentom/otvoreniDokumenti.json') as data_file: 
+            data_check = json.load(data_file)               
+        for y in self.tree_view.selectedIndexes():
+            dokument = y.data()
+            print("Dokument: " + dokument)
+        for i in self.tree_view.selectedIndexes():
+            x = i.parent()
+            kolekcija = i.parent().data()
+            print("Kolekcija: " + kolekcija)
+            workspace = x.parent().data()
+            for y in self.tree_view.selectedIndexes():
+                text = workspace + '/' + y.data()
+            if text in data_check:
+                self.info_dijalog.show()
+            #TODO: napraviti dijalog za ovu poruku
+                print("Prvo zatvorite dokument") 
+            else:
+                self.alert_dialog = AlertDialog(self.iface)
+                self.alert_dialog.button_potvrdi.clicked.connect(self.remove_document)
+                self.alert_dialog.button_cancle.clicked.connect(self.alert_dialog.reject)
+                self.alert_dialog.setModal(True)
+                self.alert_dialog.show()
     
+    def remove_document (self):
+        self.tabWidget = self.kontejner.layout().itemAt(1).widget()
+        self.tree_view = self.tabWidget.currentWidget()
+        with open('rad_sa_celim_dokumentom/otvoreniDokumenti.json') as data_file: 
+            data_check = json.load(data_file)               
+        for y in self.tree_view.selectedIndexes():
+            dokument = y.data()
+            print("Dokument: " + dokument)
+        for i in self.tree_view.selectedIndexes():
+            x = i.parent()
+            kolekcija = i.parent().data()
+            print("Kolekcija: " + kolekcija)
+            workspace = x.parent().data()
+            for y in self.tree_view.selectedIndexes():
+                text = workspace + '/' + y.data()
+            if text in data_check:
+                self.info_dijalog.show()
+            #TODO: napraviti dijalog za ovu poruku
+                print("Prvo zatvorite dokument") 
+            else:
+                with open('workspaces/' + workspace + '.json' ) as data_file:  
+                        data = json.load(data_file)
+                data[workspace][kolekcija].remove(dokument)
+                with open('workspaces/' + workspace + '.json', 'w') as f:
+                    json.dump(data, f, indent=2)
+
+
+                with open('dokumenti/' + workspace + '.json' ) as data_file:  
+                    data = json.load(data_file)
+
+                del data[dokument]
+                
+                with open('dokumenti/' + workspace + '.json', 'w') as f:
+                    json.dump(data, f, indent=2)
+                    
+                self.tree_view.kliknuto_update(workspace)  
+
     def rename_document (self):
-                self.rename_dialog.show()
+        self.tabWidget = self.kontejner.layout().itemAt(1).widget()
+        self.tree_view = self.tabWidget.currentWidget()
+        with open('rad_sa_celim_dokumentom/otvoreniDokumenti.json') as data_file: 
+            data_check = json.load(data_file) 
+            for i in self.tree_view.selectedIndexes():
+                x = i.parent()
+                workspace = x.parent().data()
+            for y in self.tree_view.selectedIndexes():
+                        text = workspace + '/' + y.data()
+                        print(text)
+                        if text in data_check:
+                            self.info_dijalog.show()
+                        #TODO: napraviti dijalog za ovu poruku
+                            print("Prvo zatvorite dokument") 
+                        else:
+                            self.rename_dialog.show()
 
     def rename_dugme_kliknuto (self):
-                self.rename_uneto = self.rename_dialog.rename_input.text()
-                for i in self.tree_view.selectedIndexes():
-                    text = i.data()
-                    with open('radni_prostor/workspace.json' ) as data_file:  
-                            data = json.load(data_file)
-                    for i in data:
-                            for j in data[i]:
-                                    for z in data[i][j]:
-                                            if z == text:
-                                                z = text
-                                                y = self.rename_uneto
-                                                data[i][j][data[i][j].index(z)] = y
-                                                with open('radni_prostor/workspace.json', 'w' ) as data_ffile: 
-                                                    data_json = json.dumps(data, sort_keys=True, indent=4)
-                                                    data_ffile.write(str(data_json))
-                                                with open('rad_sa_celim_dokumentom/spec_ceoDokument.json') as doc_file:
-                                                    document = json.load(doc_file)
-                                                    document[self.rename_uneto] = document.pop(text)
-                                                with open('rad_sa_celim_dokumentom/spec_ceoDokument.json', 'w') as doc_ffile:
-                                                    doc_json = json.dumps(document, sort_keys=True, indent=4)
-                                                    doc_ffile.write(str(doc_json))
-                                                self.tree_view.kliknuto_update()  
-                                                # data[i][j].insert(data[i][j].index(z), y )
-                                                break
-        
+        self.tabWidget = self.kontejner.layout().itemAt(1).widget()
+        self.tree_view = self.tabWidget.currentWidget()
+        for y in self.tree_view.selectedIndexes():
+            dokument = y.data()
+            print("Dokument: " + dokument)
+        for i in self.tree_view.selectedIndexes():
+            x = i.parent()
+            kolekcija = i.parent().data()
+            print("Kolekcija: " + kolekcija)
+            workspace = x.parent().data()
+        self.rename_uneto = self.rename_dialog.rename_input.text()
+
+        with open('workspaces/' + workspace + '.json' ) as data_file:  
+            data = json.load(data_file)
+
+        data[workspace][kolekcija][data[workspace][kolekcija].index(dokument)] = self.rename_uneto
+                
+        with open('workspaces/' + workspace + '.json', 'w') as f:
+            json.dump(data, f, indent=2)
+            
+        with open('dokumenti/' + workspace + '.json' ) as data_file:  
+            data = json.load(data_file)
+
+        data[dokument][0]["naziv"] = self.rename_uneto
+        data[self.rename_uneto] = data.pop(dokument)
+                
+        with open('dokumenti/' + workspace + '.json', 'w') as f:
+            json.dump(data, f, indent=2)
+            
+        self.tree_view.kliknuto_update(workspace)  
