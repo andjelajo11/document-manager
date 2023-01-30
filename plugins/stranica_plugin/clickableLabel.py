@@ -6,7 +6,7 @@ import json
 
 
 class DoubleClickLabel(QLabel):
-    def __init__(self, workspace, dokument, stranica, slot, textPlugin, vectorPlugin, rasterPlugin, videoPlugin, thumbnail):
+    def __init__(self, workspace, dokument, stranica, slot, textPlugin, vectorPlugin, rasterPlugin, videoPlugin, thumbnail, audioPlugin):
         super().__init__()
         self.workspace = workspace
         self.dokument = dokument
@@ -17,6 +17,7 @@ class DoubleClickLabel(QLabel):
         self.rasterPlugin = rasterPlugin
         self.videoPlugin = videoPlugin
         self.thumbnail = thumbnail
+        self.audioPlugin = audioPlugin
         
 
     def mouseDoubleClickEvent(self, event):
@@ -53,6 +54,10 @@ class DoubleClickLabel(QLabel):
                 elif ".mp4" in file_name:
                     print("video")
                     self.videoPlugin.slotSelected(file_name)
+                elif ".mp3" in file_name:
+                    self.audioPlugin.slotSelected(file_name)
+                elif ".wav" in file_name:
+                    self.audioPlugin.slotSelected(file_name)
             else:
                 print("text nije prazan")
                 print(text)
@@ -66,5 +71,8 @@ class DoubleClickLabel(QLabel):
                     self.rasterPlugin.slotSelected(text)
                 elif ".mp4" in text:
                     self.videoPlugin.slotSelected(text)
-
+                elif ".mp3" in text:
+                    self.audioPlugin.slotSelected(text)
+                elif ".wav" in text:
+                    self.audioPlugin.slotSelected(text)
                     
