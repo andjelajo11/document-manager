@@ -8,9 +8,9 @@ from PySide2 import QtCore
 from rad_sa_celim_dokumentom.ui.tool_bar import ToolBar
 from rad_sa_celim_dokumentom.ui.create_dialog import CreateDialog
 from rad_sa_celim_dokumentom.ui.rename_dialog import RenameDialog
-# from rad_sa_celim_dokumentom.ui.info_dijalog import InfoDijalog
-# from rad_sa_celim_dokumentom.ui.alert_dialog import AlertDialog
-# from rad_sa_celim_dokumentom.ui.rezim_dijalog import RezimDialog
+from rad_sa_celim_dokumentom.ui.info_dijalog import InfoDijalog
+from rad_sa_celim_dokumentom.ui.alert_dialog import AlertDialog
+from rad_sa_celim_dokumentom.ui.rezim_dijalog import RezimDialog
 
 
 
@@ -83,7 +83,7 @@ class Plugin(Extension):
             #TODO: napraviti dijalog za ovu poruku
                 print("Prvo zatvorite dokument") 
             else:
-                # self.rezim_dialog = RezimDialog(self.iface)
+                self.rezim_dialog = RezimDialog(self.iface)
                 self.rezim_dialog.show()
                 self.tree_view.drag_and_drop()
                 # self.tree_view.dragEnterEvent.connect(self.tree_view.drag_and_drop)     
@@ -134,7 +134,7 @@ class Plugin(Extension):
             #TODO: napraviti dijalog za ovu poruku
                 print("Prvo zatvorite dokument") 
             else:
-                # self.alert_dialog = AlertDialog(self.iface)
+                self.alert_dialog = AlertDialog(self.iface)
                 self.alert_dialog.button_potvrdi.clicked.connect(self.remove_document)
                 self.alert_dialog.button_cancle.clicked.connect(self.alert_dialog.reject)
                 self.alert_dialog.setModal(True)
