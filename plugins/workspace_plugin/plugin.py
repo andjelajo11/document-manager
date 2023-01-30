@@ -73,6 +73,7 @@ class Plugin(Extension):
         with open('rad_sa_celim_dokumentom/workspace_otvoreni.json') as data_file: 
             data = json.load(data_file)
         tab_text = self.tabWidget.tabText(index)
+        self.file_names.pop(index)
         if tab_text in data:
             data.remove(tab_text)
             print(data)
@@ -154,6 +155,12 @@ class Plugin(Extension):
             }
             # Write the JSON data to a file
             with open('workspaces/' + workspace_name + ".json", 'w') as data_file:
+                data_json = json.dumps(data, sort_keys=True, indent=4)
+                data_file.write(data_json)
+            
+            data = {}
+
+            with open('dokumenti/' + workspace_name + ".json", 'w') as data_file:
                 data_json = json.dumps(data, sort_keys=True, indent=4)
                 data_file.write(data_json)
         

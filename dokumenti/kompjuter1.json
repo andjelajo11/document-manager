@@ -30,60 +30,14 @@
           "stranica1": "",
           "stranica2": "",
           "stranica3": "",
-          "stranica4": ""
+          "stranica4": "",
+          "stranica5": "resources/icons/plaza.jpg"
         }
       ],
       "stranica4": [
         {}
-      ]
-    }
-  ],
-  "dokument2": [
-    {
-      "naziv": "dokument2",
-      "thumbnails": [
-        {
-          "stranica1": ""
-        }
       ],
-      "stranica1": [
-        {}
-      ]
-    }
-  ],
-  "dokument3": [
-    {
-      "naziv": "dokument3",
-      "thumbnails": [
-        {
-          "stranica1": ""
-        }
-      ],
-      "stranica1": [
-        {}
-      ]
-    }
-  ],
-  "dokument4": [
-    {
-      "naziv": "dokument4",
-      "thumbnails": [
-        {}
-      ]
-    }
-  ],
-  "dokument5": [
-    {
-      "naziv": "dokument5",
-      "thumbnails": [
-        {}
-      ]
-    }
-  ],
-  "dokument6": [
-    {
-      "naziv": "dokument6",
-      "thumbnails": [
+      "stranica5": [
         {}
       ]
     }

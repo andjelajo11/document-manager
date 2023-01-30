@@ -177,28 +177,48 @@ class TreeView(QTreeView):
 
 
                 for i in self.selectedIndexes():
-                        parent = i.parent()
-                
-                parent = parent.data()
-                with open('workspaces/'+ parent + '.json') as data_file:  
-                        data = json.load(data_file)
-                data_file.close()
+                        x = i.parent()                
+                        parent = x.data()
+                if parent is not None:
+                        with open('workspaces/'+ parent + '.json') as data_file:  
+                                data = json.load(data_file)
+                        data_file.close()
 
-                num_collections = len(data[parent])
-                print(len(data[parent]))
+                        num_collections = len(data[parent])
+                        print(len(data[parent]))
 
-                new_collection_name = "kolekcija" + str(num_collections + 1)
+                        new_collection_name = "kolekcija" + str(num_collections + 1)
 
-                # Add the new collection to the workspace in the JSON data
-                data[parent][new_collection_name] = []
+                        # Add the new collection to the workspace in the JSON data
+                        data[parent][new_collection_name] = []
 
-                # Save the updated JSON data to the file
-                with open('workspaces/'+ parent + '.json', 'w') as data_file:  
-                        json.dump(data, data_file, indent=4)
-                data_file.close()
-                self.model.clear()
+                        # Save the updated JSON data to the file
+                        with open('workspaces/'+ parent + '.json', 'w') as data_file:  
+                                json.dump(data, data_file, indent=4)
+                        data_file.close()
+                        self.model.clear()
 
-                self.populate(parent)
+                        self.populate(parent)
+                else:
+                        with open('workspaces/'+ text + '.json') as data_file:  
+                                data = json.load(data_file)
+                        data_file.close()
+
+                        num_collections = len(data[text])
+                        print(len(data[text]))
+
+                        new_collection_name = "kolekcija" + str(num_collections + 1)
+                        print(new_collection_name)
+                        # Add the new collection to the workspace in the JSON data
+                        data[text][new_collection_name] = []
+
+                        # Save the updated JSON data to the file
+                        with open('workspaces/'+ text + '.json', 'w') as data_file:  
+                                json.dump(data, data_file, indent=4)
+                        data_file.close()
+                        self.model.clear()
+
+                        self.populate(text)
         
         def drag_and_drop(self):
         # Enable drag and drop on the TreeView
