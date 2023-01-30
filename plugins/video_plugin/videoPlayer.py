@@ -1,6 +1,6 @@
 from PySide2 import QtWidgets, QtCore, QtGui
 from PySide2.QtMultimediaWidgets import QVideoWidget
-# import vlc
+import vlc
 
 class VideoPlayer(QtWidgets.QWidget):
     def __init__(self, path, parent = None):
