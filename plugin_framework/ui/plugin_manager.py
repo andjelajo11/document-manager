@@ -1,4 +1,6 @@
 from PySide2 import QtWidgets
+from PySide2 import QtCore
+
 from .plugin_manager_model import PluginManagerModel
 
 
@@ -15,6 +17,7 @@ class PluginManager(QtWidgets.QDialog):
         self.button_box = QtWidgets.QDialogButtonBox(QtWidgets.QDialogButtonBox.Close, self)
         self.button_box.clicked.connect(lambda:self.close())
         self.table_view = QtWidgets.QTableView(self)
+        # self.table_view.setGeometry(QtCore.QRect(0, 50, self.width(), self.height() - 100))
         self.widget_layout = QtWidgets.QGridLayout(self)
         self.plugin_model = None # model koji se ucitava za plugin-ve koji su importovani
 
@@ -43,10 +46,11 @@ class PluginManager(QtWidgets.QDialog):
         self.widget_layout.addWidget(self.uninstall_button, 0, 3)
         self.widget_layout.addWidget(self.table_view, 1, 0, 1, 4)
         self.widget_layout.addWidget(self.button_box, 2, 0, 1, 4)
-
-    # na osnovu dostupnih plugin-ova iz registry-ja napraviti model
+        self.header = self.table_view.horizontalHeader()
+        self.header.resizeSection(1, 150) # second column, width 150    # na osnovu dostupnih plugin-ova iz registry-ja napraviti model
     def _create_model(self):
         self.plugin_model = PluginManagerModel(None, self.plugin_registry._plugins)
+        self.plugin_model.sort()
         self.table_view.setModel(self.plugin_model)
 
     def list_plugins(self):

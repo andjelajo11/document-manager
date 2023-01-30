@@ -1,5 +1,5 @@
 from PySide2 import QtWidgets
-
+from PySide2.QtWidgets import QMessageBox
 from plugin_framework.extension import Extension
 from rad_sa_celim_dokumentom.interfejsi.extension_dok_celina import ExtensionDokument
 from radni_prostor.dock_widget import DockWidget
@@ -35,7 +35,14 @@ class Plugin(Extension):
 
     # FIXME: implementacija apstraktnih metoda
     def activate(self):
-        
+        with open("plugin_framework/plugins.json", "r") as json_file:
+            plugins = json.load(json_file)
+        if plugins["workspace_plugin"] == False:
+                                message_box = QMessageBox()
+                                message_box.setWindowTitle("Notification")
+                                message_box.setText("Nije aktivirana komponenta Radni Prostor.")
+                                message_box.exec_()
+       
         self.toolbar = ToolBar()
         self.toolbar.add_crud()
         self.toolbar.create_action.triggered.connect(self.show_create_dialog)

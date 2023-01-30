@@ -27,6 +27,15 @@ class Plugin(Extension):
         self.new.triggered.connect(self.noviWorkspace)
 
     def activate(self):
+        with open("plugin_framework/plugins.json", "r") as json_file:
+            plugins = json.load(json_file)
+
+        plugins["workspace_plugin"] = True
+        with open("plugin_framework/plugins.json", "w") as json_file:
+            json.dump(plugins, json_file, indent=2)   
+            
+        self.activated = True
+
         self.iface.add_menu_action("&File", self.open)
         self.iface.add_menu_action("&File", self.new)
         self.iface.add_menu_action("&File", self.delete)

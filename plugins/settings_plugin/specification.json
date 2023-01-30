@@ -1,5 +1,5 @@
 {
-    "id": 16,
+    "id": 12,
     "name": "Settings",
     "authors": [{
         "first_name": "Andjela",
@@ -8,7 +8,7 @@
         "web_page": "https://gitlab.com/aleksandramitrovic"
     }],
     "version": "1.0.0",
-    "core_version": "1.0.0",
+    "core_version": "",
     "category": "editor",
     "licence": "MIT",
     "description": "Podesavanja",
