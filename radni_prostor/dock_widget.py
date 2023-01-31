@@ -8,18 +8,4 @@ class DockWidget(QtWidgets.QDockWidget):
         super().__init__(title, parent)
         self.setFeatures(QtWidgets.QDockWidget.NoDockWidgetFeatures)
         
-        # self.button_update = QtWidgets.QPushButton("Refresh workspace")
-        # self.button_update.clicked.connect(self.kliknuto_update)
-        
-        
-
-    # def kliknuto_update (self):
-            
-            
-
-
-    
-    # def refresh_workspace(self):
-        
-    #     self.button_update = QtWidgets.QPushButton("Refresh workspace")
      

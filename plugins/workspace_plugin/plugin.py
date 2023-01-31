@@ -154,13 +154,13 @@ class Plugin(Extension):
             }
             }
             # Write the JSON data to a file
-            with open('workspaces/' + workspace_name + ".json", 'w') as data_file:
+            with open('workspaces/' + workspace_name + ".wsp", 'w') as data_file:
                 data_json = json.dumps(data, sort_keys=True, indent=4)
                 data_file.write(data_json)
             
             data = {}
 
-            with open('dokumenti/' + workspace_name + ".json", 'w') as data_file:
+            with open('dokumenti/' + workspace_name + ".wsp", 'w') as data_file:
                 data_json = json.dumps(data, sort_keys=True, indent=4)
                 data_file.write(data_json)
         
