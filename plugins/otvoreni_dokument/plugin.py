@@ -73,6 +73,7 @@ class Plugin(Extension):
         print("Deactivated")
         self.activated = False  
         self.iface.layout.itemAt(0).widget().setParent(None)
+        self.stranica_plugin.deactivate()
         
 
 
@@ -169,7 +170,7 @@ class Plugin(Extension):
         
         
 
-            if "dokument" in dokument:        
+            if "kolekcija" not in dokument:        
                 self.thumbnail = ThumbnailWidget(dokument, workspace, self.stranica_plugin, self.treeWidget)
                 self.down.triggered.connect(self.thumbnail.down)
                 self.up.triggered.connect(self.thumbnail.up)

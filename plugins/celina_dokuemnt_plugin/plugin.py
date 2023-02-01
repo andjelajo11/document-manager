@@ -167,10 +167,10 @@ class Plugin(Extension):
             #TODO: napraviti dijalog za ovu poruku
                 print("Prvo zatvorite dokument") 
             else:
-                with open('workspaces/' + workspace + '.json' ) as data_file:  
+                with open('workspaces/' + workspace + '.wsp' ) as data_file:  
                         data = json.load(data_file)
                 data[workspace][kolekcija].remove(dokument)
-                with open('workspaces/' + workspace + '.json', 'w') as f:
+                with open('workspaces/' + workspace + '.wsp', 'w') as f:
                     json.dump(data, f, indent=2)
 
 
@@ -215,12 +215,12 @@ class Plugin(Extension):
             workspace = x.parent().data()
         self.rename_uneto = self.rename_dialog.rename_input.text()
 
-        with open('workspaces/' + workspace + '.json' ) as data_file:  
+        with open('workspaces/' + workspace + '.wsp' ) as data_file:  
             data = json.load(data_file)
 
         data[workspace][kolekcija][data[workspace][kolekcija].index(dokument)] = self.rename_uneto
                 
-        with open('workspaces/' + workspace + '.json', 'w') as f:
+        with open('workspaces/' + workspace + '.wsp', 'w') as f:
             json.dump(data, f, indent=2)
             
         with open('dokumenti/' + workspace + '.json' ) as data_file:  

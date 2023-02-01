@@ -61,7 +61,10 @@ class Plugin(Extension):
 
         print("Deactivated")
         self.activated = False  
-        self.iface.layout.itemAt(0).widget().setParent(None)
+        main = self.iface.layout.itemAt(0).widget()
+        tab = main.layout().itemAt(0).widget()
+        stranica = tab.currentWidget()
+        stranica.layout().itemAt(2).widget().setParent(None)
 
 
     def delete_tab(self,index):

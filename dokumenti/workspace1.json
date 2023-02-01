@@ -9,7 +9,9 @@
           "slot3": "",
           "slot4": "",
           "slot5": "",
-          "slot6": ""
+          "slot6": "",
+          "slot8": "",
+          "slot9": ""
         }
       ],
       "stranica2": [
@@ -29,12 +31,8 @@
         {
           "stranica1": "",
           "stranica2": "",
-          "stranica3": "",
-          "stranica4": ""
+          "stranica3": ""
         }
-      ],
-      "stranica4": [
-        {}
       ]
     }
   ],

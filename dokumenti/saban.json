@@ -1,0 +1,30 @@
+{
+  "saulic": [
+    {
+      "naziv": "saulic",
+      "thumbnails": [
+        {
+          "stranica1": "resources/icons/plaza.jpg"
+        }
+      ],
+      "stranica1": [
+        {
+          "slot1": "C:/Users/User/Documents/Upisivanje.txt",
+          "slot2": "C:/Users/User/Downloads/Miroslav Ilic - Volecu te do kraja zivota.mp3",
+          "slot3": "C:/Users/User/Downloads/video.mp4",
+          "slot4": "",
+          "slot5": "",
+          "slot6": "C:/Users/User/Downloads/british_red_fox_crucigera.jpg",
+          "slot7": "C:/Users/User/Downloads/gohan.svg",
+          "slot8": "",
+          "slot9": "",
+          "slot10": "",
+          "slot11": "",
+          "slot12": "",
+          "slot13": "",
+          "slot14": ""
+        }
+      ]
+    }
+  ]
+}

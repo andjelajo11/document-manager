@@ -43,7 +43,7 @@ class CreateDialog(QtWidgets.QDialog):
         
     def kolekcija_podatci (self):
             self.workspace_var = self.workspace_menu.currentText()
-            with open('workspaces/' + self.workspace_var + '.json') as data_file:  
+            with open('workspaces/' + self.workspace_var + '.wsp') as data_file:  
                 data= json.load(data_file)
                 # print(self.workspace_uneto)     
                 self.kolekcije = []
@@ -81,16 +81,13 @@ class CreateDialog(QtWidgets.QDialog):
         self.kolekcija_menu.insertItems(1, self.kolekcije)
         self._layout.addWidget(self.kolekcija_menu) 
         print(self.kolekcije)
-        # self._layout.addWidget(self._kolekcija_input) 
        
         self._layout.addWidget(self._dokument)        
         self._layout.addWidget(self._dokument_input) 
         
         self.button_create = QtWidgets.QPushButton("Dodaj Dokument")
-        # self.button_create.clicked.connect(self.dugme_kliknuto)
 
         self._layout.addWidget(self.button_create)     
-        # self.button_create.clicked.connect(self.dugme_kliknuto)
         
         
     def dugme_kliknuto(self):
@@ -103,12 +100,12 @@ class CreateDialog(QtWidgets.QDialog):
         print(self.dokument_uneto)
         
         
-        with open('workspaces/' + self.workspace_uneto + '.json') as data_file:  
+        with open('workspaces/' + self.workspace_uneto + '.wsp') as data_file:  
             data = json.load(data_file)
         if self.dokument_uneto not in data:
             data[self.workspace_uneto][self.kolekcija_uneto].append(self.dokument_uneto)
         
-            with open('workspaces/' + self.workspace_uneto + '.json', 'w') as f:
+            with open('workspaces/' + self.workspace_uneto + '.wsp', 'w') as f:
                 json.dump(data, f, indent=2)
 
         
@@ -123,78 +120,6 @@ class CreateDialog(QtWidgets.QDialog):
         
             with open('dokumenti/' + self.workspace_uneto + '.json', 'w') as f:
                 json.dump(data, f, indent=2)
-        
-        # with open('radni_prostor/workspace.json' ) as data_file:  
-        #         data = json.load(data_file)
-        #         for i in data:
-        #                 print("1")
-        #                 i = self.workspace_uneto
-        #                 print("2")
-        #                 for j in data[i]:
-        #                     print("3")
-        #                     if j == self.kolekcija_uneto:
-        #                         print("4")
-        #                         j = self.kolekcija_uneto
-        #                         print("5")
-        #                         if not data[i][j]: #provera da li je kolekcija prazna ako je prazna onda se izvrasava sledece
-        #                             data[i][j].append(self.dokument_uneto)
-        #                             print("9")
-        #                             with open('radni_prostor/workspace.json', 'w' ) as data_ffile: 
-        #                                 print("10")
-        #                                 data_json = json.dumps(data, sort_keys=True, indent=4)
-        #                                 print("11")
-        #                                 data_ffile.write(str(data_json))
-        #                                 print("12")
-        #                             #dodavanje u json sa listom dokumenata, stranica i slotova
-        #                             with open('radni_prostor/dokumenti.json') as doc_file:
-        #                                 print("13")
-        #                                 document = json.load(doc_file)
-        #                                 print("14")
-        #                                 document[self.dokument_uneto]=[{"naziv": self.dokument_uneto, "thumbnail": "slikaPath"}]
-        #                                 print("15")
-        #                             with open('radni_prostor/dokumenti.json', 'w') as doc_ffile:
-        #                                 print("16")
-        #                                 doc_json = json.dumps(document, sort_keys=True, indent=4)
-        #                                 print("17")
-        #                                 doc_ffile.write(str(doc_json))
-        #                                 print("18")
-        #                             return data
-        #                         else: #ako kolekcija nije prazna
-        #                             data[i][j]  
-        #                             for z in data[i][j]:
-        #                                 print("6")
-        #                                 if self.dokument_uneto not in data[i][j]:
-        #                                     print("7")
-        #                                     # z == self.dokument_uneto
-        #                                     z = self.dokument_uneto
-        #                                     print("8")
-        #                                     data[i][j].append(z)
-        #                                     print("9")
-        #                                     with open('radni_prostor/workspace.json', 'w' ) as data_ffile: 
-        #                                         print("10")
-        #                                         data_json = json.dumps(data, sort_keys=True, indent=4)
-        #                                         print("11")
-        #                                         data_ffile.write(str(data_json))
-        #                                         print("12")
-        #                                     #dodavanje u json sa listom dokumenata, stranica i slotova
-        #                                     with open('radni_prostor/dokumenti.json') as doc_file:
-        #                                         print("13")
-        #                                         document = json.load(doc_file)
-        #                                         print("14")
-        #                                         document[self.dokument_uneto]=[{"naziv": z, "thumbnails": [{}]}]
-        #                                         print("15")
-        #                                     with open('radni_prostor/dokumenti.json', 'w') as doc_ffile:
-        #                                         print("16")
-        #                                         doc_json = json.dumps(document, sort_keys=True, indent=4)
-        #                                         print("17")
-        #                                         doc_ffile.write(str(doc_json))
-        #                                         print("18")
-        #                                     return data
-                                            
-        #                     else : print("Naziv dokumenta nije validan")
-        #                 break                   
-        # print(data)                            
-
 
 
 

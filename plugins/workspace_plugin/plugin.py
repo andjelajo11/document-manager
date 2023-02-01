@@ -97,7 +97,6 @@ class Plugin(Extension):
             newFile = file_name.split("/")[-1].split(".")[0]
             self.tabWidget.addTab(self.treeView, newFile)
             print(newFile)
-            # workspace = file_name.split(".")[0]
             self.treeView.populate(file_name)
             
 
@@ -160,7 +159,7 @@ class Plugin(Extension):
             
             data = {}
 
-            with open('dokumenti/' + workspace_name + ".wsp", 'w') as data_file:
+            with open('dokumenti/' + workspace_name + ".json", 'w') as data_file:
                 data_json = json.dumps(data, sort_keys=True, indent=4)
                 data_file.write(data_json)
         
