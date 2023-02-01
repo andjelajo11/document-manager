@@ -8,14 +8,11 @@ from administracija.controller.login_controller import LoginController
 
 
 def reset_json_values():
-    # Load the JSON file
     with open("plugin_framework/plugins.json", "r") as f:
         data = json.load(f)
 
-    # Reset the values in the JSON data
     data = {"workspace_plugin": False, "celina_dokument": False, "otvoreni_dokument": False, "stranica_plugin": False, "text_plugin" : False, "vektor_plugin" : False, "raster_plugin" : False, "video_plugin" : False, "audio_plugin" : False}
 
-    # Write the data back to the JSON file
     with open("plugin_framework/plugins.json", "w") as f:
         json.dump(data, f, indent=4)
         
@@ -23,10 +20,8 @@ def reset_json_values():
     with open("rad_sa_celim_dokumentom/workspace_otvoreni.json", "r") as f:
         data = json.load(f)
 
-    # Reset the values in the JSON data
     data = []
 
-    # Write the data back to the JSON file
     with open("rad_sa_celim_dokumentom/workspace_otvoreni.json", "w") as f:
         json.dump(data, f, indent=4)
 
@@ -35,10 +30,8 @@ def reset_json_values():
     with open("rad_sa_celim_dokumentom/otvoreniDokumenti.json", "r") as f:
         data = json.load(f)
 
-    # Reset the values in the JSON data
     data = []
 
-    # Write the data back to the JSON file
     with open("rad_sa_celim_dokumentom/otvoreniDokumenti.json", "w") as f:
         json.dump(data, f, indent=4)
    

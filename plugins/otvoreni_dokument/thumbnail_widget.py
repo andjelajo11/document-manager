@@ -108,7 +108,6 @@ class ThumbnailWidget(QtWidgets.QScrollArea):
 
     def down(self):
         if self.selected_label is None:
-        # Select the first label if no label is currently selected
             current_index = 0
         else:
             current_index = self.glavni.layout().indexOf(self.selected_label)
@@ -165,7 +164,6 @@ class ThumbnailWidget(QtWidgets.QScrollArea):
     def bottom(self):
         current_index = self.glavni.layout().count() - 1
 
-        # Select the last label in the layout
         last_label = self.glavni.layout().itemAt(current_index)
         if last_label is not None:
             self.selected_label = last_label.widget()

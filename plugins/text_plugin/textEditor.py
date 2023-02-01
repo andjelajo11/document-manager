@@ -11,35 +11,32 @@ class TextEditor(QtWidgets.QWidget):
         text = open(path).read()
         self.text_edit.setText(text)
         self.text_edit.setFontPointSize(12)
-        # Create a toolbar and add it to the main window
         self.toolbar = QtWidgets.QToolBar()
         
-        # Create a "Save" action and add it to the toolbar
+
         self.save_action = QtWidgets.QAction(QIcon("resources/icons/text-save.png"), "Save", self)
         self.save_action.setShortcut(QKeySequence.Save)
         self.toolbar.addAction(self.save_action)
 
-        # Create a "Bold" action and add it to the toolbar
+
         self.bold_action = QtWidgets.QAction(QIcon("resources/icons/text-bold.png"),"Bold", self)
         self.bold_action.setCheckable(True)
         self.toolbar.addAction(self.bold_action)
 
-        # Create an "Italic" action and add it to the toolbar
+
         self.italic_action = QtWidgets.QAction(QIcon("resources/icons/text-italic.png"),"Italic", self)
         self.italic_action.setCheckable(True)
         self.toolbar.addAction(self.italic_action)
 
-        # Connect the "Bold" and "Italic" actions to the appropriate slots
+
         self.bold_action.toggled.connect(self.set_bold)
         self.italic_action.toggled.connect(self.set_italic)
 
-        # Add font and font size options
         self.font_size_dropdown = QtWidgets.QComboBox(self)
 
-        # Add font sizes to the dropdown
         self.font_size_dropdown.addItems(["8", "10", "12", "14", "16", "18", "20"])
 
-        # Set the default font size to 12
+
         self.font_size_dropdown.setCurrentIndex(2)
         self.toolbar.addWidget(self.font_size_dropdown)
 
@@ -60,19 +57,15 @@ class TextEditor(QtWidgets.QWidget):
 
 
 
-         # Create a "Left Align" action and add it to the toolbar
         self.left_align_action = QtWidgets.QAction(QIcon("resources/icons/text-align-left.png"), "Left Align", self)
         self.left_align_action.setCheckable(True)
         self.toolbar.addAction(self.left_align_action)
 
 
-
-         # Create a "Center Align" action and add it to the toolbar
         self.center_align_action = QtWidgets.QAction(QIcon("resources/icons/text-align-center.png"), "Center Align", self)
         self.center_align_action.setCheckable(True)
         self.toolbar.addAction(self.center_align_action)
 
-        # Create a "Right Align" action and add it to the toolbar
         self.right_align_action = QtWidgets.QAction(QIcon("resources/icons/text-align-right.png"), "Right Align", self)
         self.right_align_action.setCheckable(True)
         self.toolbar.addAction(self.right_align_action)
@@ -98,7 +91,7 @@ class TextEditor(QtWidgets.QWidget):
         self.center_align_action.setCheckable(True)
         self.align_group.addAction(self.center_align_action)
 
-        # Connect the alignment actions to the appropriate slot
+
         self.left_align_action.triggered.connect(self.set_left_align)
         self.right_align_action.triggered.connect(self.set_right_align)
         self.center_align_action.triggered.connect(self.set_center_align)

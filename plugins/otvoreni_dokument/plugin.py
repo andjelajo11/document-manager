@@ -54,13 +54,7 @@ class Plugin(Extension):
         self.activated = True
 
 
-        # for dock in self.iface.findChildren(QtWidgets.QDockWidget):
-        #     self.dockWidget = dock
-        # self.kontejner = self.dockWidget.findChild(QtWidgets.QWidget)
-        # self.tab = self.kontejner.widget()
-        # self.treeView = self.tab.layout().itemAt(0).widget()
-        # self.treeView.clicked.connect(self.onClicked)    
-        
+
 
     def deactivate(self):
         with open("plugin_framework/plugins.json", "r") as json_file:
@@ -81,8 +75,7 @@ class Plugin(Extension):
         #zatvaranje taba brise naziv dokumenta iz json fajla -> dokument je zatvoren
         with open('rad_sa_celim_dokumentom/otvoreniDokumenti.json') as data_file: 
             data = json.load(data_file)
-        # tab_text_list = self.tabWidget.tabText(index).split('/')
-        # tab_text = tab_text_list[1]
+
         tab_text_list = self.tabWidget.tabText(index)
         # tab_text = tab_text_list[1]
         if tab_text_list in data:

@@ -24,14 +24,12 @@ class TreeView(QTreeView):
             data = json.load(data_file)
         data_file.close()
 
-        # Create a list of stranica items
         stranica_items = []
         for i in data[dokument]:
             for y in i:
                 if "stranica" in y:
                     stranica_items.append(y)
 
-        # Create the tree structure
         for i in data[dokument]:
             naziv = StandardItem(i["naziv"])
             self.rootNode.appendRow(naziv)
@@ -91,7 +89,6 @@ class TreeView(QTreeView):
                 continue
 
             
-        # Save the modified data back to the file
         with open('radni_prostor/dokumenti.json', "w") as f:
             json.dump(data, f)  
 

@@ -38,11 +38,9 @@ class imageWidget(QWidget):
         self.layout = QVBoxLayout()
         self.setLayout(self.layout)
 
-        # Create toolbar
         self.toolbar = QToolBar(self)
         self.layout.addWidget(self.toolbar)
 
-        # Add actions to toolbar
         self.rotate_left_action = QAction(QIcon("resources/icons/rotate-left.png"),"Rotate Left", self)
         self.rotate_left_action.triggered.connect(self.rotate_left)
         self.toolbar.addAction(self.rotate_left_action)
@@ -107,53 +105,40 @@ class imageWidget(QWidget):
         
 
     def crop_image(self):
-        # Check if an area is selected
         if not self.is_selecting:
             return
-        # store current version of the image
         self.image_history.append(self.pixmap)
         self.undo_button.setEnabled(True)
 
-        # Get the selected area as a QRect
         selected_area = self.rubberBand.geometry()
 
-        # Convert the QRect to a QRectF
         selected_area_f = QRectF(selected_area)
 
-        # Get the selected area in scene coordinates
         scene_selected_area = self.view.mapToScene(selected_area).boundingRect()
 
-        # Create a new pixmap with the selected area
         self.pixmap = self.pixmap.copy(scene_selected_area.toRect())
 
         self.rubberBand.hide()
         self.origin = QPoint()
         self.is_selecting = False
 
-        # Add the cropped pixmap to the scene
         self.scene.clear()
         self.scene.addPixmap(self.pixmap)
 
-        # Fit the view to the scene
         self.view.fitInView(self.scene.sceneRect(), Qt.KeepAspectRatio)
     
     def cancel(self):
-        # Clear the rubber band and reset the origin point
         self.rubberBand.hide()
         self.origin = QPoint()
         self.is_selecting = False
 
     def undo_crop(self):
-        # Check if there's a previous version of the image
         if len(self.image_history) > 0:
-            # Get the previous version of the image
             previous_image = self.image_history.pop()
-            # Clear the current image
             self.pixmap = previous_image
             self.scene.clear()
             self.scene.addPixmap(previous_image)
             self.view.fitInView(self.scene.sceneRect(), Qt.KeepAspectRatio)
-            # Disable the undo button if there's no previous version of the image
             if len(self.image_history) == 0:
                 self.undo_button.setEnabled(False)
 

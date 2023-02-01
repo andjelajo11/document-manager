@@ -50,14 +50,12 @@ class TreeView(QTreeView):
                 
                 for workspace in data:
                         workspace1 = StandardItem(workspace)
-                        self.rootNode.appendRow(workspace1)  # Print the workspace name
+                        self.rootNode.appendRow(workspace1)  
 
-                        # Loop through the collections in the workspace
                         for collection in data[workspace]:
                                 kolekcija = StandardItem(collection)
-                                workspace1.appendRow(kolekcija)  # Print the collection name
+                                workspace1.appendRow(kolekcija) 
 
-                                # Loop through the documents in the collection
                                 for document in data[workspace][collection]:
                                         dokument = StandardItem(document)
                                         kolekcija.appendRow(dokument)
@@ -78,17 +76,17 @@ class TreeView(QTreeView):
                 else:
                         with open('workspaces/' + file + ".wsp") as data_file:
                                 data = json.load(data_file)
+                                
                 
                 for workspace in data:
                         workspace1 = StandardItem(workspace)
-                        self.rootNode.appendRow(workspace1)  # Print the workspace name
+                        
+                        self.rootNode.appendRow(workspace1) 
 
-                        # Loop through the collections in the workspace
                         for collection in data[workspace]:
                                 kolekcija = StandardItem(collection)
-                                workspace1.appendRow(kolekcija)  # Print the collection name
+                                workspace1.appendRow(kolekcija)  
 
-                                # Loop through the documents in the collection
                                 for document in data[workspace][collection]:
                                         dokument = StandardItem(document)
                                         kolekcija.appendRow(dokument)
@@ -189,10 +187,8 @@ class TreeView(QTreeView):
 
                         new_collection_name = "kolekcija" + str(num_collections + 1)
 
-                        # Add the new collection to the workspace in the JSON data
                         data[parent][new_collection_name] = []
 
-                        # Save the updated JSON data to the file
                         with open('workspaces/'+ parent + '.wsp', 'w') as data_file:  
                                 json.dump(data, data_file, indent=4)
                         data_file.close()
@@ -209,10 +205,8 @@ class TreeView(QTreeView):
 
                         new_collection_name = "kolekcija" + str(num_collections + 1)
                         print(new_collection_name)
-                        # Add the new collection to the workspace in the JSON data
                         data[text][new_collection_name] = []
 
-                        # Save the updated JSON data to the file
                         with open('workspaces/'+ text + '.wsp', 'w') as data_file:  
                                 json.dump(data, data_file, indent=4)
                         data_file.close()
@@ -221,13 +215,11 @@ class TreeView(QTreeView):
                         self.populate(text)
         
         def drag_and_drop(self):
-        # Enable drag and drop on the TreeView
                 self.setDragEnabled(True)
                 self.setAcceptDrops(True)
                 self.setDropIndicatorShown(True)
                 self.setDragDropMode(QAbstractItemView.InternalMove)
                 
-                # Connect the drag and drop signals
                 self.dragEnterEvent = self.drag_enter_event
                 self.dragMoveEvent = self.drag_move_event
                 self.dropEvent = self.drop_event
@@ -236,8 +228,6 @@ class TreeView(QTreeView):
                 selected_item = self.selectedIndexes()[0]
                 if event.mimeData().hasText() and selected_item.data() == "dokument": 
                         event.accept()
-                # else:
-                #         event.ignore()
 
         def drag_move_event(self, event):
                 index = self.indexAt(event.pos())
@@ -246,36 +236,23 @@ class TreeView(QTreeView):
                         event.accept()
                 else:
                         event.ignore()
-                # if event.mimeData().hasText():
-                #         index = self.indexAt(event.pos())
-                #         if index.isValid() and self.model().itemFromIndex(index):
-                #                 event.setDropAction(Qt.CopyAction)
-                #                 event.accept()
-                # else:
-                #         event.ignore()
+
 
         def drop_event(self, event):
                 if event.mimeData().hasUrls():
                         
                                 drop_index = self.indexAt(event.pos())
-                                # Get the list of dropped URLs
                                 
                                 urls = event.mimeData().urls()
                                 
-                                # Get the target index (where the drop is occurring)
                                 target_index = self.indexAt(event.pos())
                                 
-                                # Get the target item
                                 target_item = self.model.itemFromIndex(target_index)
 
-                                # Check if the target item is a "kolekcija" node
                                 if target_item.text() == "kolekcija":
-                                # Iterate through the URLs and perform the desired action
                                         for url in urls:
-                                # Extract the file path from the URL
                                                 file_path = url.toLocalFile()
 
-                                # Perform the desired action (e.g. add to the TreeView)
                                         self.add_to_treeview(file_path, target_item)
 
                                         event.accept()
@@ -284,11 +261,3 @@ class TreeView(QTreeView):
                 else:
                         event.ignore()
                         
-        # def add_to_treeview(self, file_path):
-        #         # Get the selected item in the TreeView
-        #         selected_item = self.selectedIndexes()[0]
-                
-        #         # Add the new item to the TreeView
-        #         new_item = QtWidgets.QTreeWidgetItem()
-        #         new_item.setText(0, file_path)
-        #         selected_item.addChild(new_item)

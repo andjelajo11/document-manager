@@ -20,7 +20,6 @@ class ClickableLabel(QtWidgets.QLabel):
 
         slots_data = [stranica1_data[slot] for slot in stranica1_data]
         print(slots_data)
-        # count the number of slots in stranica1 of dokument1
         num_slots = len(json_data[dokument][0][stranica][0])
         print(num_slots)
         pixmapWidth = 180
@@ -84,7 +83,7 @@ class ClickableLabel(QtWidgets.QLabel):
                 painter.drawRect(x, y, width, height)
                 painter.drawText(x, y, width, height, QtCore.Qt.AlignCenter, "slot" + str(i+ 1))
                 x += width
-            if (i+1) % 4 == 0: #if 6 squares have been drawn in a row
+            if (i+1) % 4 == 0: 
                 x = 5
                 y += height
 

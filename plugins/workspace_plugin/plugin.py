@@ -110,7 +110,6 @@ class Plugin(Extension):
                 kontekst_workspace.append(newFile) 
                 with open('rad_sa_celim_dokumentom/workspace_otvoreni.json', 'w') as doc_ffile:
                     json.dump(kontekst_workspace, doc_ffile, sort_keys=True, indent=4)
-                    # doc_ffile.write(str(doc_json))
                                             
 
 
@@ -147,12 +146,10 @@ class Plugin(Extension):
     def noviWorkspace(self):
         workspace_name, ok = QtWidgets.QInputDialog.getText(self.iface, "Workspace Name", "Enter the name for the new workspace:")
         if ok:
-            # Create the JSON data with the user-provided names
             data = {
                 workspace_name: {
             }
             }
-            # Write the JSON data to a file
             with open('workspaces/' + workspace_name + ".wsp", 'w') as data_file:
                 data_json = json.dumps(data, sort_keys=True, indent=4)
                 data_file.write(data_json)
